@@ -1,0 +1,13 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="TestAll">
+
+    <test name="Cell Tests">
+        <classes>
+            <class name="com.bnana.goa.tests.unit.OffCellTest" />
+            <class name="com.bnana.goa.tests.unit.OnCellTest" />
+            <class name="com.bnana.goa.tests.unit.CellGroupTest" />
+        </classes>
+    </test>
+
+</suite>

@@ -1,0 +1,8 @@
+apply plugin: 'java'
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile project(':core')
+    compile 'org.testng:testng:6.9.6'
+    compile 'org.mockito:mockito-core:2.0.31-beta'
+}
