@@ -11,4 +11,5 @@ public class Const {
 
     public static int VIEWPORT_WIDTH = APP_WIDTH;
     public static int VIEWPORT_HEIGHT = APP_HEIGHT;
+    public static float DEFAULT_CELL_DENSITY = 1;
 }

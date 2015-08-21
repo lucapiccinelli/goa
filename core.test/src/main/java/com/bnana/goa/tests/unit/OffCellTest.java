@@ -1,31 +1,62 @@
 package com.bnana.goa.tests.unit;
 
 import com.bnana.goa.cell.AttractorOffCell;
+import com.bnana.goa.cell.AttractorOnCell;
 import com.bnana.goa.cell.CellConsumer;
 import com.bnana.goa.cell.OffCell;
 import com.bnana.goa.cell.OnCell;
+import com.bnana.goa.cell.RepulsorOffCell;
 
+import org.mockito.AdditionalMatchers;
 import org.mockito.Mockito;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.awt.geom.Point2D;
+
+import static org.mockito.Mockito.mock;
 
 /**
  * Created by Luca on 8/21/2015.
  */
 public class OffCellTest {
-    @Test
-    public void AnAttractorOffCellCanBeSwitchedOn(){
-        OffCell offCell = new AttractorOffCell();
-        OnCell onCell = offCell.turnOn();
 
+    @DataProvider
+    public Object[][] offCells(){
+        return new OffCell[][]{
+                {new AttractorOffCell()},
+                {new RepulsorOffCell()}};
+    }
+
+    @DataProvider
+    public Object[][] positionedOffCells(){
+        Point2D.Float position = new Point2D.Float(2f, 3f);
+        return new Object[][]{
+                { new AttractorOffCell(position), position },
+                { new RepulsorOffCell(position), position }
+        };
+    }
+
+    @DataProvider
+    public Object[][] densOffCells(){
+        Point2D.Float position = new Point2D.Float(2f, 3f);
+        return new Object[][]{
+                { new AttractorOffCell(position, AttractorOffCell.DEFAULT_DENSITY ), position, AttractorOffCell.DEFAULT_DENSITY, -AttractorOffCell.DEFAULT_DENSITY },
+                { new RepulsorOffCell(position, RepulsorOffCell.DEFAULT_DENSITY ), position, RepulsorOffCell.DEFAULT_DENSITY, RepulsorOffCell.DEFAULT_DENSITY }
+        };
+    }
+
+
+    @Test(dataProvider = "offCells")
+    public void AnOffCellCanBeSwitchedOn(OffCell offCell){
+        OnCell onCell = offCell.turnOn();
         Assert.assertNotNull(onCell);
     }
 
-    @Test void AnAttractorOffCellTurnedOnShouldMaintainTheSamePosition(){
-        Point2D.Float position = new Point2D.Float(2f, 3f);
-        OffCell offCell = new AttractorOffCell(position);
+    @Test(dataProvider = "positionedOffCells")
+    void AnOffCellTurnedOnShouldMaintainTheSamePosition(OffCell offCell, Point2D.Float position){
         OnCell onCell = offCell.turnOn();
 
         CellConsumer mock = Mockito.mock(CellConsumer.class);
@@ -34,16 +65,43 @@ public class OffCellTest {
         Mockito.verify(mock).use(Mockito.same(position), Mockito.any(float.class));
     }
 
-    @Test void AnAttractorOffCellTurnedOnShouldMaintainTheSameDensity(){
-        float density = AttractorOffCell.DEFAULT_DENSITY;
-
-        Point2D.Float position = new Point2D.Float(2f, 3f);
-        OffCell offCell = new AttractorOffCell(position, density);
+    @Test(dataProvider = "densOffCells")
+    void AnOffCellTurnedOnShouldMaintainTheSameDensity(OffCell offCell, Point2D.Float position, float density, float densityOut){
         OnCell onCell = offCell.turnOn();
 
         CellConsumer mock = Mockito.mock(CellConsumer.class);
         onCell.use(mock);
 
-        Mockito.verify(mock).use(Mockito.any(Point2D.Float.class), Mockito.eq(density));
+        Mockito.verify(mock).use(Mockito.any(Point2D.Float.class), Mockito.eq(densityOut));
+    }
+
+    @Test(dataProvider = "offCells")
+    void TurningCellsOnAndOffShouldReturnAlwaysTheSameCelleReferences(OffCell offCell){
+        OnCell onCell1 = offCell.turnOn();
+        OnCell onCell2 = offCell.turnOn();
+
+        Assert.assertEquals(onCell1, onCell2);
+    }
+
+    @DataProvider
+    public Object[][] densityProvider() { return new Object[][]{{1f}, {-1f}}; }
+    @Test(dataProvider = "densityProvider")
+    public void AnAttractorCellDensityShouldAlwaysBeNegative(float density){
+        Point2D.Float position = new Point2D.Float(0, 0);
+        OffCell offCell = new AttractorOffCell(position, density);
+
+        CellConsumer mock = Mockito.mock(CellConsumer.class);
+        offCell.turnOn().use(mock);
+        Mockito.verify(mock).use(Mockito.any(Point2D.Float.class), AdditionalMatchers.leq(0f));
+    }
+
+    @Test(dataProvider = "densityProvider")
+    public void ARepulsorCellDensityShouldAlwaysBePositive(float density){
+        Point2D.Float position = new Point2D.Float(0, 0);
+        OffCell offCell = new RepulsorOffCell(position, density);
+
+        CellConsumer mock = Mockito.mock(CellConsumer.class);
+        offCell.turnOn().use(mock);
+        Mockito.verify(mock).use(Mockito.any(Point2D.Float.class), AdditionalMatchers.geq(0f));
     }
 }
