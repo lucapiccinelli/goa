@@ -7,6 +7,7 @@
             <class name="com.bnana.goa.tests.unit.OffCellTest" />
             <class name="com.bnana.goa.tests.unit.OnCellTest" />
             <class name="com.bnana.goa.tests.unit.CellGroupTest" />
+            <class name="com.bnana.goa.tests.unit.RadialForceFieldUpdaterTest" />
         </classes>
     </test>
 
