@@ -41,6 +41,11 @@ public class RepulsorOffCell implements OffCell {
         return new RepulsorOffCell(position, density);
     }
 
+    @Override
+    public OffCell opposite(Point2D.Float position, float density) {
+        return new AttractorOffCell(position, density);
+    }
+
     private OnCell makeCell() {
         if (onCell == null) onCell = new RepulsorOnCell(this, position, density);
         return onCell;

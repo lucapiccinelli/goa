@@ -15,6 +15,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.awt.geom.Point2D;
+import java.lang.reflect.Type;
 
 import static org.mockito.Mockito.mock;
 
@@ -103,5 +104,36 @@ public class OffCellTest {
         CellConsumer mock = Mockito.mock(CellConsumer.class);
         offCell.turnOn().use(mock);
         Mockito.verify(mock).use(Mockito.any(Point2D.Float.class), AdditionalMatchers.geq(0f));
+    }
+
+    @DataProvider
+    public Object[][] pointProvider(){
+        return new Object[][]{
+                {new AttractorOffCell(new Point2D.Float(0, 0), 1), new Point2D.Float(1, 1), 1.4142135f},
+                {new AttractorOffCell(new Point2D.Float(0, 0), 1), new Point2D.Float(2, 2), 2.828427f},
+                {new AttractorOffCell(new Point2D.Float(0, 0), 1), new Point2D.Float(0, 5), 5f},
+                {new RepulsorOffCell(new Point2D.Float(0, 0), 1), new Point2D.Float(1, 1), 1.4142135f},
+                {new RepulsorOffCell(new Point2D.Float(0, 0), 1), new Point2D.Float(2, 2), 2.828427f},
+                {new RepulsorOffCell(new Point2D.Float(0, 0), 1), new Point2D.Float(0, 5), 5f},
+        };
+    }
+
+    @Test(dataProvider = "pointProvider")
+    public void TheDistanceBetweenTheseCellsShouldBe(OffCell cell1, Point2D.Float p, float result){
+        RepulsorOffCell cell2 = new RepulsorOffCell(p, 1);
+        Assert.assertEquals(cell1.distance(cell2), result);
+    }
+
+
+    @DataProvider
+    public Object[][] cellSources(){
+        return new Object[][]{
+                {new AttractorOffCell(), RepulsorOffCell.class},
+                {new RepulsorOffCell(), AttractorOffCell.class},
+        };
+    }
+    @Test(dataProvider = "cellSources")
+    public void AnOffCellShouldBeAbleToGenerateItsOpposite(OffCell cell, Type expectedOpposite){
+        Assert.assertEquals(cell.opposite(new Point2D.Float(0, 0), 1f).getClass(), expectedOpposite);
     }
 }

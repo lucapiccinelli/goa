@@ -11,6 +11,7 @@
             <class name="com.bnana.goa.tests.unit.RandomCellGeneratorTest" />
             <class name="com.bnana.goa.tests.unit.ProximityCellGeneratorTest" />
             <class name="com.bnana.goa.tests.unit.EuclideanDistanceTest" />
+            <class name="com.bnana.goa.tests.unit.OrganismTest" />
         </classes>
     </test>
 
