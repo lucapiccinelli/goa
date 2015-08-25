@@ -1,7 +1,4 @@
-package com.bnana.goa.cell.generator;
-
-import com.bnana.goa.cell.OnCell;
-import com.bnana.goa.cell.PositionConsumer;
+package com.bnana.goa.cell;
 
 /**
  * Created by Luca on 8/21/2015.

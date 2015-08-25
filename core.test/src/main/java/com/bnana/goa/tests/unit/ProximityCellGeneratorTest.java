@@ -3,7 +3,7 @@ package com.bnana.goa.tests.unit;
 import com.bnana.goa.cell.AttractorOffCell;
 import com.bnana.goa.cell.OffCell;
 import com.bnana.goa.cell.RepulsorOffCell;
-import com.bnana.goa.cell.generator.Cell;
+import com.bnana.goa.cell.Cell;
 import com.bnana.goa.cell.generator.CellGenerator;
 import com.bnana.goa.cell.generator.ProximityCellGenerator;
 

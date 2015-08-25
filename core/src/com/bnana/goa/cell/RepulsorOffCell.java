@@ -1,6 +1,5 @@
 package com.bnana.goa.cell;
 
-import com.bnana.goa.cell.generator.Cell;
 import com.bnana.goa.utils.EuclideanDistance;
 
 import java.awt.geom.Point2D;

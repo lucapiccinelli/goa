@@ -1,18 +1,16 @@
 package com.bnana.goa.tests.unit;
 
 import com.bnana.goa.cell.AttractorOffCell;
-import com.bnana.goa.cell.CellConsumer;
 import com.bnana.goa.cell.OffCell;
 import com.bnana.goa.cell.PositionConsumer;
 import com.bnana.goa.cell.RepulsorOffCell;
-import com.bnana.goa.cell.generator.Cell;
+import com.bnana.goa.cell.Cell;
 import com.bnana.goa.cell.generator.CellGenerator;
 import com.bnana.goa.cell.generator.RandomCellGenerator;
 
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.hamcrest.core.Is;
-import org.mockito.Mockito;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;

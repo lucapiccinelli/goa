@@ -1,8 +1,5 @@
 package com.bnana.goa.cell;
 
-import com.bnana.goa.cell.generator.Cell;
-
-import java.awt.Point;
 import java.awt.geom.Point2D;
 
 /**
