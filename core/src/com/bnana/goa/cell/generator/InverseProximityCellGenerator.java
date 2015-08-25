@@ -12,12 +12,12 @@ import java.util.Random;
 /**
  * Created by Luca on 8/21/2015.
  */
-public class ProximityCellGenerator implements CellGenerator, PositionConsumer {
+public class InverseProximityCellGenerator implements CellGenerator, PositionConsumer {
     private final Random random;
-    private Cell generatedCell;
+    private OffCell generatedCell;
     private OffCell sourceCell;
 
-    public ProximityCellGenerator(OffCell sourceCell) {
+    public InverseProximityCellGenerator(OffCell sourceCell) {
         this.sourceCell = sourceCell;
         this.generatedCell = null;
 
@@ -25,7 +25,7 @@ public class ProximityCellGenerator implements CellGenerator, PositionConsumer {
     }
 
     @Override
-    public Cell generate() {
+    public OffCell generate() {
         sourceCell.usePosition(this);
         return generatedCell;
     }

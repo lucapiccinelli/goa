@@ -9,7 +9,7 @@
             <class name="com.bnana.goa.tests.unit.CellGroupTest" />
             <class name="com.bnana.goa.tests.unit.RadialForceFieldUpdaterTest" />
             <class name="com.bnana.goa.tests.unit.RandomCellGeneratorTest" />
-            <class name="com.bnana.goa.tests.unit.ProximityCellGeneratorTest" />
+            <class name="com.bnana.goa.tests.unit.InverseProximityCellGeneratorTest" />
             <class name="com.bnana.goa.tests.unit.EuclideanDistanceTest" />
             <class name="com.bnana.goa.tests.unit.OrganismTest" />
         </classes>

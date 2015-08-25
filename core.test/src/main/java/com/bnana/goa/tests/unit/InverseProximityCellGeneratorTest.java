@@ -5,7 +5,7 @@ import com.bnana.goa.cell.OffCell;
 import com.bnana.goa.cell.RepulsorOffCell;
 import com.bnana.goa.cell.Cell;
 import com.bnana.goa.cell.generator.CellGenerator;
-import com.bnana.goa.cell.generator.ProximityCellGenerator;
+import com.bnana.goa.cell.generator.InverseProximityCellGenerator;
 
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -17,11 +17,11 @@ import java.lang.reflect.Type;
 /**
  * Created by Luca on 8/21/2015.
  */
-public class ProximityCellGeneratorTest {
+public class InverseProximityCellGeneratorTest {
     @Test
     public void TheDistanceBeetweenTheSourceCellAndTheNewCellShouldBeExactly1(){
         OffCell sourceCell = new AttractorOffCell(new Point2D.Float(8, 13));
-        CellGenerator proximityCellGenerator = new ProximityCellGenerator(sourceCell);
+        CellGenerator proximityCellGenerator = new InverseProximityCellGenerator(sourceCell);
 
         Cell generatedCell = proximityCellGenerator.generate();
 
@@ -38,7 +38,7 @@ public class ProximityCellGeneratorTest {
 
     @Test(dataProvider = "cellSources")
     public void TheTypeOfTheNewGeneratedCellShouldBeOppositeOfTheSourceOne(OffCell sourceCell, Type expectedGeneratedClass){
-        CellGenerator proximityCellGenerator = new ProximityCellGenerator(sourceCell);
+        CellGenerator proximityCellGenerator = new InverseProximityCellGenerator(sourceCell);
 
         Cell generatedCell = proximityCellGenerator.generate();
         Assert.assertEquals(generatedCell.getClass(), expectedGeneratedClass);
