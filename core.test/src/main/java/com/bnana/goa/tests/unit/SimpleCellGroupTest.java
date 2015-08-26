@@ -14,7 +14,7 @@ import org.testng.annotations.Test;
 /**
  * Created by Luca on 8/21/2015.
  */
-public class CellGroupTest {
+public class SimpleCellGroupTest {
     @Test
     public void AnOffCellAddedToAGroupShouldBeTurnedOn(){
         OffCell offCell = mock(OffCell.class);
