@@ -13,5 +13,4 @@ dependencies {
     testCompile 'com.badlogicgames.gdx:gdx-platform:1.6.5:natives-desktop'
     testCompile 'com.badlogicgames.gdx:gdx-box2d:1.6.5'
     testCompile 'com.badlogicgames.gdx:gdx-box2d-platform:1.6.5:natives-desktop'
-    compile 'com.binarytweed:quarantining-test-runner:0.0.3'
 }
