@@ -1,10 +1,8 @@
 package com.bnana.goa.physics;
 
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 
 import java.awt.geom.Point2D;
@@ -14,10 +12,12 @@ import java.awt.geom.Point2D;
  */
 public class Box2dOrganismPhysics implements OrganismPhysics {
     private World world;
+    private PhysicOrganism physicOrganism;
 
-    public Box2dOrganismPhysics(World world) {
+    public Box2dOrganismPhysics(World world, PhysicOrganism physicOrganism) {
 
         this.world = world;
+        this.physicOrganism = physicOrganism;
     }
 
     @Override
@@ -30,6 +30,8 @@ public class Box2dOrganismPhysics implements OrganismPhysics {
 
         CircleShape shape = new CircleShape();
         shape.setRadius(density);
-        Fixture fixture = body.createFixture(shape, density);
+        body.createFixture(shape, density);
+
+        physicOrganism.add(body);
     }
 }

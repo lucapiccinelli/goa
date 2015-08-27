@@ -1,5 +1,7 @@
 package com.bnana.goa.force;
 
+import com.badlogic.gdx.physics.box2d.Body;
+
 import java.awt.geom.Point2D;
 
 /**
@@ -7,4 +9,6 @@ import java.awt.geom.Point2D;
  */
 public interface ForceField {
     void update(Point2D.Float[] positions, float[] magnitudes);
+
+    void apply(Body body);
 }
