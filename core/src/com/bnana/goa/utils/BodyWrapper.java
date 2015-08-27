@@ -2,8 +2,11 @@ package com.bnana.goa.utils;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.bnana.goa.utils.wrappers.WorldWrapper;
+
+import java.awt.geom.Point2D;
 
 /**
  * Created by Luca on 8/27/2015.
@@ -11,5 +14,19 @@ import com.bnana.goa.utils.wrappers.WorldWrapper;
 public class BodyWrapper {
     public static Body getNewBody() {
         return WorldWrapper.GetNewWorldZeroGravity().createBody(new BodyDef());
+    }
+
+    public static Body getNewCircleBody(Point2D.Float position, int mass) {
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.position.set(position.x, position.y);
+
+        Body body = WorldWrapper.GetNewWorldZeroGravity().createBody(bodyDef);
+
+        CircleShape circleShape = new CircleShape();
+        circleShape.setRadius(mass);
+
+        body.createFixture(circleShape, mass);
+
+        return body;
     }
 }
