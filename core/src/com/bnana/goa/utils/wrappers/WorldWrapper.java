@@ -1,6 +1,7 @@
 package com.bnana.goa.utils.wrappers;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 
 /**
@@ -13,5 +14,9 @@ public class WorldWrapper {
 
     public static int countBodies(World world){
         return world.getBodyCount();
+    }
+
+    public static void StepTheWorld(Body body) {
+        body.getWorld().step(1f / 60f, 6, 2);
     }
 }

@@ -4,7 +4,9 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.bnana.goa.force.ForceField;
 import com.bnana.goa.force.RadialForceField;
 import com.bnana.goa.utils.BodyWrapper;
+import com.bnana.goa.utils.wrappers.WorldWrapper;
 
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.awt.geom.Point2D;
@@ -17,6 +19,12 @@ public class RadialForceFieldTests {
     public void ApplyingARadialForceFieldToABodyItsPositionShouldChange(){
         ForceField radialForceField = new RadialForceField();
 
-        Body body = BodyWrapper.getNewCircleBody(new Point2D.Float(2, 2), 1);
+        Point2D.Float startingPosition = new Point2D.Float(2, 2);
+        Body body = BodyWrapper.getNewCircleBody(startingPosition, 1);
+        radialForceField.apply(body);
+
+        WorldWrapper.StepTheWorld(body);
+
+        Assert.assertNotEquals(BodyWrapper.getBodyPosition(body), startingPosition);
     }
 }

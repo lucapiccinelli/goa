@@ -32,6 +32,8 @@ public class Box2dOrganismPhysics implements OrganismPhysics {
         shape.setRadius(density);
         body.createFixture(shape, density);
 
+        shape.dispose();
+
         physicOrganism.add(body);
     }
 }

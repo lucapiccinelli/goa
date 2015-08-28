@@ -1,5 +1,6 @@
 package com.bnana.goa.utils;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
@@ -19,6 +20,7 @@ public class BodyWrapper {
     public static Body getNewCircleBody(Point2D.Float position, int mass) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.position.set(position.x, position.y);
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
 
         Body body = WorldWrapper.GetNewWorldZeroGravity().createBody(bodyDef);
 
@@ -27,6 +29,13 @@ public class BodyWrapper {
 
         body.createFixture(circleShape, mass);
 
+        circleShape.dispose();
+
         return body;
+    }
+
+    public static Point2D.Float getBodyPosition(Body body) {
+        Vector2 position = body.getPosition();
+        return new Point2D.Float(position.x, position.y);
     }
 }
