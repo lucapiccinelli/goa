@@ -62,7 +62,6 @@ public class AttractorOffCell implements OffCell{
 
     @Override
     public float distance(Cell cell) {
-        cell.usePosition(distanceCalculator);
-        return distanceCalculator.getDistance();
+        return distanceCalculator.getDistance(cell);
     }
 }

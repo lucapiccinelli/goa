@@ -1,14 +1,14 @@
 package com.bnana.goa.utils;
 
 import com.badlogic.gdx.math.Vector2;
-import com.bnana.goa.cell.PositionConsumer;
+import com.bnana.goa.cell.Cell;
 
 import java.awt.geom.Point2D;
 
 /**
  * Created by Luca on 8/21/2015.
  */
-public class EuclideanDistance implements PositionConsumer {
+public class EuclideanDistance implements CellDistance {
     private Vector2 cachedVector;
     private Point2D.Float source;
     private float distance;
@@ -26,6 +26,12 @@ public class EuclideanDistance implements PositionConsumer {
     }
 
     public float getDistance() {
+        return distance;
+    }
+
+    @Override
+    public float getDistance(Cell c) {
+        c.usePosition(this);
         return distance;
     }
 }
