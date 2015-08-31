@@ -32,10 +32,10 @@ public class InverseProximityCellGenerator implements CellGenerator, PositionCon
 
     @Override
     public void use(Point2D.Float position) {
-        float randomRadius = random.nextFloat() * 360;
+        float randomAngle = random.nextFloat() * 360;
 
-        float x = MathUtils.cosDeg(randomRadius);
-        float y = MathUtils.sinDeg(randomRadius);
+        float x = MathUtils.cosDeg(randomAngle) * 2f;
+        float y = MathUtils.sinDeg(randomAngle) * 2f;
         generatedCell = sourceCell.opposite(
                 new Point2D.Float(
                         position.x + x,

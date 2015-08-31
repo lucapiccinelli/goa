@@ -25,7 +25,7 @@ public class InverseProximityCellGeneratorTest {
 
         Cell generatedCell = proximityCellGenerator.generate();
 
-        Assert.assertEquals(sourceCell.distance(generatedCell), 1f, 0.000001f);
+        Assert.assertEquals(sourceCell.distance(generatedCell), 2f, 0.000001f);
     }
 
     @DataProvider
