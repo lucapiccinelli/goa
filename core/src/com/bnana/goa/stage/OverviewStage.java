@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.bnana.goa.GameOfAttraction;
+import com.bnana.goa.actors.OrganismActor;
 import com.bnana.goa.force.ForceField;
 import com.bnana.goa.force.RadialForceField;
 import com.bnana.goa.organism.StartingOrganism;
@@ -20,7 +21,7 @@ import java.awt.geom.Rectangle2D;
  * Created by Luca on 8/21/2015.
  */
 public class OverviewStage extends Stage {
-    private static final float TIME_STEP = 1 / 300f;
+    private static final float TIME_STEP = 1 /60f;
     private final int VIEWPORT_WIDTH = 80;
     private final int VIEWPORT_HEIGHT = 52;
     private final World world;
@@ -29,26 +30,21 @@ public class OverviewStage extends Stage {
     private OrthographicCamera camera;
     private Box2DDebugRenderer renderer;
     private float accumulator;
+    private OrganismActor organism;
 
     public OverviewStage(GameOfAttraction game) {
         this.game = game;
-        this.world = new World(new Vector2(0, 0), true);
+        this.world = new World(new Vector2(0f, 0f), true);
         accumulator = 0;
 
         createCamera();
-
         createOrganism();
     }
 
     private void createOrganism() {
-        StartingOrganism organism = new StartingOrganism(new Rectangle2D.Float(5, 5, VIEWPORT_WIDTH - 5, VIEWPORT_HEIGHT - 5));
-
-        PhysicOrganism physicOrganism = new PhysicOrganismImpl();
-        Box2dOrganismPhysics organismPhysics = new Box2dOrganismPhysics(world, physicOrganism);
-        organism.groupAllCells().use(organismPhysics);
-
-        ForceField force = new RadialForceField(new Point2D.Float(40, 26), 1000);
-        physicOrganism.apply(force);
+        int offset = 10;
+        organism = new OrganismActor(world, offset, offset, VIEWPORT_WIDTH - offset, VIEWPORT_HEIGHT - offset);
+        addActor(organism);
     }
 
     private void createCamera() {
