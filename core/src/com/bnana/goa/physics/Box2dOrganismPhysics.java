@@ -28,10 +28,11 @@ public class Box2dOrganismPhysics implements OrganismPhysics {
 
         Body body = world.createBody(bodyDef);
 
+        float absDensity = Math.abs(density);
         CircleShape shape = new CircleShape();
-        shape.setRadius(density);
+        shape.setRadius(absDensity);
 
-        body.createFixture(shape, density);
+        body.createFixture(shape, absDensity);
 
         shape.dispose();
 
