@@ -15,6 +15,7 @@
             <class name="com.bnana.goa.tests.unit.Box2dOrganismPhysicsTests" />
             <class name="com.bnana.goa.tests.unit.PhysicOrganismImplTest" />
             <class name="com.bnana.goa.tests.unit.RadialForceFieldTests" />
+            <class name="com.bnana.goa.tests.unit.WanderingCellTests" />
         </classes>
     </test>
 

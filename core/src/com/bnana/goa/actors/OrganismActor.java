@@ -20,18 +20,23 @@ public class OrganismActor extends Actor{
 
     private final StartingOrganism organism;
     private final PhysicOrganism physicOrganism;
+//    private final ForceField force;
 
     public OrganismActor(World world, float x, float y, float width, float height){
         super();
 
         organism = new StartingOrganism(new Rectangle2D.Float(x, y, width, height));
-
         physicOrganism = new PhysicOrganismImpl();
 
         Box2dOrganismPhysics organismPhysics = new Box2dOrganismPhysics(world, physicOrganism);
         organism.groupAllCells().use(organismPhysics);
 
-        ForceField force = new RadialForceField(new Point2D.Float(40, 26), 1000);
-        physicOrganism.apply(force);
+//        force = new RadialForceField(new Point2D.Float(40, 26), 100);
+    }
+
+    @Override
+    public void act(float delta){
+        super.act(delta);
+//        physicOrganism.apply(force);
     }
 }
