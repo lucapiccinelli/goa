@@ -31,7 +31,7 @@ public class Box2dOrganismPhysics implements OrganismPhysics {
         CircleShape shape = new CircleShape();
         shape.setRadius(density);
 
-        body.createFixture(shape, density);
+        body.createFixture(shape, 1);
 
         shape.dispose();
 
