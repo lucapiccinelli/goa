@@ -9,6 +9,10 @@ import com.bnana.goa.force.ForceField;
 public class PhysicCell implements PhysicElement {
     private Body body;
 
+    public PhysicCell() {
+        this(null);
+    }
+
     public PhysicCell(Body body) {
         this.body = body;
     }
@@ -20,6 +24,8 @@ public class PhysicCell implements PhysicElement {
 
     @Override
     public void apply(ForceField forceField) {
-        forceField.apply(body);
+        if(body != null){
+            forceField.apply(body);
+        }
     }
 }
