@@ -1,8 +1,8 @@
 package com.bnana.goa.cell.generator;
 
 import com.badlogic.gdx.math.MathUtils;
-import com.bnana.goa.cell.Cell;
 import com.bnana.goa.cell.OffCell;
+import com.bnana.goa.cell.Cell;
 import com.bnana.goa.cell.PositionConsumer;
 import com.bnana.goa.utils.Const;
 
@@ -14,10 +14,10 @@ import java.util.Random;
  */
 public class InverseProximityCellGenerator implements CellGenerator, PositionConsumer {
     private final Random random;
-    private OffCell generatedCell;
-    private OffCell sourceCell;
+    private Cell generatedCell;
+    private Cell sourceCell;
 
-    public InverseProximityCellGenerator(OffCell sourceCell) {
+    public InverseProximityCellGenerator(Cell sourceCell) {
         this.sourceCell = sourceCell;
         this.generatedCell = null;
 
@@ -25,7 +25,7 @@ public class InverseProximityCellGenerator implements CellGenerator, PositionCon
     }
 
     @Override
-    public OffCell generate() {
+    public Cell generate() {
         sourceCell.usePosition(this);
         return generatedCell;
     }

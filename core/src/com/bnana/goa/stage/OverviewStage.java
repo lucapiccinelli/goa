@@ -7,15 +7,6 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.bnana.goa.GameOfAttraction;
 import com.bnana.goa.actors.OrganismActor;
-import com.bnana.goa.force.ForceField;
-import com.bnana.goa.force.RadialForceField;
-import com.bnana.goa.organism.StartingOrganism;
-import com.bnana.goa.physics.Box2dOrganismPhysics;
-import com.bnana.goa.physics.PhysicOrganism;
-import com.bnana.goa.physics.PhysicOrganismImpl;
-
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 /**
  * Created by Luca on 8/21/2015.

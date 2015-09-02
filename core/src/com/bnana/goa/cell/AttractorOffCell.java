@@ -37,13 +37,18 @@ public class AttractorOffCell implements OffCell{
     }
 
     @Override
-    public OffCell prototype(Point2D.Float position, float density) {
+    public Cell prototype(Point2D.Float position, float density) {
         return new AttractorOffCell(position, density);
     }
 
     @Override
     public OffCell opposite(Point2D.Float position, float density) {
         return new RepulsorOffCell(position, density);
+    }
+
+    @Override
+    public OffCell getAnOffCell() {
+        return this;
     }
 
     private OnCell makeCell() {

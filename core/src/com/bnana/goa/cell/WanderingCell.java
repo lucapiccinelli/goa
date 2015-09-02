@@ -15,12 +15,15 @@ public class WanderingCell implements EvolvableCell {
     private final Random random;
     private final EuclideanDistance distance;
 
+    private WanderingCell(){
+        this(new Point2D.Float(0, 0), 1f);
+    }
+
     public WanderingCell(Point2D.Float position, float density) {
         this.position = position;
         this.density = density;
 
         random = new Random();
-
         distance = new EuclideanDistance(position);
     }
 
@@ -28,7 +31,6 @@ public class WanderingCell implements EvolvableCell {
     public OffCell evolve() {
         float r = random.nextFloat();
         return r >= 0.5 ? new AttractorOffCell(position, density) : new RepulsorOffCell(position, density);
-        //return  new AttractorOffCell(position, density);
     }
 
     @Override
@@ -39,5 +41,24 @@ public class WanderingCell implements EvolvableCell {
     @Override
     public float distance(Cell cell) {
         return distance.getDistance(cell);
+    }
+
+    @Override
+    public Cell prototype(Point2D.Float position, float density) {
+        return new WanderingCell(position, density);
+    }
+
+    @Override
+    public Cell opposite(Point2D.Float position, float density) {
+        return null;
+    }
+
+    @Override
+    public OffCell getAnOffCell() {
+        return evolve();
+    }
+
+    public static WanderingCell MakePrototype(){
+        return new WanderingCell();
     }
 }

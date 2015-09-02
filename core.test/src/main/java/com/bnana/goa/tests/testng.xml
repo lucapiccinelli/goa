@@ -13,9 +13,10 @@
             <class name="com.bnana.goa.tests.unit.EuclideanDistanceTest" />
             <class name="com.bnana.goa.tests.unit.OrganismTest" />
             <class name="com.bnana.goa.tests.unit.Box2dOrganismPhysicsTests" />
-            <class name="com.bnana.goa.tests.unit.PhysicOrganismImplTest" />
+            <class name="com.bnana.goa.tests.unit.PhysicOrganismTest" />
             <class name="com.bnana.goa.tests.unit.RadialForceFieldTests" />
             <class name="com.bnana.goa.tests.unit.WanderingCellTests" />
+            <class name="com.bnana.goa.tests.unit.PhysicCellTests" />
         </classes>
     </test>
 

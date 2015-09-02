@@ -76,4 +76,22 @@ public class WanderingCellTests {
         WanderingCell cell1 = new WanderingCell(p, 1);
         Assert.assertEquals(cell1.distance(cell2), result);
     }
+
+    @Test
+    public void requestingAnOnCellItShouldReturnANotNullCell(){
+        Cell cell = new WanderingCell(new Point2D.Float(0, 0), 1);
+        Assert.assertNotNull(cell.getAnOffCell());
+    }
+
+    @Test
+    public void requestingAnOnCellItShouldReturnANewOffCell(){
+        Cell cell = new WanderingCell(new Point2D.Float(0, 0), 1);
+        Assert.assertNotSame(cell, cell.getAnOffCell());
+    }
+
+    @Test
+    public void prototypingShouldReturnAWanderingCell(){
+        WanderingCell prototype = WanderingCell.MakePrototype();
+        Assert.assertEquals(WanderingCell.class, prototype.prototype(new Point2D.Float(3, 2), 1f).getClass());
+    }
 }

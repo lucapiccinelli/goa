@@ -12,12 +12,12 @@ import java.awt.geom.Point2D;
  */
 public class Box2dOrganismPhysics implements OrganismPhysics {
     private World world;
-    private PhysicOrganism physicOrganism;
+    private PhysicElement physicElement;
 
-    public Box2dOrganismPhysics(World world, PhysicOrganism physicOrganism) {
+    public Box2dOrganismPhysics(World world, PhysicElement physicElement) {
 
         this.world = world;
-        this.physicOrganism = physicOrganism;
+        this.physicElement = physicElement;
     }
 
     @Override
@@ -36,6 +36,6 @@ public class Box2dOrganismPhysics implements OrganismPhysics {
 
         shape.dispose();
 
-        physicOrganism.add(body);
+        physicElement.add(body);
     }
 }

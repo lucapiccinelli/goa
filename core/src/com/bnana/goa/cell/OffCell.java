@@ -7,6 +7,4 @@ import java.awt.geom.Point2D;
  */
 public interface OffCell extends Cell{
     OnCell turnOn();
-    OffCell prototype(Point2D.Float position, float density);
-    OffCell opposite(Point2D.Float position, float density);
 }

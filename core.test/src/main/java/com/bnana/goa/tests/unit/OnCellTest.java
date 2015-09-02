@@ -2,6 +2,7 @@ package com.bnana.goa.tests.unit;
 
 import com.bnana.goa.cell.AttractorOffCell;
 import com.bnana.goa.cell.AttractorOnCell;
+import com.bnana.goa.cell.Cell;
 import com.bnana.goa.cell.OffCell;
 import com.bnana.goa.cell.OnCell;
 import com.bnana.goa.cell.RepulsorOffCell;
@@ -63,5 +64,10 @@ public class OnCellTest {
     public void TheDistanceBetweenTheseCellsShouldBe(OnCell cell1, Point2D.Float p, float result){
         AttractorOffCell cell2 = new AttractorOffCell(p, 1);
         Assert.assertEquals(cell1.distance(cell2), result);
+    }
+
+    @Test(dataProvider = "onCells")
+    public void requestingAnOffCellItShouldReturnAItsOffOffCell(OnCell cell){
+        Assert.assertSame(offCell, cell.getAnOffCell());
     }
 }

@@ -35,4 +35,19 @@ public class AttractorOnCell implements OnCell {
     public float distance(Cell cell) {
         return this.offCell.distance(cell);
     }
+
+    @Override
+    public Cell prototype(Point2D.Float position, float density) {
+        return null;
+    }
+
+    @Override
+    public Cell opposite(Point2D.Float position, float density) {
+        return null;
+    }
+
+    @Override
+    public OffCell getAnOffCell() {
+        return offCell;
+    }
 }

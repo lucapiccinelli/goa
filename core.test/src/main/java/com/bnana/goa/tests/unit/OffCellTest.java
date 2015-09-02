@@ -136,4 +136,9 @@ public class OffCellTest {
     public void AnOffCellShouldBeAbleToGenerateItsOpposite(OffCell cell, Type expectedOpposite){
         Assert.assertEquals(cell.opposite(new Point2D.Float(0, 0), 1f).getClass(), expectedOpposite);
     }
+
+    @Test(dataProvider = "offCells")
+    public void requestingAnOffCellItShouldReturnACopyOfItSelf(OffCell cell){
+        Assert.assertSame(cell, cell.getAnOffCell());
+    }
 }

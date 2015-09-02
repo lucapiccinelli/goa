@@ -1,6 +1,7 @@
 package com.bnana.goa.organism;
 
 import com.bnana.goa.cell.AttractorOffCell;
+import com.bnana.goa.cell.Cell;
 import com.bnana.goa.cell.CellGroup;
 import com.bnana.goa.cell.OffCell;
 import com.bnana.goa.cell.SimpleCellGroup;
@@ -15,22 +16,22 @@ import java.util.List;
  * Created by luca.piccinelli on 25/08/2015.
  */
 public class StartingOrganism implements Organism {
-    List<OffCell> cells;
-    List<OffCell> attractors;
-    List<OffCell> repulsors;
+    List<Cell> cells;
+    List<Cell> attractors;
+    List<Cell> repulsors;
 
     public StartingOrganism(Rectangle2D.Float viewBounds) {
-        cells = new ArrayList<OffCell>();
-        attractors = new ArrayList<OffCell>();
-        repulsors = new ArrayList<OffCell>();
+        cells = new ArrayList<Cell>();
+        attractors = new ArrayList<Cell>();
+        repulsors = new ArrayList<Cell>();
 
         RandomCellGenerator randomCellGenerator = new RandomCellGenerator(AttractorOffCell.MakeProtype(), viewBounds);
-        OffCell attractor = randomCellGenerator.generate();
+        Cell attractor = randomCellGenerator.generate();
         cells.add(attractor);
         attractors.add(attractor);
 
         InverseProximityCellGenerator proximityCellGenerator = new InverseProximityCellGenerator(attractor);
-        OffCell repulsor = proximityCellGenerator.generate();
+        Cell repulsor = proximityCellGenerator.generate();
         cells.add(repulsor);
         repulsors.add(repulsor);
     }
@@ -50,10 +51,10 @@ public class StartingOrganism implements Organism {
         return groupCellsFrom(repulsors);
     }
 
-    private CellGroup groupCellsFrom(List<OffCell> cellList){
+    private CellGroup groupCellsFrom(List<Cell> cellList){
         CellGroup cellGroup = new SimpleCellGroup();
-        for (OffCell cell : cellList){
-            cellGroup.add(cell);
+        for (Cell cell : cellList){
+            cellGroup.add(cell.getAnOffCell());
         }
         return cellGroup;
     }
