@@ -2,6 +2,7 @@ package com.bnana.goa.physics;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
+import com.bnana.goa.PositionListener;
 import com.bnana.goa.force.ForceField;
 
 /**
@@ -25,5 +26,15 @@ public class PhysicOrganism implements PhysicElement {
         for (Body body : bodies){
             forceField.apply(body);
         }
+    }
+
+    @Override
+    public void addPositionListener(PositionListener positionListener) {
+
+    }
+
+    @Override
+    public void notifyPositionChanged() {
+
     }
 }

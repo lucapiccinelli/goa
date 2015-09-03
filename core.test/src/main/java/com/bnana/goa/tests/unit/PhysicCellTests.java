@@ -1,6 +1,8 @@
 package com.bnana.goa.tests.unit;
 
 import com.badlogic.gdx.physics.box2d.Body;
+import com.bnana.goa.PositionListener;
+import com.bnana.goa.events.PositionChangedEvent;
 import com.bnana.goa.force.ForceField;
 import com.bnana.goa.physics.PhysicCell;
 import com.bnana.goa.physics.PhysicElement;
@@ -8,6 +10,9 @@ import com.bnana.goa.utils.BodyWrapper;
 
 import org.testng.annotations.Test;
 
+import java.awt.geom.Point2D;
+
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.same;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -28,5 +33,21 @@ public class PhysicCellTests {
 
         physicCell.apply(field);
         verify(field).apply(same(body2));
+    }
+
+    @Test
+    public void APhysicellShouldNotifyAllItsListenerWhenItsPositionChanges(){
+        Body body1 = BodyWrapper.getNewBody();
+        PhysicElement physicCell = new PhysicCell(body1);
+
+        PositionListener positionListener1 = mock(PositionListener.class);
+        PositionListener positionListener2 = mock(PositionListener.class);
+
+        physicCell.addPositionListener(positionListener1);
+        physicCell.addPositionListener(positionListener2);
+        physicCell.notifyPositionChanged();
+
+        verify(positionListener1).updatePosition(any(PositionChangedEvent.class));
+        verify(positionListener2).updatePosition(any(PositionChangedEvent.class));
     }
 }

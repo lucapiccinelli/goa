@@ -1,5 +1,7 @@
 package com.bnana.goa.events;
 
+import com.bnana.goa.physics.PhysicCell;
+
 import java.awt.geom.Point2D;
 import java.util.EventObject;
 
@@ -22,5 +24,10 @@ public class PositionChangedEvent extends EventObject {
 
     public Point2D.Float getPosition() {
         return position;
+    }
+
+    public void update(Object source, Point2D.Float position) {
+        this.source = source;
+        this.position = position;
     }
 }
