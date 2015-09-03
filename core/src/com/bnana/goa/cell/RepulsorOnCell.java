@@ -1,5 +1,7 @@
 package com.bnana.goa.cell;
 
+import com.bnana.goa.events.PositionChangedEvent;
+
 import java.awt.geom.Point2D;
 
 /**
@@ -7,7 +9,7 @@ import java.awt.geom.Point2D;
  */
 public class RepulsorOnCell implements OnCell {
     private final OffCell offCell;
-    private final Point2D.Float position;
+    private Point2D.Float position;
     private final float density;
 
     public RepulsorOnCell(OffCell offCell, Point2D.Float position, float density) {
@@ -49,5 +51,11 @@ public class RepulsorOnCell implements OnCell {
     @Override
     public OffCell getAnOffCell() {
         return offCell;
+    }
+
+    @Override
+    public void updatePosition(PositionChangedEvent positionChangedEvent) {
+        this.position = positionChangedEvent.getPosition();
+        offCell.updatePosition(positionChangedEvent);
     }
 }

@@ -34,15 +34,11 @@ public class OrganismActor extends Actor{
         organism.groupAllCells().use(organismPhysics);
 
         fieldUpdater = new RadialForceFieldUpdater(forceField);
-
-//        force = new RadialForceField(new Point2D.Float(40, 26), 100);
     }
 
     @Override
     public void act(float delta){
         organism.groupAllAttractors().use(fieldUpdater);
-
         super.act(delta);
-//        physicOrganism.apply(force);
     }
 }

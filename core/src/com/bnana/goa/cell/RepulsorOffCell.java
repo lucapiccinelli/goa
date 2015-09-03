@@ -1,5 +1,6 @@
 package com.bnana.goa.cell;
 
+import com.bnana.goa.events.PositionChangedEvent;
 import com.bnana.goa.utils.EuclideanDistance;
 
 import java.awt.geom.Point2D;
@@ -67,5 +68,10 @@ public class RepulsorOffCell implements OffCell {
     @Override
     public float distance(Cell cell) {
         return distanceCalculator.getDistance(cell);
+    }
+
+    @Override
+    public void updatePosition(PositionChangedEvent positionChangedEvent) {
+        this.position = positionChangedEvent.getPosition();
     }
 }

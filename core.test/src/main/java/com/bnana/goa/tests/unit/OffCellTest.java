@@ -5,7 +5,9 @@ import com.bnana.goa.cell.AttractorOnCell;
 import com.bnana.goa.cell.CellConsumer;
 import com.bnana.goa.cell.OffCell;
 import com.bnana.goa.cell.OnCell;
+import com.bnana.goa.cell.PositionConsumer;
 import com.bnana.goa.cell.RepulsorOffCell;
+import com.bnana.goa.events.PositionChangedEvent;
 
 import org.mockito.AdditionalMatchers;
 import org.mockito.Mockito;
@@ -17,7 +19,9 @@ import org.testng.annotations.Test;
 import java.awt.geom.Point2D;
 import java.lang.reflect.Type;
 
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 /**
  * Created by Luca on 8/21/2015.
@@ -73,7 +77,7 @@ public class OffCellTest {
         CellConsumer mock = Mockito.mock(CellConsumer.class);
         onCell.use(mock);
 
-        Mockito.verify(mock).use(Mockito.any(Point2D.Float.class), Mockito.eq(densityOut));
+        Mockito.verify(mock).use(Mockito.any(Point2D.Float.class), eq(densityOut));
     }
 
     @Test(dataProvider = "offCells")
@@ -140,5 +144,18 @@ public class OffCellTest {
     @Test(dataProvider = "offCells")
     public void requestingAnOffCellItShouldReturnACopyOfItSelf(OffCell cell){
         Assert.assertSame(cell, cell.getAnOffCell());
+    }
+
+    @Test(dataProvider = "offCells")
+    public void WhenNotifiedThatThePositionHasChangedItShouldBeUpdated(OffCell cell){
+        Point2D.Float position = new Point2D.Float(5, 10);
+        PositionChangedEvent event = new PositionChangedEvent(this, position);
+
+        cell.updatePosition(event);
+
+        PositionConsumer positionConsumer = mock(PositionConsumer.class);
+        cell.usePosition(positionConsumer);
+
+        verify(positionConsumer).use(eq(position));
     }
 }

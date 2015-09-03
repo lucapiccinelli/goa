@@ -5,8 +5,10 @@ import com.bnana.goa.cell.AttractorOnCell;
 import com.bnana.goa.cell.Cell;
 import com.bnana.goa.cell.OffCell;
 import com.bnana.goa.cell.OnCell;
+import com.bnana.goa.cell.PositionConsumer;
 import com.bnana.goa.cell.RepulsorOffCell;
 import com.bnana.goa.cell.RepulsorOnCell;
+import com.bnana.goa.events.PositionChangedEvent;
 
 import static org.mockito.Mockito.*;
 import org.testng.Assert;
@@ -21,10 +23,15 @@ import java.awt.geom.Point2D;
  */
 public class OnCellTest {
     private OffCell offCell;
+    private OffCell realAttractorOffCell;
+    private RepulsorOffCell realRepulsorOffCell;
 
     @BeforeClass
     public void fixtureSetUp(){
         offCell = mock(OffCell.class);
+
+        realAttractorOffCell = new AttractorOffCell();
+        realRepulsorOffCell = new RepulsorOffCell();
     }
 
     @DataProvider
@@ -69,5 +76,27 @@ public class OnCellTest {
     @Test(dataProvider = "onCells")
     public void requestingAnOffCellItShouldReturnAItsOffOffCell(OnCell cell){
         Assert.assertSame(offCell, cell.getAnOffCell());
+    }
+
+    @Test(dataProvider = "onCells")
+    public void WhenNotifiedThatThePositionHasChangedItShouldBeUpdated(OnCell cell){
+        Point2D.Float position = new Point2D.Float(5, 10);
+        PositionChangedEvent event = new PositionChangedEvent(this, position);
+
+        cell.updatePosition(event);
+
+        PositionConsumer positionConsumer = mock(PositionConsumer.class);
+        cell.usePosition(positionConsumer);
+
+        verify(positionConsumer).use(eq(position));
+    }
+
+    @Test(dataProvider = "onCells")
+    public void WhenNotifiedThatThePositionHasChangedItsOffCellShouldBeUpdatedEither(OnCell cell){
+        Point2D.Float position = new Point2D.Float(5, 10);
+        PositionChangedEvent event = new PositionChangedEvent(this, position);
+
+        cell.updatePosition(event);
+        verify(offCell).updatePosition(eq(event));
     }
 }

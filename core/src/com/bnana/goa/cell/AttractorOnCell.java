@@ -1,5 +1,7 @@
 package com.bnana.goa.cell;
 
+import com.bnana.goa.events.PositionChangedEvent;
+
 import java.awt.geom.Point2D;
 
 /**
@@ -49,5 +51,11 @@ public class AttractorOnCell implements OnCell {
     @Override
     public OffCell getAnOffCell() {
         return offCell;
+    }
+
+    @Override
+    public void updatePosition(PositionChangedEvent positionChangedEvent) {
+        this.position = positionChangedEvent.getPosition();
+        offCell.updatePosition(positionChangedEvent);
     }
 }

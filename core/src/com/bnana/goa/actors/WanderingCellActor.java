@@ -35,6 +35,5 @@ public class WanderingCellActor extends Actor{
     public void act(float delta){
         super.act(delta);
         physicCell.apply(forceField);
-//        physicOrganism.apply(force);
     }
 }

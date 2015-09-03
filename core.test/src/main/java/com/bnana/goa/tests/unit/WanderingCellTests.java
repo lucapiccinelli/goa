@@ -5,8 +5,11 @@ import com.bnana.goa.cell.Cell;
 import com.bnana.goa.cell.CellConsumer;
 import com.bnana.goa.cell.EvolvableCell;
 import com.bnana.goa.cell.OffCell;
+import com.bnana.goa.cell.OnCell;
+import com.bnana.goa.cell.PositionConsumer;
 import com.bnana.goa.cell.RepulsorOffCell;
 import com.bnana.goa.cell.WanderingCell;
+import com.bnana.goa.events.PositionChangedEvent;
 
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
@@ -20,7 +23,9 @@ import java.util.List;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyFloat;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -93,5 +98,19 @@ public class WanderingCellTests {
     public void prototypingShouldReturnAWanderingCell(){
         WanderingCell prototype = WanderingCell.MakePrototype();
         Assert.assertEquals(WanderingCell.class, prototype.prototype(new Point2D.Float(3, 2), 1f).getClass());
+    }
+
+    @Test
+    public void WhenNotifiedThatThePositionHasChangedItShouldBeUpdated(){
+        Point2D.Float position = new Point2D.Float(5, 10);
+        WanderingCell cell = new WanderingCell(new Point2D.Float(0, 0), 1);
+        PositionChangedEvent event = new PositionChangedEvent(this, position);
+
+        cell.updatePosition(event);
+
+        PositionConsumer positionConsumer = mock(PositionConsumer.class);
+        cell.usePosition(positionConsumer);
+
+        verify(positionConsumer).use(eq(position));
     }
 }

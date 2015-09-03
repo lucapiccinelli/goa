@@ -1,6 +1,6 @@
 package com.bnana.goa.cell;
 
-import com.bnana.goa.cell.generator.RandomCellGenerator;
+import com.bnana.goa.events.PositionChangedEvent;
 import com.bnana.goa.utils.EuclideanDistance;
 
 import java.awt.geom.Point2D;
@@ -56,6 +56,11 @@ public class WanderingCell implements EvolvableCell {
     @Override
     public OffCell getAnOffCell() {
         return evolve();
+    }
+
+    @Override
+    public void updatePosition(PositionChangedEvent positionChangedEvent) {
+        position = positionChangedEvent.getPosition();
     }
 
     public static WanderingCell MakePrototype(){
