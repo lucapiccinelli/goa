@@ -19,6 +19,7 @@ import org.testng.annotations.Test;
 import java.awt.geom.Point2D;
 import java.lang.reflect.Type;
 
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -67,7 +68,7 @@ public class OffCellTest {
         CellConsumer mock = Mockito.mock(CellConsumer.class);
         onCell.use(mock);
 
-        Mockito.verify(mock).use(Mockito.same(position), Mockito.any(float.class));
+        Mockito.verify(mock).use(Mockito.same(onCell), Mockito.same(position), Mockito.any(float.class));
     }
 
     @Test(dataProvider = "densOffCells")
@@ -77,7 +78,7 @@ public class OffCellTest {
         CellConsumer mock = Mockito.mock(CellConsumer.class);
         onCell.use(mock);
 
-        Mockito.verify(mock).use(Mockito.any(Point2D.Float.class), eq(densityOut));
+        Mockito.verify(mock).use(Mockito.same(onCell), Mockito.any(Point2D.Float.class), eq(densityOut));
     }
 
     @Test(dataProvider = "offCells")
@@ -97,7 +98,7 @@ public class OffCellTest {
 
         CellConsumer mock = Mockito.mock(CellConsumer.class);
         offCell.turnOn().use(mock);
-        Mockito.verify(mock).use(Mockito.any(Point2D.Float.class), AdditionalMatchers.leq(0f));
+        Mockito.verify(mock).use(any(OnCell.class), Mockito.any(Point2D.Float.class), AdditionalMatchers.leq(0f));
     }
 
     @Test(dataProvider = "densityProvider")
@@ -107,7 +108,7 @@ public class OffCellTest {
 
         CellConsumer mock = Mockito.mock(CellConsumer.class);
         offCell.turnOn().use(mock);
-        Mockito.verify(mock).use(Mockito.any(Point2D.Float.class), AdditionalMatchers.geq(0f));
+        Mockito.verify(mock).use(any(OnCell.class), Mockito.any(Point2D.Float.class), AdditionalMatchers.geq(0f));
     }
 
     @DataProvider

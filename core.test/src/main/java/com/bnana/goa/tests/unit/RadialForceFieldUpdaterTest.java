@@ -1,5 +1,6 @@
 package com.bnana.goa.tests.unit;
 
+import com.bnana.goa.cell.Cell;
 import com.bnana.goa.cell.CellConsumer;
 import com.bnana.goa.force.ForceField;
 import com.bnana.goa.force.RadialForceFieldUpdater;
@@ -44,8 +45,9 @@ public class RadialForceFieldUpdaterTest {
     public void GivenAGroupOfCellsAForceFieldShoudBeGeneratedAtTheCenterOfMassOfTheCells(){
         CellConsumer forceFieldUpdater = new RadialForceFieldUpdater(field);
 
+        Cell cell = mock(Cell.class);
         for (int i = 0; i < testDimension; i++) {
-            forceFieldUpdater.use(points[i], masses[i]);
+            forceFieldUpdater.use(cell, points[i], masses[i]);
         }
 
         Point2D.Float[] forceCenter = new Point2D.Float[]{new Point2D.Float(2f, 2f)};

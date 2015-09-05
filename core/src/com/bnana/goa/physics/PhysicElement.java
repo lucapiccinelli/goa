@@ -9,7 +9,7 @@ import com.bnana.goa.force.ForceField;
  * Created by Luca on 8/27/2015.
  */
 public interface PhysicElement extends PositionChangesNotifier {
-    void add(Body body);
+    void add(PhysicElement element);
 
     void apply(ForceField forceField);
 }

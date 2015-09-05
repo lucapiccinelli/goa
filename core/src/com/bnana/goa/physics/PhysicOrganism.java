@@ -10,21 +10,21 @@ import com.bnana.goa.force.ForceField;
  */
 public class PhysicOrganism implements PhysicElement {
 
-    private Array<Body> bodies;
+    private Array<PhysicElement> elements;
 
     public PhysicOrganism() {
-        this.bodies = new Array<Body>();
+        this.elements = new Array<PhysicElement>();
     }
 
     @Override
-    public void add(Body body) {
-        bodies.add(body);
+    public void add(PhysicElement body) {
+        elements.add(body);
     }
 
     @Override
     public void apply(ForceField forceField) {
-        for (Body body : bodies){
-            forceField.apply(body);
+        for (PhysicElement element : elements){
+            element.apply(forceField);
         }
     }
 

@@ -1,5 +1,6 @@
 package com.bnana.goa.physics;
 
+import com.bnana.goa.cell.Cell;
 import com.bnana.goa.cell.CellConsumer;
 
 import java.awt.geom.Point2D;
@@ -9,5 +10,5 @@ import java.awt.geom.Point2D;
  */
 public interface OrganismPhysics extends CellConsumer {
     @Override
-    void use(Point2D.Float position, float density);
+    void use(Cell cell, Point2D.Float position, float density);
 }

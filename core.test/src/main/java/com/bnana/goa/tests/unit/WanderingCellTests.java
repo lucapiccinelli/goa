@@ -51,7 +51,7 @@ public class WanderingCellTests {
         final float densityAccumulator[] = {0};
         CellConsumer densityAccumulatorConsumer = new CellConsumer() {
             @Override
-            public void use(Point2D.Float position, float density) {
+            public void use(Cell cell, Point2D.Float position, float density) {
                 densityAccumulator[0] += density;
             }
         };
@@ -60,7 +60,7 @@ public class WanderingCellTests {
             cell.turnOn().use(densityAccumulatorConsumer);
         }
 
-        float maximumDelta = 0.05f * totalRolls;
+        float maximumDelta = 0.10f * totalRolls;
         Assert.assertEquals(densityAccumulator[0], 0, maximumDelta);
     }
 

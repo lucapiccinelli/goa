@@ -2,6 +2,7 @@ package com.bnana.goa.tests.unit;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.bnana.goa.force.ForceField;
+import com.bnana.goa.physics.PhysicCell;
 import com.bnana.goa.physics.PhysicElement;
 import com.bnana.goa.physics.PhysicOrganism;
 import com.bnana.goa.utils.BodyWrapper;
@@ -21,12 +22,12 @@ public class PhysicOrganismTest {
     public void ApplyingAForceFieldToAPhysicOrganismAllTheBodiesShouldBeAffected(){
         PhysicElement physicElement = new PhysicOrganism();
 
-        Body body = BodyWrapper.getNewBody();
-        physicElement.add(body);
+        PhysicElement cell = mock(PhysicElement.class);
+        physicElement.add(cell);
 
         ForceField forceField = mock(ForceField.class);
         physicElement.apply(forceField);
 
-        verify(forceField).apply(same(body));
+        verify(cell).apply(same(forceField));
     }
 }

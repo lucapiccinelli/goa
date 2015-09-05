@@ -18,6 +18,7 @@ public class PhysicCell implements PhysicElement {
     private Body body;
     private List<PositionListener> positionListeners;
     private PositionChangedEvent positionChangedEvent;
+    private PhysicElement element;
 
     public PhysicCell() {
         this(null);
@@ -32,14 +33,17 @@ public class PhysicCell implements PhysicElement {
     }
 
     @Override
-    public void add(Body body) {
-        this.body = body;
+    public void add(PhysicElement element) {
+        this.element = element;
     }
 
     @Override
     public void apply(ForceField forceField) {
-        if(body != null){
+        if(element != null){
+            element.apply(forceField);
+        }else if(body != null){
             forceField.apply(body);
+            notifyPositionChanged();
         }
     }
 

@@ -11,7 +11,7 @@ import java.awt.geom.Point2D;
  * Created by Luca on 8/27/2015.
  */
 public class RadialForceField implements ForceField {
-    private final float MAGNITUDE_SCALE = 1f;
+    private final float MAGNITUDE_SCALE = 100f;
 
 
     private final Vector2 centerOfMass;
@@ -35,7 +35,7 @@ public class RadialForceField implements ForceField {
             throw new GoaArgumentException("You must provide a magnitude in order to update the force");
 
         Point2D.Float position = positions[0];
-        magnitude = magnitudes[0];
+        magnitude = magnitudes[0] * MAGNITUDE_SCALE;
         centerOfMass.set(position.x, position.y);
     }
 

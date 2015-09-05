@@ -1,5 +1,6 @@
 package com.bnana.goa.tests.unit;
 
+import com.bnana.goa.cell.Cell;
 import com.bnana.goa.cell.CellConsumer;
 import com.bnana.goa.cell.CellGroup;
 import com.bnana.goa.organism.Organism;
@@ -24,7 +25,7 @@ public class OrganismTest {
         CellConsumer cellCounter = Mockito.mock(CellConsumer.class);
         group.use(cellCounter);
 
-        Mockito.verify(cellCounter, Mockito.times(2)).use(Mockito.any(Point2D.Float.class), Mockito.any(float.class));
+        Mockito.verify(cellCounter, Mockito.times(2)).use(Mockito.any(Cell.class), Mockito.any(Point2D.Float.class), Mockito.any(float.class));
     }
 
     @Test
@@ -35,7 +36,7 @@ public class OrganismTest {
         CellConsumer cellCounter = Mockito.mock(CellConsumer.class);
         group.use(cellCounter);
 
-        Mockito.verify(cellCounter, Mockito.times(1)).use(Mockito.any(Point2D.Float.class), Mockito.eq(-1f));
+        Mockito.verify(cellCounter, Mockito.times(1)).use(Mockito.any(Cell.class), Mockito.any(Point2D.Float.class), Mockito.eq(-1f));
     }
 
     @Test
@@ -46,7 +47,7 @@ public class OrganismTest {
         CellConsumer cellCounter = Mockito.mock(CellConsumer.class);
         group.use(cellCounter);
 
-        Mockito.verify(cellCounter, Mockito.times(1)).use(Mockito.any(Point2D.Float.class), Mockito.eq(1f));
+        Mockito.verify(cellCounter, Mockito.times(1)).use(Mockito.any(Cell.class), Mockito.any(Point2D.Float.class), Mockito.eq(1f));
     }
 
     public void AStartingOrganismShouldGenerateAnAttractiveRadialFieldTowardsItsCenterOfMagnitudeEquivalentToItsAttractorsMass(){

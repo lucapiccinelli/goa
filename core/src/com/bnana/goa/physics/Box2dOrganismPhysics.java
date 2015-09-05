@@ -4,6 +4,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.bnana.goa.cell.Cell;
 
 import java.awt.geom.Point2D;
 
@@ -21,7 +22,7 @@ public class Box2dOrganismPhysics implements OrganismPhysics {
     }
 
     @Override
-    public void use(Point2D.Float position, float density) {
+    public void use(Cell cell, Point2D.Float position, float density) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(position.x, position.y);
@@ -36,6 +37,9 @@ public class Box2dOrganismPhysics implements OrganismPhysics {
 
         shape.dispose();
 
-        physicElement.add(body);
+        PhysicCell cellBody = new PhysicCell(body);
+        cellBody.addPositionListener(cell);
+        physicElement.add(cellBody);
+        physicElement.addPositionListener(cell);
     }
 }

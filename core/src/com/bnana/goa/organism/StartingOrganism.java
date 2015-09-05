@@ -7,6 +7,7 @@ import com.bnana.goa.cell.OffCell;
 import com.bnana.goa.cell.SimpleCellGroup;
 import com.bnana.goa.cell.generator.InverseProximityCellGenerator;
 import com.bnana.goa.cell.generator.RandomCellGenerator;
+import com.bnana.goa.events.PositionChangedEvent;
 
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -57,5 +58,10 @@ public class StartingOrganism implements Organism {
             cellGroup.add(cell.getAnOffCell());
         }
         return cellGroup;
+    }
+
+    @Override
+    public void updatePosition(PositionChangedEvent position) {
+
     }
 }

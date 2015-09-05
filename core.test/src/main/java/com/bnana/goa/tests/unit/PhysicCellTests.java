@@ -27,7 +27,7 @@ public class PhysicCellTests {
         PhysicElement physicCell = new PhysicCell(body1);
 
         Body body2 = BodyWrapper.getNewBody();
-        physicCell.add(body2);
+        physicCell.add(new PhysicCell(body2));
 
         ForceField field = mock(ForceField.class);
 

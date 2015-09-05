@@ -25,7 +25,7 @@ public class AttractorOnCell implements OnCell {
 
     @Override
     public void use(CellConsumer consumer) {
-        consumer.use(position, -density);
+        consumer.use(this, position, -density);
     }
 
     @Override

@@ -33,7 +33,7 @@ public class WanderingCellActor extends Actor{
 
     @Override
     public void act(float delta){
-        super.act(delta);
         physicCell.apply(forceField);
+        super.act(delta);
     }
 }
