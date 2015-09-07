@@ -2,6 +2,7 @@ package com.bnana.goa.tests.unit;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.bnana.goa.cell.Cell;
 import com.bnana.goa.physics.PhysicElement;
 import com.bnana.goa.physics.Box2dOrganismPhysics;
@@ -56,5 +57,20 @@ public class Box2dOrganismPhysicsTests {
         physics.use(cell, new Point2D.Float(), 1);
 
         verify(physicElement).addPositionListener(same(cell));
+    }
+
+    @Test
+    public void TheNewBodyShouldContainTheSourceCellAsUserData(){
+        World world = WorldWrapper.GetNewWorldZeroGravity();
+        PhysicElement physicElement = mock(PhysicElement.class);
+        Cell cell = mock(Cell.class);
+        OrganismPhysics physics = new Box2dOrganismPhysics(world, physicElement);
+
+        physics.use(cell, new Point2D.Float(), 1);
+
+        Array<Body> bodies = new Array<>();
+        world.getBodies(bodies);
+
+        Assert.assertSame(cell, bodies.get(0).getUserData());
     }
 }
