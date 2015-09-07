@@ -1,5 +1,7 @@
 package com.bnana.goa.actors;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.bnana.goa.cell.Cell;
@@ -35,5 +37,11 @@ public class WanderingCellActor extends Actor{
     public void act(float delta){
         physicCell.apply(forceField);
         super.act(delta);
+    }
+
+    @Override
+    public void  draw(Batch batch, float parentAlpha){
+        physicCell.notifyPositionChanged();
+        super.draw(batch, parentAlpha);
     }
 }

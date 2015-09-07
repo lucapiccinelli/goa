@@ -43,7 +43,6 @@ public class PhysicCell implements PhysicElement {
             element.apply(forceField);
         }else if(body != null){
             forceField.apply(body);
-            notifyPositionChanged();
         }
     }
 
@@ -54,10 +53,15 @@ public class PhysicCell implements PhysicElement {
 
     @Override
     public void notifyPositionChanged() {
-        Vector2 vectorPosition = body.getWorldCenter();
-        positionUsedToNotify.setLocation(vectorPosition.x, vectorPosition.y);
-        for (PositionListener positionListener : positionListeners){
-            positionListener.updatePosition(positionChangedEvent);
+        if(body != null)
+        {
+            Vector2 vectorPosition = body.getWorldCenter();
+            positionUsedToNotify.setLocation(vectorPosition.x, vectorPosition.y);
+            for (PositionListener positionListener : positionListeners){
+                positionListener.updatePosition(positionChangedEvent);
+            }
         }
+
+        if(element != null) element.notifyPositionChanged();
     }
 }

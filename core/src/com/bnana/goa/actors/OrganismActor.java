@@ -1,5 +1,6 @@
 package com.bnana.goa.actors;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.bnana.goa.force.ForceField;
@@ -38,9 +39,14 @@ public class OrganismActor extends Actor{
 
     @Override
     public void act(float delta){
-        physicOrganism.notifyPositionChanged();
         fieldUpdater.reset();
         organism.groupAllAttractors().use(fieldUpdater);
         super.act(delta);
+    }
+
+    @Override
+    public void  draw(Batch batch, float parentAlpha){
+        physicOrganism.notifyPositionChanged();
+        super.draw(batch, parentAlpha);
     }
 }

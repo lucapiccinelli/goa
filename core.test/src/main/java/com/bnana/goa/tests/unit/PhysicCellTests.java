@@ -50,4 +50,15 @@ public class PhysicCellTests {
         verify(positionListener1).updatePosition(any(PositionChangedEvent.class));
         verify(positionListener2).updatePosition(any(PositionChangedEvent.class));
     }
+
+    @Test
+    public void APhysicellShouldNotifyItsElementWhenItsPositionChanges(){
+        PhysicElement physicCell = new PhysicCell();
+        PhysicElement physicCell2 = mock(PhysicCell.class);
+
+        physicCell.add(physicCell2);
+        physicCell.notifyPositionChanged();
+
+        verify(physicCell2).notifyPositionChanged();
+    }
 }

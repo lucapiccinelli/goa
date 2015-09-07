@@ -3,7 +3,12 @@ package com.bnana.goa.physics;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 import com.bnana.goa.PositionListener;
+import com.bnana.goa.events.PositionChangedEvent;
 import com.bnana.goa.force.ForceField;
+
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Luca on 8/27/2015.
@@ -11,9 +16,11 @@ import com.bnana.goa.force.ForceField;
 public class PhysicOrganism implements PhysicElement {
 
     private Array<PhysicElement> elements;
+    private List<PositionListener> positionListeners;
 
     public PhysicOrganism() {
         this.elements = new Array<PhysicElement>();
+        this.positionListeners = new ArrayList<PositionListener>();
     }
 
     @Override
@@ -30,11 +37,13 @@ public class PhysicOrganism implements PhysicElement {
 
     @Override
     public void addPositionListener(PositionListener positionListener) {
-
+        positionListeners.add(positionListener);
     }
 
     @Override
     public void notifyPositionChanged() {
-
+        for (PhysicElement element : elements) {
+            element.notifyPositionChanged();
+        }
     }
 }
