@@ -1,6 +1,8 @@
 package com.bnana.goa.cell;
 
+import com.bnana.goa.actions.OnTouchAction;
 import com.bnana.goa.events.PositionChangedEvent;
+import com.bnana.goa.physics.PhysicElement;
 
 import java.awt.geom.Point2D;
 
@@ -51,6 +53,11 @@ public class RepulsorOnCell implements OnCell {
     @Override
     public OffCell getAnOffCell() {
         return offCell;
+    }
+
+    @Override
+    public OnTouchAction createOnTouchAction(PhysicElement element) {
+        return null;
     }
 
     @Override

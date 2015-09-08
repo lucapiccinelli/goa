@@ -1,6 +1,9 @@
 package com.bnana.goa.cell;
 
+import com.bnana.goa.actions.OnTouchAction;
+import com.bnana.goa.actions.WanderingOnTouchAction;
 import com.bnana.goa.events.PositionChangedEvent;
+import com.bnana.goa.physics.PhysicElement;
 import com.bnana.goa.utils.EuclideanDistance;
 
 import java.awt.geom.Point2D;
@@ -56,6 +59,11 @@ public class WanderingCell implements EvolvableCell {
     @Override
     public OffCell getAnOffCell() {
         return evolve();
+    }
+
+    @Override
+    public OnTouchAction createOnTouchAction(PhysicElement element) {
+        return new WanderingOnTouchAction(this, element);
     }
 
     @Override

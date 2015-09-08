@@ -1,5 +1,6 @@
 package com.bnana.goa.tests.unit;
 
+import com.bnana.goa.actions.OnTouchAction;
 import com.bnana.goa.cell.AttractorOffCell;
 import com.bnana.goa.cell.Cell;
 import com.bnana.goa.cell.CellConsumer;
@@ -10,6 +11,7 @@ import com.bnana.goa.cell.PositionConsumer;
 import com.bnana.goa.cell.RepulsorOffCell;
 import com.bnana.goa.cell.WanderingCell;
 import com.bnana.goa.events.PositionChangedEvent;
+import com.bnana.goa.physics.PhysicElement;
 
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
@@ -24,6 +26,7 @@ import java.util.List;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyFloat;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.same;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -112,5 +115,18 @@ public class WanderingCellTests {
         cell.usePosition(positionConsumer);
 
         verify(positionConsumer).use(eq(position));
+    }
+
+    @Test
+    public void ShouldCreateAWanderingOnTouchActionThatRefersToItSelfAndToTheGivenPhysicElement() {
+        WanderingCell cell = new WanderingCell(new Point2D.Float(0, 0), 1);
+
+        PhysicElement element = mock(PhysicElement.class);
+        OnTouchAction action = cell.createOnTouchAction(element);
+        OnTouchAction anotherAction = mock(OnTouchAction.class);
+
+        action.act(anotherAction);
+
+        verify(anotherAction).actOn(same(cell), same(element));
     }
 }

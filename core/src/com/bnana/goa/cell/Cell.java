@@ -1,6 +1,8 @@
 package com.bnana.goa.cell;
 
 import com.bnana.goa.PositionListener;
+import com.bnana.goa.actions.OnTouchAction;
+import com.bnana.goa.physics.PhysicElement;
 
 import java.awt.geom.Point2D;
 
@@ -14,4 +16,6 @@ public interface Cell extends PositionListener {
     Cell opposite(Point2D.Float position, float density);
 
     OffCell getAnOffCell();
+
+    OnTouchAction createOnTouchAction(PhysicElement element);
 }

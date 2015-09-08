@@ -17,6 +17,8 @@
             <class name="com.bnana.goa.tests.unit.RadialForceFieldTests" />
             <class name="com.bnana.goa.tests.unit.WanderingCellTests" />
             <class name="com.bnana.goa.tests.unit.PhysicCellTests" />
+            <class name="com.bnana.goa.tests.unit.WanderingOnTouchActionTests" />
+            <class name="com.bnana.goa.tests.unit.AttractionOnCellOnTouchActionTests" />
         </classes>
     </test>
 
