@@ -17,6 +17,7 @@ public class WanderingCell implements EvolvableCell {
     private float density;
     private final Random random;
     private final EuclideanDistance distance;
+    private OffCell evolved;
 
     private WanderingCell(){
         this(new Point2D.Float(0, 0), 1f);
@@ -28,12 +29,17 @@ public class WanderingCell implements EvolvableCell {
 
         random = new Random();
         distance = new EuclideanDistance(position);
+
+        evolved = null;
     }
 
     @Override
     public OffCell evolve() {
+        if(evolved != null) return evolved;
+
         float r = random.nextFloat();
-        return r >= 0.5 ? new AttractorOffCell(position, density) : new RepulsorOffCell(position, density);
+        evolved =  r >= 0.5 ? new AttractorOffCell(position, density) : new RepulsorOffCell(position, density);
+        return evolved;
     }
 
     @Override

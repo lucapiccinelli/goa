@@ -42,13 +42,21 @@ public class WanderingCellTests {
     }
 
     @Test
-    public void EvolvingAWanderingCellTheProbabilityOfGettingAnAttractorOrARepulsorIs50And50(){
+    public void AWanderingCellEvolvesAlwaysToTheSameCell(){
         EvolvableCell wanderingCell = new WanderingCell(new Point2D.Float(0, 0), 1f);
 
+        OffCell evolved = wanderingCell.evolve();
+        OffCell evolved2 = wanderingCell.evolve();
+
+        Assert.assertSame(evolved, evolved2);
+    }
+
+    @Test
+    public void EvolvingAWanderingCellTheProbabilityOfGettingAnAttractorOrARepulsorIs50And50(){
         List<OffCell> evolvedCells = new ArrayList<>();
         int totalRolls = 1000;
         for (int i = 0; i < totalRolls; i++){
-            evolvedCells.add(wanderingCell.evolve());
+            evolvedCells.add(new WanderingCell(new Point2D.Float(0, 0), 1f).evolve());
         }
 
         final float densityAccumulator[] = {0};

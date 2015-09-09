@@ -31,4 +31,24 @@ public class AttractionOnCellOnTouchActionTests {
 
         verify(anotherAction).actOn(same(cell), any(PhysicElement.class));
     }
+
+    @Test
+    public void WhenActingOnAWanderingCellItShouldBeStopped(){
+        OnTouchAction attractorAction = new AttractorOnCellOnTouchAction(mock(AttractorOnCell.class), mock(PhysicElement.class));
+
+        PhysicElement wanderingCellElement = mock(PhysicElement.class);
+        attractorAction.actOn(mock(WanderingCell.class), wanderingCellElement);
+
+        verify(wanderingCellElement).stop();
+    }
+
+    @Test
+    public void WhenActingOnAWanderingCellItShouldBeEvolved(){
+        OnTouchAction attractorAction = new AttractorOnCellOnTouchAction(mock(AttractorOnCell.class), mock(PhysicElement.class));
+
+        WanderingCell wanderingCell = mock(WanderingCell.class);
+        attractorAction.actOn(wanderingCell, mock(PhysicElement.class));
+
+        verify(wanderingCell).evolve();
+    }
 }

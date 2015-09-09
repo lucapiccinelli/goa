@@ -36,6 +36,11 @@ public class PhysicOrganism implements PhysicElement {
     }
 
     @Override
+    public void stop() {
+
+    }
+
+    @Override
     public void addPositionListener(PositionListener positionListener) {
         positionListeners.add(positionListener);
     }

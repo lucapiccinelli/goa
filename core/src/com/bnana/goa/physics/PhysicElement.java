@@ -12,4 +12,6 @@ public interface PhysicElement extends PositionChangesNotifier {
     void add(PhysicElement element);
 
     void apply(ForceField forceField);
+
+    void stop();
 }
