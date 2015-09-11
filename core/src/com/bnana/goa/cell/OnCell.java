@@ -6,4 +6,5 @@ package com.bnana.goa.cell;
 public interface OnCell extends Cell {
     OffCell turnOff();
     void use(CellConsumer consumer);
+    void integrate(OffCell aNewCell);
 }

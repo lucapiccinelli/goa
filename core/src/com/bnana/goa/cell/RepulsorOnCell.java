@@ -31,6 +31,11 @@ public class RepulsorOnCell implements OnCell {
     }
 
     @Override
+    public void integrate(OffCell aNewCell) {
+
+    }
+
+    @Override
     public void usePosition(PositionConsumer positionConsumer) {
         positionConsumer.use(position);
     }
