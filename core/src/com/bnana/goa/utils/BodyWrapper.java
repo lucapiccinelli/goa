@@ -38,4 +38,13 @@ public class BodyWrapper {
         Vector2 position = body.getPosition();
         return new Point2D.Float(position.x, position.y);
     }
+
+    public static Body getNewBodyWithLinearVelocityNotZero() {
+        Body body = getNewCircleBody(new Point2D.Float(), 1);
+        body.setLinearVelocity(10, 10);
+
+        //body.getWorld().step(1f / 300, 6, 2);
+
+        return body;
+    }
 }

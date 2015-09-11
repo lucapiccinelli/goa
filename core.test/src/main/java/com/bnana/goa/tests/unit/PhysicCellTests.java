@@ -1,5 +1,6 @@
 package com.bnana.goa.tests.unit;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.bnana.goa.PositionListener;
 import com.bnana.goa.events.PositionChangedEvent;
@@ -8,6 +9,7 @@ import com.bnana.goa.physics.PhysicCell;
 import com.bnana.goa.physics.PhysicElement;
 import com.bnana.goa.utils.BodyWrapper;
 
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.awt.geom.Point2D;
@@ -52,7 +54,7 @@ public class PhysicCellTests {
     }
 
     @Test
-    public void APhysicellShouldNotifyItsElementWhenItsPositionChanges(){
+    public void APhysicellShouldNotifyItsElementsWhenItsPositionChanges(){
         PhysicElement physicCell = new PhysicCell();
         PhysicElement physicCell2 = mock(PhysicCell.class);
 
@@ -60,5 +62,15 @@ public class PhysicCellTests {
         physicCell.notifyPositionChanged();
 
         verify(physicCell2).notifyPositionChanged();
+    }
+
+    @Test
+    public void AfterBeingStoppedItsLinearVelocityShouldBe0(){
+        Body body = BodyWrapper.getNewBodyWithLinearVelocityNotZero();
+
+        PhysicElement physicCell = new PhysicCell(body);
+        physicCell.stop();
+
+        Assert.assertEquals(body.getLinearVelocity(), new Vector2(0, 0));
     }
 }
