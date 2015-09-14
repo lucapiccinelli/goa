@@ -13,13 +13,13 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 /**
  * Created by Luca on 9/14/2015.
  */
-public class OnCellImpl implements OnCell {
+class OnCellImpl implements OnCell {
     private Organism belongingOrganism;
     private final OffCell offCell;
     private Point2D.Float position;
     private final float density;
 
-    public OnCellImpl(Organism belongingOrganism, OffCell offCell, Point2D.Float position, float density) {
+    OnCellImpl(Organism belongingOrganism, OffCell offCell, Point2D.Float position, float density) {
         this.belongingOrganism = belongingOrganism;
         this.offCell = offCell;
         this.position = position;
@@ -80,11 +80,11 @@ public class OnCellImpl implements OnCell {
         offCell.updatePosition(positionChangedEvent);
     }
 
-    public Point2D.Float getPosition() {
+    Point2D.Float getPosition() {
         return position;
     }
 
-    public float getDensity() {
+    float getDensity() {
         return density;
     }
 }
