@@ -3,6 +3,7 @@ package com.bnana.goa.tests.unit;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.bnana.goa.PositionListener;
+import com.bnana.goa.actions.OnTouchAction;
 import com.bnana.goa.events.PositionChangedEvent;
 import com.bnana.goa.force.ForceField;
 import com.bnana.goa.physics.PhysicCell;
@@ -84,5 +85,29 @@ public class PhysicCellTests {
         physicCell2.stop();
 
         Assert.assertEquals(body.getLinearVelocity(), new Vector2(0, 0));
+    }
+
+    @Test
+    public void AnActionShouldBeSetAsBodyUserData(){
+        Body body = BodyWrapper.getNewBodyWithLinearVelocityNotZero();
+
+        PhysicElement physicCell = new PhysicCell(body);
+        OnTouchAction action = mock(OnTouchAction.class);
+        physicCell.setAction(action);
+
+        Assert.assertSame(body.getUserData(), action);
+    }
+
+    @Test
+    public void AnActionShouldBeSetAsBodyUserDataOnANestedPhysicCell(){
+        Body body = BodyWrapper.getNewBodyWithLinearVelocityNotZero();
+
+        PhysicElement physicCell = new PhysicCell(body);
+        PhysicElement physicCell2 = new PhysicCell();
+        physicCell2.add(physicCell);
+        OnTouchAction action = mock(OnTouchAction.class);
+        physicCell2.setAction(action);
+
+        Assert.assertSame(body.getUserData(), action);
     }
 }

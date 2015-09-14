@@ -3,6 +3,7 @@ package com.bnana.goa.physics;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.bnana.goa.PositionListener;
+import com.bnana.goa.actions.OnTouchAction;
 import com.bnana.goa.events.PositionChangedEvent;
 import com.bnana.goa.force.ForceField;
 
@@ -49,9 +50,21 @@ public class PhysicCell implements PhysicElement {
     @Override
     public void stop() {
         if(body != null){
+            body.setAngularVelocity(0);
             body.setLinearVelocity(0, 0);
+
+            body.getWorld().clearForces();
         }else {
             element.stop();
+        }
+    }
+
+    @Override
+    public void setAction(OnTouchAction onTouchAction) {
+        if(body != null){
+            body.setUserData(onTouchAction);
+        }else {
+            element.setAction(onTouchAction);
         }
     }
 

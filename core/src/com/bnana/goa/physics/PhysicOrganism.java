@@ -3,6 +3,7 @@ package com.bnana.goa.physics;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 import com.bnana.goa.PositionListener;
+import com.bnana.goa.actions.OnTouchAction;
 import com.bnana.goa.events.PositionChangedEvent;
 import com.bnana.goa.force.ForceField;
 
@@ -37,6 +38,11 @@ public class PhysicOrganism implements PhysicElement {
 
     @Override
     public void stop() {
+
+    }
+
+    @Override
+    public void setAction(OnTouchAction onTouchAction) {
 
     }
 

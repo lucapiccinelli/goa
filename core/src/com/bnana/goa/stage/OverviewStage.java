@@ -12,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.bnana.goa.GameOfAttraction;
 import com.bnana.goa.actions.OnTouchAction;
+import com.bnana.goa.actions.WanderingOnTouchAction;
 import com.bnana.goa.actors.OrganismActor;
 import com.bnana.goa.actors.WanderingCellActor;
 import com.bnana.goa.cell.WanderingCell;
@@ -37,6 +38,7 @@ public class OverviewStage extends Stage implements ContactListener{
     private float accumulator;
     private OrganismActor organism;
     private RadialForceField forceField;
+    private WanderingCellActor wanderingCell;
 
     public OverviewStage(GameOfAttraction game) {
         this.game = game;
@@ -59,7 +61,8 @@ public class OverviewStage extends Stage implements ContactListener{
     }
 
     private void createWanderingCells() {
-        addActor(new WanderingCellActor(world, new RandomCellGenerator(null, WanderingCell.MakePrototype(), worldBounds), forceField));
+        wanderingCell = new WanderingCellActor(world, new RandomCellGenerator(null, WanderingCell.MakePrototype(), worldBounds), forceField);
+        addActor(wanderingCell);
     }
 
     private void createOrganism() {
@@ -115,6 +118,11 @@ public class OverviewStage extends Stage implements ContactListener{
 
         OnTouchAction actionA = (OnTouchAction)bodyA.getUserData();
         OnTouchAction actionB = (OnTouchAction)bodyB.getUserData();
+
+
+        if(actionB.getClass().equals(WanderingOnTouchAction.class)) {
+            wanderingCell.remove();
+        }
 
         actionA.act(actionB);
         actionB.act(actionA);
