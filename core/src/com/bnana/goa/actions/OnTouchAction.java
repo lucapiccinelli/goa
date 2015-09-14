@@ -14,5 +14,5 @@ public interface OnTouchAction {
     void actOn(WanderingCell cell, PhysicElement same);
     void actOn(OnCell cell, PhysicElement same);
 
-    void stopActing();
+    void stopActing(OnTouchAction anotherAction);
 }

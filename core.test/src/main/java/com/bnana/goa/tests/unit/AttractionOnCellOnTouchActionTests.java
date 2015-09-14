@@ -1,8 +1,7 @@
 package com.bnana.goa.tests.unit;
 
-import com.bnana.goa.actions.AttractorOnCellOnTouchAction;
+import com.bnana.goa.actions.OnCellOnTouchAction;
 import com.bnana.goa.actions.OnTouchAction;
-import com.bnana.goa.actions.WanderingOnTouchAction;
 import com.bnana.goa.cell.AttractorOffCell;
 import com.bnana.goa.cell.AttractorOnCell;
 import com.bnana.goa.cell.OnCell;
@@ -26,18 +25,18 @@ import static org.mockito.Mockito.verify;
 public class AttractionOnCellOnTouchActionTests {
     @Test
     public void TheOtherActionShouldBeStopped(){
-        OnTouchAction attractorAction = new AttractorOnCellOnTouchAction(mock(AttractorOnCell.class), mock(PhysicElement.class));
+        OnTouchAction attractorAction = new OnCellOnTouchAction(mock(AttractorOnCell.class), mock(PhysicElement.class));
         OnTouchAction anotherAction = mock(OnTouchAction.class);
 
         attractorAction.act(anotherAction);
-        verify(anotherAction).stopActing();
+        verify(anotherAction).stopActing(same(attractorAction));
     }
 
     @Test
     public void TheOtherActionShouldActOnTheAttractorOnCell(){
         AttractorOnCell cell = new AttractorOnCell(mock(Organism.class), mock(AttractorOffCell.class), new Point2D.Float(), 1f);
 
-        OnTouchAction attractorAction = new AttractorOnCellOnTouchAction(cell, mock(PhysicElement.class));
+        OnTouchAction attractorAction = new OnCellOnTouchAction(cell, mock(PhysicElement.class));
         OnTouchAction anotherAction = mock(OnTouchAction.class);
 
         attractorAction.act(anotherAction);
@@ -46,21 +45,36 @@ public class AttractionOnCellOnTouchActionTests {
     }
 
     @Test
-    public void AfterBeingStoppedItShouldntActAnymore(){
+    public void AfterBeingStoppedItShouldntActAnymoreOnTheSameAction(){
         AttractorOnCell cell = mock(AttractorOnCell.class);
 
-        OnTouchAction attractorAction = new AttractorOnCellOnTouchAction(cell, mock(PhysicElement.class));
-        attractorAction.stopActing();
-
+        OnTouchAction attractorAction = new OnCellOnTouchAction(cell, mock(PhysicElement.class));
         OnTouchAction anotherAction = mock(OnTouchAction.class);
+
+        attractorAction.stopActing(anotherAction);
+
         attractorAction.act(anotherAction);
 
         verify(anotherAction, times(0)).actOn(any(OnCell.class), any(PhysicElement.class));
     }
 
     @Test
+    public void AfterBeingStoppedOnAnActionItShouldActOnOtherActions(){
+        AttractorOnCell cell = mock(AttractorOnCell.class);
+
+        OnTouchAction attractorAction = new OnCellOnTouchAction(cell, mock(PhysicElement.class));
+        OnTouchAction anotherAction1 = mock(OnTouchAction.class);
+        OnTouchAction anotherAction2 = mock(OnTouchAction.class);
+
+        attractorAction.stopActing(anotherAction1);
+        attractorAction.act(anotherAction2);
+
+        verify(anotherAction2, times(1)).actOn(any(OnCell.class), any(PhysicElement.class));
+    }
+
+    @Test
     public void WhenActingOnAWanderingCellItShouldBeStopped(){
-        OnTouchAction attractorAction = new AttractorOnCellOnTouchAction(mock(AttractorOnCell.class), mock(PhysicElement.class));
+        OnTouchAction attractorAction = new OnCellOnTouchAction(mock(AttractorOnCell.class), mock(PhysicElement.class));
 
         PhysicElement wanderingCellElement = mock(PhysicElement.class);
         attractorAction.actOn(mock(WanderingCell.class), wanderingCellElement);
@@ -70,7 +84,7 @@ public class AttractionOnCellOnTouchActionTests {
 
     @Test
     public void WhenActingOnAWanderingCellItShouldBeEvolved(){
-        OnTouchAction attractorAction = new AttractorOnCellOnTouchAction(mock(AttractorOnCell.class), mock(PhysicElement.class));
+        OnTouchAction attractorAction = new OnCellOnTouchAction(mock(AttractorOnCell.class), mock(PhysicElement.class));
 
         WanderingCell wanderingCell = mock(WanderingCell.class);
         attractorAction.actOn(wanderingCell, mock(PhysicElement.class));
@@ -81,7 +95,7 @@ public class AttractionOnCellOnTouchActionTests {
     @Test
     public void WhenActingOnAWanderingCellItShouldBeIntegratedIntoTheOrganism(){
         AttractorOnCell attractor = mock(AttractorOnCell.class);
-        OnTouchAction attractorAction = new AttractorOnCellOnTouchAction(attractor, mock(PhysicElement.class));
+        OnTouchAction attractorAction = new OnCellOnTouchAction(attractor, mock(PhysicElement.class));
 
         WanderingCell wanderingCell = new WanderingCell(new Point2D.Float(), 1f);
         attractorAction.actOn(wanderingCell, mock(PhysicElement.class));

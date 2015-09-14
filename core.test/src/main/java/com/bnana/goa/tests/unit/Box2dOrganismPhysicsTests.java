@@ -3,6 +3,7 @@ package com.bnana.goa.tests.unit;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.bnana.goa.actions.OnTouchAction;
 import com.bnana.goa.cell.Cell;
 import com.bnana.goa.physics.PhysicElement;
 import com.bnana.goa.physics.Box2dOrganismPhysics;
@@ -19,6 +20,7 @@ import static org.mockito.Matchers.same;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by Luca on 8/26/2015.
@@ -60,17 +62,20 @@ public class Box2dOrganismPhysicsTests {
     }
 
     @Test
-    public void TheNewBodyShouldContainTheSourceCellAsUserData(){
+    public void TheNewBodyShouldContainAnOnTouchActionAsUserData(){
         World world = WorldWrapper.GetNewWorldZeroGravity();
+
         PhysicElement physicElement = mock(PhysicElement.class);
         Cell cell = mock(Cell.class);
-        OrganismPhysics physics = new Box2dOrganismPhysics(world, physicElement);
+        OnTouchAction action = mock(OnTouchAction.class);
+        when(cell.createOnTouchAction(physicElement)).thenReturn(action);
 
+        OrganismPhysics physics = new Box2dOrganismPhysics(world, physicElement);
         physics.use(cell, new Point2D.Float(), 1);
 
         Array<Body> bodies = new Array<>();
         world.getBodies(bodies);
 
-        Assert.assertSame(cell, bodies.get(0).getUserData());
+        Assert.assertSame(bodies.get(0).getUserData(), action);
     }
 }

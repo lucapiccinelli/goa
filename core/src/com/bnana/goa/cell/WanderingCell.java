@@ -81,4 +81,9 @@ public class WanderingCell implements EvolvableCell {
     public static WanderingCell MakePrototype(){
         return new WanderingCell();
     }
+
+    @Override
+    public void use(CellConsumer consumer) {
+        consumer.use(this, position, density);
+    }
 }

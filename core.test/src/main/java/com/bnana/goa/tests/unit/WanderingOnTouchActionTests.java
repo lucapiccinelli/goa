@@ -33,16 +33,30 @@ public class WanderingOnTouchActionTests {
     }
 
     @Test
-    public void AfterBeingStoppedItShouldntActAnymore(){
+    public void AfterBeingStoppedItShouldntActAnymoreOnTheSameAction(){
         WanderingCell cell = mock(WanderingCell.class);
 
         OnTouchAction wanderingOnTouchAction = new WanderingOnTouchAction(cell, mock(PhysicElement.class));
-        wanderingOnTouchAction.stopActing();
-
         OnTouchAction anotherAction = mock(OnTouchAction.class);
+
+        wanderingOnTouchAction.stopActing(anotherAction);
         wanderingOnTouchAction.act(anotherAction);
 
         verify(anotherAction, times(0)).actOn(any(WanderingCell.class), any(PhysicElement.class));
+    }
+
+    @Test
+    public void AfterBeingStoppedOnAnActionItShouldActOnOtherActions(){
+        WanderingCell cell = mock(WanderingCell.class);
+
+        OnTouchAction wanderingOnTouchAction = new WanderingOnTouchAction(cell, mock(PhysicElement.class));
+        OnTouchAction anotherAction1 = mock(OnTouchAction.class);
+        OnTouchAction anotherAction2 = mock(OnTouchAction.class);
+
+        wanderingOnTouchAction.stopActing(anotherAction1);
+        wanderingOnTouchAction.act(anotherAction2);
+
+        verify(anotherAction2, times(1)).actOn(any(WanderingCell.class), any(PhysicElement.class));
     }
 
     @Test
@@ -51,7 +65,7 @@ public class WanderingOnTouchActionTests {
         OnTouchAction anotherAction = mock(OnTouchAction.class);
 
         wanderingOnTouchAction.act(anotherAction);
-        verify(anotherAction).stopActing();
+        verify(anotherAction).stopActing(same(wanderingOnTouchAction));
     }
 
     @Test

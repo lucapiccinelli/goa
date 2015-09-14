@@ -5,27 +5,32 @@ import com.bnana.goa.cell.OnCell;
 import com.bnana.goa.cell.WanderingCell;
 import com.bnana.goa.physics.PhysicElement;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 /**
  * Created by luca.piccinelli on 08/09/2015.
  */
 public class WanderingOnTouchAction implements OnTouchAction {
-    private WanderingCell cell;
+    private WanderingCell wanderingCell;
     private PhysicElement physicElement;
-    private boolean stoppedActing;
+    private Set<OnTouchAction> stoppedActions;
 
     public WanderingOnTouchAction(WanderingCell cell, PhysicElement physicElement) {
-        this.cell = cell;
+        this.wanderingCell = cell;
         this.physicElement = physicElement;
 
-        stoppedActing = false;
+        stoppedActions = new HashSet<OnTouchAction>();
     }
 
     @Override
     public void act(OnTouchAction anotherAction) {
-        if(stoppedActing) return;
+        if(stoppedActions.contains(anotherAction)) return;
 
-        anotherAction.actOn(cell, physicElement);
-        anotherAction.stopActing();
+        anotherAction.actOn(wanderingCell, physicElement);
+        anotherAction.stopActing(this);
     }
 
     @Override
@@ -36,12 +41,12 @@ public class WanderingOnTouchAction implements OnTouchAction {
     @Override
     public void actOn(OnCell onCell, PhysicElement theOtherElement) {
         physicElement.stop();
-        OffCell evolved = cell.evolve();
+        OffCell evolved = wanderingCell.evolve();
         onCell.integrate(evolved);
     }
 
     @Override
-    public void stopActing() {
-        stoppedActing = true;
+    public void stopActing(OnTouchAction anotherAction) {
+        stoppedActions.add(anotherAction);
     }
 }

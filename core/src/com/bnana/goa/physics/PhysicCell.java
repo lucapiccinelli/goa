@@ -48,7 +48,11 @@ public class PhysicCell implements PhysicElement {
 
     @Override
     public void stop() {
-        body.setLinearVelocity(0, 0);
+        if(body != null){
+            body.setLinearVelocity(0, 0);
+        }else {
+            element.stop();
+        }
     }
 
     @Override

@@ -73,4 +73,16 @@ public class PhysicCellTests {
 
         Assert.assertEquals(body.getLinearVelocity(), new Vector2(0, 0));
     }
+
+    @Test
+    public void StoppedANestedPhysicCellShouldObtaindTheSameResult(){
+        Body body = BodyWrapper.getNewBodyWithLinearVelocityNotZero();
+
+        PhysicElement physicCell = new PhysicCell(body);
+        PhysicElement physicCell2 = new PhysicCell();
+        physicCell2.add(physicCell);
+        physicCell2.stop();
+
+        Assert.assertEquals(body.getLinearVelocity(), new Vector2(0, 0));
+    }
 }

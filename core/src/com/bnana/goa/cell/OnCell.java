@@ -5,8 +5,7 @@ import com.bnana.goa.exceptions.InvalidIntegrateRequestException;
 /**
  * Created by Luca on 8/21/2015.
  */
-public interface OnCell extends Cell {
+public interface OnCell extends UsableCell {
     OffCell turnOff();
-    void use(CellConsumer consumer);
     void integrate(OffCell aNewCell);
 }

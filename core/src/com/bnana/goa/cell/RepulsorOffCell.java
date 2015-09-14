@@ -47,7 +47,7 @@ public class RepulsorOffCell implements OffCell {
 
     @Override
     public void growOrganism(Organism organism) {
-
+        organism.growRepulsor(this);
     }
 
     @Override

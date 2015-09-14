@@ -1,5 +1,6 @@
 package com.bnana.goa.tests.unit;
 
+import com.bnana.goa.actions.OnTouchAction;
 import com.bnana.goa.cell.AttractorOffCell;
 import com.bnana.goa.cell.AttractorOnCell;
 import com.bnana.goa.cell.Cell;
@@ -11,6 +12,7 @@ import com.bnana.goa.cell.RepulsorOnCell;
 import com.bnana.goa.events.PositionChangedEvent;
 import com.bnana.goa.exceptions.InvalidIntegrateRequestException;
 import com.bnana.goa.organism.Organism;
+import com.bnana.goa.physics.PhysicElement;
 
 import static org.mockito.Mockito.*;
 import org.testng.Assert;
@@ -136,5 +138,16 @@ public class OnCellTest {
     public void ARepulsorWithoutAnOrganismIntegratingANewCellShouldThrow(OnCell cell){
         OffCell newOffCell = mock(OffCell.class);
         cell.integrate(newOffCell);
+    }
+
+    @Test(dataProvider = "onCells")
+    public void ShouldCreateAnOnTouchActionThatRefersToItSelfAndToTheGivenPhysicElement(OnCell onCell) {
+        PhysicElement element = mock(PhysicElement.class);
+        OnTouchAction action = onCell.createOnTouchAction(element);
+        OnTouchAction anotherAction = mock(OnTouchAction.class);
+
+        action.act(anotherAction);
+
+        verify(anotherAction).actOn(same(onCell), same(element));
     }
 }

@@ -18,7 +18,7 @@ import com.bnana.goa.physics.PhysicCell;
  */
 public class WanderingCellActor extends Actor{
 
-    private final Cell cell;
+    private final WanderingCell cell;
     private World world;
     private final ForceField forceField;
     private final PhysicCell physicCell;
@@ -29,8 +29,8 @@ public class WanderingCellActor extends Actor{
         physicCell = new PhysicCell();
         Box2dOrganismPhysics organismPhysics = new Box2dOrganismPhysics(world, physicCell);
 
-        cell = cellGenerator.generate();
-        cell.getAnOffCell().turnOn().use(organismPhysics);
+        cell = (WanderingCell)cellGenerator.generate();
+        cell.use(organismPhysics);
     }
 
     @Override

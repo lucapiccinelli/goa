@@ -2,10 +2,16 @@ package com.bnana.goa.stage;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.bnana.goa.GameOfAttraction;
+import com.bnana.goa.actions.OnTouchAction;
 import com.bnana.goa.actors.OrganismActor;
 import com.bnana.goa.actors.WanderingCellActor;
 import com.bnana.goa.cell.WanderingCell;
@@ -18,7 +24,7 @@ import java.awt.geom.Rectangle2D;
 /**
  * Created by Luca on 8/21/2015.
  */
-public class OverviewStage extends Stage {
+public class OverviewStage extends Stage implements ContactListener{
     private static final float TIME_STEP = 1 /60f;
     private final int VIEWPORT_WIDTH = 80;
     private final int VIEWPORT_HEIGHT = 52;
@@ -35,6 +41,7 @@ public class OverviewStage extends Stage {
     public OverviewStage(GameOfAttraction game) {
         this.game = game;
         this.world = new World(new Vector2(0f, 0f), true);
+        this.world.setContactListener(this);
         accumulator = 0;
 
         int offset = 10;
@@ -90,5 +97,31 @@ public class OverviewStage extends Stage {
     public void dispose(){
         world.dispose();
         super.dispose();
+    }
+
+    @Override
+    public void beginContact(Contact contact) {
+    }
+
+    @Override
+    public void endContact(Contact contact) {
+
+    }
+
+    @Override
+    public void preSolve(Contact contact, Manifold oldManifold) {
+        Body bodyA = contact.getFixtureA().getBody();
+        Body bodyB = contact.getFixtureB().getBody();
+
+        OnTouchAction actionA = (OnTouchAction)bodyA.getUserData();
+        OnTouchAction actionB = (OnTouchAction)bodyB.getUserData();
+
+        actionA.act(actionB);
+        actionB.act(actionA);
+    }
+
+    @Override
+    public void postSolve(Contact contact, ContactImpulse impulse) {
+
     }
 }

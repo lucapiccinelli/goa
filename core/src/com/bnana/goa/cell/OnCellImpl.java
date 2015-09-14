@@ -71,7 +71,7 @@ class OnCellImpl implements OnCell {
 
     @Override
     public OnTouchAction createOnTouchAction(PhysicElement element) {
-        return null;
+        throw new NotImplementedException();
     }
 
     @Override
