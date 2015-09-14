@@ -1,5 +1,7 @@
 package com.bnana.goa.cell;
 
+import com.bnana.goa.organism.Organism;
+
 import java.awt.geom.Point2D;
 
 /**
@@ -7,4 +9,6 @@ import java.awt.geom.Point2D;
  */
 public interface OffCell extends Cell{
     OnCell turnOn();
+
+    void growOrganism(Organism same);
 }

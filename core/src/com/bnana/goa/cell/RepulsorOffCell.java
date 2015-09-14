@@ -2,6 +2,7 @@ package com.bnana.goa.cell;
 
 import com.bnana.goa.actions.OnTouchAction;
 import com.bnana.goa.events.PositionChangedEvent;
+import com.bnana.goa.organism.Organism;
 import com.bnana.goa.physics.PhysicElement;
 import com.bnana.goa.utils.EuclideanDistance;
 
@@ -17,20 +18,26 @@ public class RepulsorOffCell implements OffCell {
     private OnCell onCell;
     private Point2D.Float position;
     private float density;
+    private Organism belongingOrganism;
 
-    public RepulsorOffCell (Point2D.Float position, float density) {
+    public RepulsorOffCell (Organism belongingOrganism, Point2D.Float position, float density) {
         this.position = position;
         this.density = Math.abs(density);
+        this.belongingOrganism = belongingOrganism;
 
         distanceCalculator = new EuclideanDistance(position);
     }
 
-    public RepulsorOffCell (Point2D.Float position) {
-        this(position, 1);
+    public RepulsorOffCell (Point2D.Float position, float density) {
+        this(null, position, density);
     }
 
-    public RepulsorOffCell () {
-        this(new Point2D.Float(0, 0), 1);
+    public RepulsorOffCell (Organism belongingOrganism, Point2D.Float position) {
+        this(belongingOrganism, position, 1);
+    }
+
+    private RepulsorOffCell () {
+        this(null, new Point2D.Float(0, 0), 1);
     }
 
     @Override
@@ -39,13 +46,19 @@ public class RepulsorOffCell implements OffCell {
     }
 
     @Override
-    public Cell prototype(Point2D.Float position, float density) {
-        return new RepulsorOffCell(position, density);
+    public void growOrganism(Organism organism) {
+
     }
 
     @Override
+    public Cell prototype(Organism belongingOrganism, Point2D.Float position, float density) {
+        return new RepulsorOffCell(belongingOrganism, position, density);
+    }
+
+
+    @Override
     public OffCell opposite(Point2D.Float position, float density) {
-        return new AttractorOffCell(position, density);
+        return new AttractorOffCell(belongingOrganism, position, density);
     }
 
     @Override
@@ -59,7 +72,7 @@ public class RepulsorOffCell implements OffCell {
     }
 
     private OnCell makeCell() {
-        if (onCell == null) onCell = new RepulsorOnCell(this, position, density);
+        if (onCell == null) onCell = new RepulsorOnCell(belongingOrganism, this, position, density);
         return onCell;
     }
 

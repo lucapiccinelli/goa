@@ -108,7 +108,7 @@ public class WanderingCellTests {
     @Test
     public void prototypingShouldReturnAWanderingCell(){
         WanderingCell prototype = WanderingCell.MakePrototype();
-        Assert.assertEquals(WanderingCell.class, prototype.prototype(new Point2D.Float(3, 2), 1f).getClass());
+        Assert.assertEquals(WanderingCell.class, prototype.prototype(null, new Point2D.Float(3, 2), 1f).getClass());
     }
 
     @Test

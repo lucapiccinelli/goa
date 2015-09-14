@@ -43,8 +43,6 @@ public class BodyWrapper {
         Body body = getNewCircleBody(new Point2D.Float(), 1);
         body.setLinearVelocity(10, 10);
 
-        //body.getWorld().step(1f / 300, 6, 2);
-
         return body;
     }
 }

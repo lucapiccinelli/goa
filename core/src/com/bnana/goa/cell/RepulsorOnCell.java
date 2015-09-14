@@ -2,6 +2,8 @@ package com.bnana.goa.cell;
 
 import com.bnana.goa.actions.OnTouchAction;
 import com.bnana.goa.events.PositionChangedEvent;
+import com.bnana.goa.exceptions.InvalidIntegrateRequestException;
+import com.bnana.goa.organism.Organism;
 import com.bnana.goa.physics.PhysicElement;
 
 import java.awt.geom.Point2D;
@@ -10,64 +12,61 @@ import java.awt.geom.Point2D;
  * Created by Luca on 8/21/2015.
  */
 public class RepulsorOnCell implements OnCell {
-    private final OffCell offCell;
-    private Point2D.Float position;
-    private final float density;
+    private final OnCellImpl onCellImpl;
+    private float density;
 
-    public RepulsorOnCell(OffCell offCell, Point2D.Float position, float density) {
-        this.offCell = offCell;
-        this.position = position;
-        this.density = density;
+    public RepulsorOnCell(Organism belongingOrganism, OffCell offCell, Point2D.Float position, float density) {
+        this.onCellImpl = new OnCellImpl(belongingOrganism, offCell, position, density);
     }
+
 
     @Override
     public OffCell turnOff() {
-        return offCell;
+        return onCellImpl.turnOff();
     }
 
     @Override
     public void use(CellConsumer consumer) {
-        consumer.use(this, position, density);
+        consumer.use(this, onCellImpl.getPosition(), onCellImpl.getDensity());
     }
 
     @Override
-    public void integrate(OffCell aNewCell) {
-
+    public void integrate(OffCell aNewCell){
+        onCellImpl.integrate(aNewCell);
     }
 
     @Override
     public void usePosition(PositionConsumer positionConsumer) {
-        positionConsumer.use(position);
+        onCellImpl.usePosition(positionConsumer);
     }
 
     @Override
     public float distance(Cell cell) {
-        return this.offCell.distance(cell);
+        return onCellImpl.distance(cell);
     }
 
     @Override
-    public Cell prototype(Point2D.Float position, float density) {
-        return null;
+    public Cell prototype(Organism belongingOrganism, Point2D.Float position, float density) {
+        return onCellImpl.prototype(belongingOrganism, position, density);
     }
 
     @Override
     public Cell opposite(Point2D.Float position, float density) {
-        return null;
+        return onCellImpl.opposite(position, density);
     }
 
     @Override
     public OffCell getAnOffCell() {
-        return offCell;
+        return onCellImpl.getAnOffCell();
     }
 
     @Override
     public OnTouchAction createOnTouchAction(PhysicElement element) {
-        return null;
+        return onCellImpl.createOnTouchAction(element);
     }
 
     @Override
     public void updatePosition(PositionChangedEvent positionChangedEvent) {
-        this.position = positionChangedEvent.getPosition();
-        offCell.updatePosition(positionChangedEvent);
+        onCellImpl.updatePosition(positionChangedEvent);
     }
 }

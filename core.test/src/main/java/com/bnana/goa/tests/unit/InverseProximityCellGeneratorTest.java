@@ -20,7 +20,7 @@ import java.lang.reflect.Type;
 public class InverseProximityCellGeneratorTest {
     @Test
     public void TheDistanceBeetweenTheSourceCellAndTheNewCellShouldBeExactly1(){
-        OffCell sourceCell = new AttractorOffCell(new Point2D.Float(8, 13));
+        OffCell sourceCell = new AttractorOffCell(new Point2D.Float(8, 13), 1f);
         CellGenerator proximityCellGenerator = new InverseProximityCellGenerator(sourceCell);
 
         Cell generatedCell = proximityCellGenerator.generate();
@@ -31,8 +31,8 @@ public class InverseProximityCellGeneratorTest {
     @DataProvider
     public Object[][] cellSources(){
         return new Object[][]{
-                {new AttractorOffCell(), RepulsorOffCell.class},
-                {new RepulsorOffCell(), AttractorOffCell.class},
+                {AttractorOffCell.MakeProtype(), RepulsorOffCell.class},
+                {RepulsorOffCell.MakeProtype(), AttractorOffCell.class},
         };
     }
 

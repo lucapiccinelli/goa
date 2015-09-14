@@ -7,6 +7,7 @@ import com.bnana.goa.cell.AttractorOffCell;
 import com.bnana.goa.cell.AttractorOnCell;
 import com.bnana.goa.cell.OnCell;
 import com.bnana.goa.cell.WanderingCell;
+import com.bnana.goa.organism.Organism;
 import com.bnana.goa.physics.PhysicElement;
 
 import org.testng.annotations.Test;
@@ -34,7 +35,7 @@ public class AttractionOnCellOnTouchActionTests {
 
     @Test
     public void TheOtherActionShouldActOnTheAttractorOnCell(){
-        AttractorOnCell cell = new AttractorOnCell(mock(AttractorOffCell.class), new Point2D.Float(), 1f);
+        AttractorOnCell cell = new AttractorOnCell(mock(Organism.class), mock(AttractorOffCell.class), new Point2D.Float(), 1f);
 
         OnTouchAction attractorAction = new AttractorOnCellOnTouchAction(cell, mock(PhysicElement.class));
         OnTouchAction anotherAction = mock(OnTouchAction.class);

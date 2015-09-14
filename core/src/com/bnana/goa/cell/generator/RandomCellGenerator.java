@@ -1,5 +1,6 @@
 package com.bnana.goa.cell.generator;
 
+import com.bnana.goa.organism.Organism;
 import com.bnana.goa.utils.Const;
 import com.bnana.goa.cell.Cell;
 
@@ -12,10 +13,12 @@ import java.util.Random;
  */
 public class RandomCellGenerator implements CellGenerator {
     private final Random rand;
+    private Organism organism;
     private Cell cellPrototype;
     private Rectangle2D.Float bounds;
 
-    public RandomCellGenerator(Cell cellPrototype, Rectangle2D.Float bounds) {
+    public RandomCellGenerator(Organism organism, Cell cellPrototype, Rectangle2D.Float bounds) {
+        this.organism = organism;
         this.cellPrototype = cellPrototype;
         this.bounds = bounds;
         rand = new Random();
@@ -26,6 +29,6 @@ public class RandomCellGenerator implements CellGenerator {
         float x = rand.nextFloat() * bounds.width + bounds.x;
         float y = rand.nextFloat() * bounds.height + bounds.y;
 
-        return cellPrototype.prototype(new Point2D.Float(x,y), Const.DEFAULT_CELL_DENSITY);
+        return cellPrototype.prototype(organism, new Point2D.Float(x,y), Const.DEFAULT_CELL_DENSITY);
     }
 }

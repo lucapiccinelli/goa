@@ -2,6 +2,7 @@ package com.bnana.goa.cell;
 
 import com.bnana.goa.PositionListener;
 import com.bnana.goa.actions.OnTouchAction;
+import com.bnana.goa.organism.Organism;
 import com.bnana.goa.physics.PhysicElement;
 
 import java.awt.geom.Point2D;
@@ -12,7 +13,7 @@ import java.awt.geom.Point2D;
 public interface Cell extends PositionListener {
     void usePosition(PositionConsumer positionConsumer);
     float distance(Cell cell);
-    Cell prototype(Point2D.Float position, float density);
+    Cell prototype(Organism belongingOrganism, Point2D.Float position, float density);
     Cell opposite(Point2D.Float position, float density);
 
     OffCell getAnOffCell();

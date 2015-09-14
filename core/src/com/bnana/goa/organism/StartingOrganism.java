@@ -3,7 +3,6 @@ package com.bnana.goa.organism;
 import com.bnana.goa.cell.AttractorOffCell;
 import com.bnana.goa.cell.Cell;
 import com.bnana.goa.cell.CellGroup;
-import com.bnana.goa.cell.OffCell;
 import com.bnana.goa.cell.SimpleCellGroup;
 import com.bnana.goa.cell.generator.InverseProximityCellGenerator;
 import com.bnana.goa.cell.generator.RandomCellGenerator;
@@ -26,7 +25,7 @@ public class StartingOrganism implements Organism {
         attractors = new ArrayList<Cell>();
         repulsors = new ArrayList<Cell>();
 
-        RandomCellGenerator randomCellGenerator = new RandomCellGenerator(AttractorOffCell.MakeProtype(), viewBounds);
+        RandomCellGenerator randomCellGenerator = new RandomCellGenerator(this, AttractorOffCell.MakeProtype(), viewBounds);
         Cell attractor = randomCellGenerator.generate();
         cells.add(attractor);
         attractors.add(attractor);
@@ -50,6 +49,11 @@ public class StartingOrganism implements Organism {
     @Override
     public CellGroup groupAllRepulsors() {
         return groupCellsFrom(repulsors);
+    }
+
+    @Override
+    public void growAttractors(AttractorOffCell aNewAttractor) {
+        attractors.add(aNewAttractor);
     }
 
     private CellGroup groupCellsFrom(List<Cell> cellList){

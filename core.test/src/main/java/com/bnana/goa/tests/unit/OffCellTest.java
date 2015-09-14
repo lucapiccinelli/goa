@@ -8,6 +8,7 @@ import com.bnana.goa.cell.OnCell;
 import com.bnana.goa.cell.PositionConsumer;
 import com.bnana.goa.cell.RepulsorOffCell;
 import com.bnana.goa.events.PositionChangedEvent;
+import com.bnana.goa.organism.Organism;
 
 import org.mockito.AdditionalMatchers;
 import org.mockito.Mockito;
@@ -21,6 +22,7 @@ import java.lang.reflect.Type;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.same;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -32,16 +34,16 @@ public class OffCellTest {
     @DataProvider
     public Object[][] offCells(){
         return new OffCell[][]{
-                {new AttractorOffCell()},
-                {new RepulsorOffCell()}};
+                {AttractorOffCell.MakeProtype()},
+                {RepulsorOffCell.MakeProtype()}};
     }
 
     @DataProvider
     public Object[][] positionedOffCells(){
         Point2D.Float position = new Point2D.Float(2f, 3f);
         return new Object[][]{
-                { new AttractorOffCell(position), position },
-                { new RepulsorOffCell(position), position }
+                { new AttractorOffCell(mock(Organism.class), position), position },
+                { new RepulsorOffCell(mock(Organism.class), position), position }
         };
     }
 
@@ -49,8 +51,8 @@ public class OffCellTest {
     public Object[][] densOffCells(){
         Point2D.Float position = new Point2D.Float(2f, 3f);
         return new Object[][]{
-                { new AttractorOffCell(position, AttractorOffCell.DEFAULT_DENSITY ), position, AttractorOffCell.DEFAULT_DENSITY, -AttractorOffCell.DEFAULT_DENSITY },
-                { new RepulsorOffCell(position, RepulsorOffCell.DEFAULT_DENSITY ), position, RepulsorOffCell.DEFAULT_DENSITY, RepulsorOffCell.DEFAULT_DENSITY }
+                { new AttractorOffCell(mock(Organism.class), position, AttractorOffCell.DEFAULT_DENSITY ), position, AttractorOffCell.DEFAULT_DENSITY, -AttractorOffCell.DEFAULT_DENSITY },
+                { new RepulsorOffCell(mock(Organism.class), position, RepulsorOffCell.DEFAULT_DENSITY ), position, RepulsorOffCell.DEFAULT_DENSITY, RepulsorOffCell.DEFAULT_DENSITY }
         };
     }
 
@@ -94,7 +96,7 @@ public class OffCellTest {
     @Test(dataProvider = "densityProvider")
     public void AnAttractorCellDensityShouldAlwaysBeNegative(float density){
         Point2D.Float position = new Point2D.Float(0, 0);
-        OffCell offCell = new AttractorOffCell(position, density);
+        OffCell offCell = new AttractorOffCell(mock(Organism.class), position, density);
 
         CellConsumer mock = Mockito.mock(CellConsumer.class);
         offCell.turnOn().use(mock);
@@ -104,7 +106,7 @@ public class OffCellTest {
     @Test(dataProvider = "densityProvider")
     public void ARepulsorCellDensityShouldAlwaysBePositive(float density){
         Point2D.Float position = new Point2D.Float(0, 0);
-        OffCell offCell = new RepulsorOffCell(position, density);
+        OffCell offCell = new RepulsorOffCell(mock(Organism.class), position, density);
 
         CellConsumer mock = Mockito.mock(CellConsumer.class);
         offCell.turnOn().use(mock);
@@ -114,18 +116,18 @@ public class OffCellTest {
     @DataProvider
     public Object[][] pointProvider(){
         return new Object[][]{
-                {new AttractorOffCell(new Point2D.Float(0, 0), 1), new Point2D.Float(1, 1), 1.4142135f},
-                {new AttractorOffCell(new Point2D.Float(0, 0), 1), new Point2D.Float(2, 2), 2.828427f},
-                {new AttractorOffCell(new Point2D.Float(0, 0), 1), new Point2D.Float(0, 5), 5f},
-                {new RepulsorOffCell(new Point2D.Float(0, 0), 1), new Point2D.Float(1, 1), 1.4142135f},
-                {new RepulsorOffCell(new Point2D.Float(0, 0), 1), new Point2D.Float(2, 2), 2.828427f},
-                {new RepulsorOffCell(new Point2D.Float(0, 0), 1), new Point2D.Float(0, 5), 5f},
+                {new AttractorOffCell(mock(Organism.class), new Point2D.Float(0, 0), 1), new Point2D.Float(1, 1), 1.4142135f},
+                {new AttractorOffCell(mock(Organism.class), new Point2D.Float(0, 0), 1), new Point2D.Float(2, 2), 2.828427f},
+                {new AttractorOffCell(mock(Organism.class), new Point2D.Float(0, 0), 1), new Point2D.Float(0, 5), 5f},
+                {new RepulsorOffCell(mock(Organism.class), new Point2D.Float(0, 0), 1), new Point2D.Float(1, 1), 1.4142135f},
+                {new RepulsorOffCell(mock(Organism.class), new Point2D.Float(0, 0), 1), new Point2D.Float(2, 2), 2.828427f},
+                {new RepulsorOffCell(mock(Organism.class), new Point2D.Float(0, 0), 1), new Point2D.Float(0, 5), 5f},
         };
     }
 
     @Test(dataProvider = "pointProvider")
     public void TheDistanceBetweenTheseCellsShouldBe(OffCell cell1, Point2D.Float p, float result){
-        RepulsorOffCell cell2 = new RepulsorOffCell(p, 1);
+        RepulsorOffCell cell2 = new RepulsorOffCell(mock(Organism.class), p, 1);
         Assert.assertEquals(cell1.distance(cell2), result);
     }
 
@@ -133,8 +135,8 @@ public class OffCellTest {
     @DataProvider
     public Object[][] cellSources(){
         return new Object[][]{
-                {new AttractorOffCell(), RepulsorOffCell.class},
-                {new RepulsorOffCell(), AttractorOffCell.class},
+                {AttractorOffCell.MakeProtype(), RepulsorOffCell.class},
+                {RepulsorOffCell.MakeProtype(), AttractorOffCell.class},
         };
     }
     @Test(dataProvider = "cellSources")
@@ -158,5 +160,15 @@ public class OffCellTest {
         cell.usePosition(positionConsumer);
 
         verify(positionConsumer).use(eq(position));
+    }
+
+    @Test
+    public void AnAttractorGrowingAnOrganismShouldGrowItsAttractors(){
+        AttractorOffCell attractorOffCell = new AttractorOffCell(new Point2D.Float(), 1);
+        Organism organism = mock(Organism.class);
+
+        attractorOffCell.growOrganism(organism);
+
+        verify(organism).growAttractors(same(attractorOffCell));
     }
 }

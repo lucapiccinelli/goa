@@ -3,6 +3,7 @@ package com.bnana.goa.cell;
 import com.bnana.goa.actions.OnTouchAction;
 import com.bnana.goa.actions.WanderingOnTouchAction;
 import com.bnana.goa.events.PositionChangedEvent;
+import com.bnana.goa.organism.Organism;
 import com.bnana.goa.physics.PhysicElement;
 import com.bnana.goa.utils.EuclideanDistance;
 
@@ -53,7 +54,7 @@ public class WanderingCell implements EvolvableCell {
     }
 
     @Override
-    public Cell prototype(Point2D.Float position, float density) {
+    public Cell prototype(Organism belongingOrganism, Point2D.Float position, float density) {
         return new WanderingCell(position, density);
     }
 

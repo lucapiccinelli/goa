@@ -11,6 +11,7 @@ import com.bnana.goa.actors.WanderingCellActor;
 import com.bnana.goa.cell.WanderingCell;
 import com.bnana.goa.cell.generator.RandomCellGenerator;
 import com.bnana.goa.force.RadialForceField;
+import com.bnana.goa.organism.Organism;
 
 import java.awt.geom.Rectangle2D;
 
@@ -51,7 +52,7 @@ public class OverviewStage extends Stage {
     }
 
     private void createWanderingCells() {
-        addActor(new WanderingCellActor(world, new RandomCellGenerator(WanderingCell.MakePrototype(), worldBounds), forceField));
+        addActor(new WanderingCellActor(world, new RandomCellGenerator(null, WanderingCell.MakePrototype(), worldBounds), forceField));
     }
 
     private void createOrganism() {

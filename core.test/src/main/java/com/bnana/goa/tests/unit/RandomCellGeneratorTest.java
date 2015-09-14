@@ -7,6 +7,7 @@ import com.bnana.goa.cell.RepulsorOffCell;
 import com.bnana.goa.cell.Cell;
 import com.bnana.goa.cell.generator.CellGenerator;
 import com.bnana.goa.cell.generator.RandomCellGenerator;
+import com.bnana.goa.organism.Organism;
 
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -17,6 +18,8 @@ import org.testng.annotations.Test;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+
+import static org.mockito.Mockito.mock;
 
 /**
  * Created by Luca on 8/21/2015.
@@ -33,7 +36,7 @@ public class RandomCellGeneratorTest {
     @Test(dataProvider = "offCellsProvider")
     public void ARandomCellShouldBeGeneratedBetweenBounds(OffCell offCellPrototype){
         Rectangle2D.Float bounds = new Rectangle2D.Float(0, 0, 20, 30);
-        CellGenerator cellGenerator = new RandomCellGenerator(offCellPrototype, bounds);
+        CellGenerator cellGenerator = new RandomCellGenerator(mock(Organism.class), offCellPrototype, bounds);
         Cell offCell = cellGenerator.generate();
 
         final float[] x = {-1};
@@ -63,7 +66,7 @@ public class RandomCellGeneratorTest {
     @Test(dataProvider="offCellsProvider")
     public void TheCellReturnedMustBeOfTheSameConcreteClassOfThePrototype(OffCell offCellPrototype){
         Rectangle2D.Float bounds = new Rectangle2D.Float(0, 0, 20, 30);
-        CellGenerator cellGenerator = new RandomCellGenerator(offCellPrototype, bounds);
+        CellGenerator cellGenerator = new RandomCellGenerator(mock(Organism.class), offCellPrototype, bounds);
 
         Cell generatedCell = cellGenerator.generate();
 
