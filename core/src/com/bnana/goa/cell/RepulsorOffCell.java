@@ -122,6 +122,7 @@ public class RepulsorOffCell implements OffCell {
     @Override
     public void updatePosition(PositionChangedEvent positionChangedEvent) {
         this.position = positionChangedEvent.getPosition();
+        if(onCell != null) onCell.setPosition(position);
     }
 
     @Override
@@ -145,5 +146,10 @@ public class RepulsorOffCell implements OffCell {
     @Override
     public void use(CellConsumer consumer) {
 
+    }
+
+    @Override
+    public void setPosition(Point2D.Float position) {
+        this.position = position;
     }
 }

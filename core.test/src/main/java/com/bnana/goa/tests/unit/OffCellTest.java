@@ -210,6 +210,20 @@ public class OffCellTest {
         verify(positionConsumer).use(eq(position));
     }
 
+    @Test(dataProvider = "offCells")
+    public void WhenNotifiedThatThePositionHasChangedAlsoTheOnCellShouldBeUpdated(OffCell cell){
+        Point2D.Float position = new Point2D.Float(5, 10);
+        PositionChangedEvent event = new PositionChangedEvent(this, position);
+
+        OnCell onCell = cell.turnOn();
+        cell.updatePosition(event);
+
+        PositionConsumer positionConsumer = mock(PositionConsumer.class);
+        onCell.usePosition(positionConsumer);
+
+        verify(positionConsumer).use(eq(position));
+    }
+
     @Test
     public void AnAttractorGrowingAnOrganismShouldGrowItsAttractors(){
         AttractorOffCell attractorOffCell = new AttractorOffCell(new Point2D.Float(), 1);

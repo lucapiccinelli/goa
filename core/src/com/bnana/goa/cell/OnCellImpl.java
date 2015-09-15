@@ -99,7 +99,7 @@ class OnCellImpl implements OnCell {
     @Override
     public void updatePosition(PositionChangedEvent positionChangedEvent) {
         this.position = positionChangedEvent.getPosition();
-        offCell.updatePosition(positionChangedEvent);
+        offCell.setPosition(position);
     }
 
     Point2D.Float getPosition() {
@@ -118,5 +118,10 @@ class OnCellImpl implements OnCell {
     @Override
     public void setController(CellController cellController) {
         this.cellController = cellController;
+    }
+
+    @Override
+    public void setPosition(Point2D.Float position) {
+        this.position = position;
     }
 }

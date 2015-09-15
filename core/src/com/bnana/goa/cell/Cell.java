@@ -13,8 +13,11 @@ import java.awt.geom.Point2D;
  */
 public interface Cell extends PositionListener {
     void usePosition(PositionConsumer positionConsumer);
+
     float distance(Cell cell);
+
     Cell prototype(Organism belongingOrganism, Point2D.Float position, float density);
+
     Cell opposite(Point2D.Float position, float density);
 
     OffCell getAnOffCell();
@@ -24,4 +27,6 @@ public interface Cell extends PositionListener {
     void addDestroyListener(CellDestroyListener destroyListener);
 
     void destroy();
+
+    void setPosition(Point2D.Float position);
 }

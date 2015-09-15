@@ -52,6 +52,14 @@ public class OnCellTest {
     }
 
     @DataProvider
+    public Object[][] onCellsWithRealOffCells(){
+        return new OnCell[][]{
+                { new AttractorOnCell(mock(Organism.class), realAttractorOffCell, new Point2D.Float(0, 0), 1)},
+                { new RepulsorOnCell(mock(Organism.class), realRepulsorOffCell, new Point2D.Float(0, 0), 1)},
+        };
+    }
+
+    @DataProvider
     public Object[][] onCellsWithouOrganism(){
         return new OnCell[][]{
                 { new AttractorOnCell(null, offCell, new Point2D.Float(0, 0), 1)},
@@ -114,13 +122,18 @@ public class OnCellTest {
         verify(positionConsumer).use(eq(position));
     }
 
-    @Test(dataProvider = "onCells")
+    @Test(dataProvider = "onCellsWithRealOffCells")
     public void WhenNotifiedThatThePositionHasChangedItsOffCellShouldBeUpdatedEither(OnCell cell){
         Point2D.Float position = new Point2D.Float(5, 10);
         PositionChangedEvent event = new PositionChangedEvent(this, position);
-
         cell.updatePosition(event);
-        verify(offCell).updatePosition(eq(event));
+
+        OffCell offCell = cell.turnOff();
+
+        PositionConsumer positionConsumer = mock(PositionConsumer.class);
+        offCell.usePosition(positionConsumer);
+
+        verify(positionConsumer).use(eq(position));
     }
 
     @Test

@@ -31,13 +31,15 @@ public class OrganismActor extends Actor{
         physicOrganism = new PhysicOrganism();
 
         actorsFactoryCellGroup.turnOn();
-        Box2dOrganismPhysics organismPhysics = new Box2dOrganismPhysics(world, physicOrganism);
-        organism.use(organismPhysics);
-        physicOrganism.addPositionListener(organism);
+        try {
+            Box2dOrganismPhysics organismPhysics = new Box2dOrganismPhysics(world, physicOrganism);
+            organism.use(organismPhysics);
+            physicOrganism.addPositionListener(organism);
 
-        fieldUpdater = new RadialForceFieldUpdater(forceField);
-
-        actorsFactoryCellGroup.turnOff();
+            fieldUpdater = new RadialForceFieldUpdater(forceField);
+        } finally {
+            actorsFactoryCellGroup.turnOff();
+        }
     }
 
     @Override

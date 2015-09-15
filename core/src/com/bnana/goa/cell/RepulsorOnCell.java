@@ -77,6 +77,11 @@ public class RepulsorOnCell implements OnCell {
     }
 
     @Override
+    public void setPosition(Point2D.Float position) {
+        onCellImpl.setPosition(position);
+    }
+
+    @Override
     public void updatePosition(PositionChangedEvent positionChangedEvent) {
         onCellImpl.updatePosition(positionChangedEvent);
     }

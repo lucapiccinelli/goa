@@ -94,6 +94,11 @@ public class WanderingCell implements EvolvableCell {
     }
 
     @Override
+    public void setPosition(Point2D.Float position) {
+        this.position = position;
+    }
+
+    @Override
     public void updatePosition(PositionChangedEvent positionChangedEvent) {
         position = positionChangedEvent.getPosition();
     }
