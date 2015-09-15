@@ -1,5 +1,6 @@
 package com.bnana.goa.actors;
 
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.bnana.goa.cell.Cell;
 import com.bnana.goa.cell.CellConsumer;
 import com.bnana.goa.cell.CellGroup;
@@ -15,14 +16,19 @@ import java.util.List;
  */
 public class ActorsFactoryCellGroup implements CellGroup{
     private List<OffCell> offCells;
+    private Stage stage;
 
-    public ActorsFactoryCellGroup() {
+    public ActorsFactoryCellGroup(Stage stage) {
+        this.stage = stage;
         this.offCells = new ArrayList<OffCell>();
     }
 
     @Override
     public void add(OffCell offCell) {
         offCells.add(offCell);
+        CellActor actor = new CellActor(offCell);
+        offCell.addDestroyListener(actor);
+        stage.addActor(actor);
     }
 
     @Override
@@ -31,15 +37,6 @@ public class ActorsFactoryCellGroup implements CellGroup{
                 offCells) {
             cell.use(consumer);
         }
-    }
-
-    public List<CellActor> createActors() {
-        List<CellActor> actors = new ArrayList<CellActor>();
-        for (OffCell cell :
-                offCells) {
-            actors.add(new CellActor(cell));
-        }
-        return actors;
     }
 
     public void turnOn(){
