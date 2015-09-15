@@ -8,6 +8,7 @@ import com.bnana.goa.cell.OffCell;
 import com.bnana.goa.cell.OnCell;
 import com.bnana.goa.cell.PositionConsumer;
 import com.bnana.goa.cell.RepulsorOffCell;
+import com.bnana.goa.cell.SwitchableCell;
 import com.bnana.goa.events.CellDestroyEvent;
 import com.bnana.goa.events.PositionChangedEvent;
 import com.bnana.goa.organism.Organism;
@@ -86,12 +87,27 @@ public class OffCellTest {
     }
 
     @Test(dataProvider = "offCells")
-    void TurningCellsOnAndOffShouldReturnAlwaysTheSameCelleReferences(OffCell offCell){
+    void TurningCellsOnAndOffShouldReturnAlwaysTheSameCellReferences(OffCell offCell){
         OnCell onCell1 = offCell.turnOn();
         OnCell onCell2 = offCell.turnOn();
 
-        Assert.assertEquals(onCell1, onCell2);
+        Assert.assertSame(onCell1, onCell2);
     }
+
+    @Test(dataProvider = "offCells")
+    void SwitchingCellsShouldReturnNotNull(OffCell offCell){
+        SwitchableCell onCell1 = offCell.sswitch();
+        Assert.assertNotNull(onCell1);
+    }
+
+    @Test(dataProvider = "offCells")
+    void SwitchingCellsShouldReturnAlwaysTheSameCellReferences(OffCell offCell){
+        SwitchableCell onCell1 = offCell.sswitch();
+        SwitchableCell onCell2 = offCell.sswitch();
+
+        Assert.assertSame(onCell1, onCell2);
+    }
+
 
     @DataProvider
     public Object[][] densityProvider() { return new Object[][]{{1f}, {-1f}}; }

@@ -10,6 +10,7 @@ import com.bnana.goa.cell.OnCell;
 import com.bnana.goa.cell.PositionConsumer;
 import com.bnana.goa.cell.RepulsorOffCell;
 import com.bnana.goa.cell.RepulsorOnCell;
+import com.bnana.goa.cell.SwitchableCell;
 import com.bnana.goa.events.CellDestroyEvent;
 import com.bnana.goa.events.PositionChangedEvent;
 import com.bnana.goa.exceptions.InvalidIntegrateRequestException;
@@ -66,7 +67,13 @@ public class OnCellTest {
     @Test(dataProvider = "onCells")
     void TurningCellsOnAndOffShouldReturnAlwaysTheSameCellReference(OnCell onCell){
         OffCell offCell2 = onCell.turnOff();
-        Assert.assertEquals(offCell, offCell2);
+        Assert.assertSame(offCell, offCell2);
+    }
+
+    @Test(dataProvider = "onCells")
+    void SwitchingCellsShouldBehaveAsTurningOff(OnCell onCell){
+        SwitchableCell offCell2 = onCell.sswitch();
+        Assert.assertSame(offCell, offCell2);
     }
 
     @DataProvider

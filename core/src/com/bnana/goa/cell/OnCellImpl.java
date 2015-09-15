@@ -107,4 +107,9 @@ class OnCellImpl implements OnCell {
     float getDensity() {
         return density;
     }
+
+    @Override
+    public SwitchableCell sswitch() {
+        return turnOff();
+    }
 }

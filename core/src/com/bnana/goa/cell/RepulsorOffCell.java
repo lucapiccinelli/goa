@@ -114,4 +114,14 @@ public class RepulsorOffCell implements OffCell {
     public void updatePosition(PositionChangedEvent positionChangedEvent) {
         this.position = positionChangedEvent.getPosition();
     }
+
+    @Override
+    public SwitchableCell sswitch() {
+        return turnOn();
+    }
+
+    @Override
+    public void use(CellConsumer consumer) {
+
+    }
 }

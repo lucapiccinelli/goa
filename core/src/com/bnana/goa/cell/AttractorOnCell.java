@@ -80,4 +80,9 @@ public class AttractorOnCell implements OnCell {
     public void updatePosition(PositionChangedEvent positionChangedEvent) {
         onCellImpl.updatePosition(positionChangedEvent);
     }
+
+    @Override
+    public SwitchableCell sswitch() {
+        return onCellImpl.sswitch();
+    }
 }
