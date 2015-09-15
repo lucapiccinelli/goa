@@ -35,8 +35,11 @@ public class OnCellOnTouchAction implements OnTouchAction {
     @Override
     public void actOn(WanderingCell wanderingCell, PhysicElement theOtherElement) {
         theOtherElement.stop();
+        theOtherElement.removePositionListener(wanderingCell);
+
         OffCell evolvedCell = wanderingCell.evolve();
         theOtherElement.setAction(evolvedCell.turnOn().createOnTouchAction(theOtherElement));
+        theOtherElement.addPositionListener(evolvedCell);
         onCell.integrate(evolvedCell);
     }
 

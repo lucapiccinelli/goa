@@ -74,6 +74,11 @@ public class PhysicCell implements PhysicElement {
     }
 
     @Override
+    public void removePositionListener(PositionListener positionListener) {
+        positionListeners.remove(positionListener);
+    }
+
+    @Override
     public void notifyPositionChanged() {
         if(body != null)
         {

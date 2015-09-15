@@ -52,6 +52,11 @@ public class PhysicOrganism implements PhysicElement {
     }
 
     @Override
+    public void removePositionListener(PositionListener positionListener) {
+        positionListeners.remove(positionListener);
+    }
+
+    @Override
     public void notifyPositionChanged() {
         for (PhysicElement element : elements) {
             element.notifyPositionChanged();

@@ -134,4 +134,26 @@ public class WanderingOnTouchActionTests {
 
         verify(element).setAction(any(OnTouchAction.class));
     }
+
+    @Test
+    public void WhenActingOnAnOnCellItShouldRemoveTheWanderingCellFromPositionListeners(){
+        PhysicElement element = mock(PhysicElement.class);
+        WanderingCell wanderingCell = new WanderingCell(new Point2D.Float(), 1f);
+        OnTouchAction action = new WanderingOnTouchAction(wanderingCell, element);
+
+        action.actOn(mock(OnCell.class), mock(PhysicElement.class));
+
+        verify(element).removePositionListener(same(wanderingCell));
+    }
+
+    @Test
+    public void WhenActingOnAnOnCellItShouldAddTheEvolvedCellToPositionListeners(){
+        PhysicElement element = mock(PhysicElement.class);
+        WanderingCell wanderingCell = new WanderingCell(new Point2D.Float(), 1f);
+        OnTouchAction action = new WanderingOnTouchAction(wanderingCell, element);
+
+        action.actOn(mock(OnCell.class), mock(PhysicElement.class));
+
+        verify(element).addPositionListener(same(wanderingCell.evolve()));
+    }
 }

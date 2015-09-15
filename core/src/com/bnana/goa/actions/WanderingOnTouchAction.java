@@ -41,8 +41,11 @@ public class WanderingOnTouchAction implements OnTouchAction {
     @Override
     public void actOn(OnCell onCell, PhysicElement theOtherElement) {
         physicElement.stop();
+        physicElement.removePositionListener(wanderingCell);
+
         OffCell evolved = wanderingCell.evolve();
         physicElement.setAction(evolved.turnOn().createOnTouchAction(physicElement));
+        physicElement.addPositionListener(evolved);
         onCell.integrate(evolved);
     }
 

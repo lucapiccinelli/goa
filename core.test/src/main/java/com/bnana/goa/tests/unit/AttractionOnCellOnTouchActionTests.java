@@ -131,4 +131,36 @@ public class AttractionOnCellOnTouchActionTests {
 
         verify(wanderingCellElement).setAction(any(OnCellOnTouchAction.class));
     }
+
+    @Test
+    public void WhenActingOnAWanderingCellItShouldRemoveTheWanderingCellFromPositionListener(){
+        OnTouchAction attractorAction = new OnCellOnTouchAction(mock(AttractorOnCell.class), mock(PhysicElement.class));
+
+        WanderingCell wanderingCell = mock(WanderingCell.class);
+        OffCell offCell = mock(OffCell.class);
+
+        when(wanderingCell.evolve()).thenReturn(offCell);
+        when(offCell.turnOn()).thenReturn(mock(OnCell.class));
+
+        PhysicElement wanderingCellElement = mock(PhysicElement.class);
+        attractorAction.actOn(wanderingCell, wanderingCellElement);
+
+        verify(wanderingCellElement).removePositionListener(same(wanderingCell));
+    }
+
+    @Test
+    public void WhenActingOnAWanderingCellItShouldAddTheEvolvedCellAsAPositionListener(){
+        OnTouchAction attractorAction = new OnCellOnTouchAction(mock(AttractorOnCell.class), mock(PhysicElement.class));
+
+        WanderingCell wanderingCell = mock(WanderingCell.class);
+        OffCell offCell = mock(OffCell.class);
+
+        when(wanderingCell.evolve()).thenReturn(offCell);
+        when(offCell.turnOn()).thenReturn(mock(OnCell.class));
+
+        PhysicElement wanderingCellElement = mock(PhysicElement.class);
+        attractorAction.actOn(wanderingCell, wanderingCellElement);
+
+        verify(wanderingCellElement).addPositionListener(same(offCell));
+    }
 }

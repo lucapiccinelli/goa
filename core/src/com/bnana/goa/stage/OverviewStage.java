@@ -119,11 +119,6 @@ public class OverviewStage extends Stage implements ContactListener{
         OnTouchAction actionA = (OnTouchAction)bodyA.getUserData();
         OnTouchAction actionB = (OnTouchAction)bodyB.getUserData();
 
-
-        if(actionB.getClass().equals(WanderingOnTouchAction.class)) {
-            wanderingCell.remove();
-        }
-
         actionA.act(actionB);
         actionB.act(actionA);
     }
