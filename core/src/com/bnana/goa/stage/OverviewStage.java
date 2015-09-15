@@ -59,18 +59,19 @@ public class OverviewStage extends Stage implements ContactListener{
     }
 
     private void createWanderingCells() {
-        addActor(new WanderingCellActor(world, new RandomCellGenerator(null, WanderingCell.MakePrototype(), worldBounds), forceField));
-        addActor(new WanderingCellActor(world, new RandomCellGenerator(null, WanderingCell.MakePrototype(), worldBounds), forceField));
-        addActor(new WanderingCellActor(world, new RandomCellGenerator(null, WanderingCell.MakePrototype(), worldBounds), forceField));
+        RandomCellGenerator generator = new RandomCellGenerator(null, WanderingCell.MakePrototype(), worldBounds);
+        addActor(new WanderingCellActor(world, generator, forceField));
+        addActor(new WanderingCellActor(world, generator, forceField));
+        addActor(new WanderingCellActor(world, generator, forceField));
     }
 
     private void createOrganism() {
-        ActorsFactoryCellGroup actorsFactory = new ActorsFactoryCellGroup(this);
+        ActorsFactoryCellGroup organismInnerActorsFactory = new ActorsFactoryCellGroup(this);
 
-        organism = new OrganismActor(world, worldBounds.x, worldBounds.y, worldBounds.width, worldBounds.height, forceField, actorsFactory);
+        organism = new OrganismActor(world, worldBounds.x, worldBounds.y, worldBounds.width, worldBounds.height, forceField, organismInnerActorsFactory);
         addActor(organism);
 
-        actorsFactory.turnOn();
+        organismInnerActorsFactory.turnOn();
     }
 
     private void createCamera() {
