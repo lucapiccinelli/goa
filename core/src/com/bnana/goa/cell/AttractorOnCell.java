@@ -85,4 +85,9 @@ public class AttractorOnCell implements OnCell {
     public SwitchableCell sswitch() {
         return onCellImpl.sswitch();
     }
+
+    @Override
+    public void setController(CellController cellController) {
+        onCellImpl.setController(cellController);
+    }
 }

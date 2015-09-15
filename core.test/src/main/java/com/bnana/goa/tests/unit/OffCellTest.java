@@ -4,6 +4,7 @@ import com.bnana.goa.CellDestroyListener;
 import com.bnana.goa.cell.AttractorOffCell;
 import com.bnana.goa.cell.AttractorOnCell;
 import com.bnana.goa.cell.CellConsumer;
+import com.bnana.goa.cell.CellController;
 import com.bnana.goa.cell.OffCell;
 import com.bnana.goa.cell.OnCell;
 import com.bnana.goa.cell.PositionConsumer;
@@ -24,9 +25,12 @@ import java.awt.geom.Point2D;
 import java.lang.reflect.Type;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyBoolean;
+import static org.mockito.Matchers.anyFloat;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.same;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -106,6 +110,14 @@ public class OffCellTest {
         SwitchableCell onCell2 = offCell.sswitch();
 
         Assert.assertSame(onCell1, onCell2);
+    }
+
+    @Test(dataProvider = "offCells")
+    public void AnOffCellCantDoAnythingWithACellConsumer(OffCell offCell){
+        CellConsumer consumer = mock(CellConsumer.class);
+        offCell.use(consumer);
+
+        verify(consumer, times(0)).use(any(OffCell.class), any(Point2D.Float.class), anyFloat());
     }
 
 
@@ -197,5 +209,17 @@ public class OffCellTest {
         cell.destroy();
 
         verify(destroyListener).notifyDestroy(any(CellDestroyEvent.class));
+    }
+
+    @Test(dataProvider = "offCells")
+    public void IfTheControllerIsSetThenTurningOnTheControllerThenRefersToTheOnCell(OffCell cell){
+        CellController controller = new CellController(cell);
+        cell.setController(controller);
+
+        OnCell onCell = cell.turnOn();
+        CellConsumer cellConsumer = mock(CellConsumer.class);
+        controller.useCell(cellConsumer);
+
+        verify(cellConsumer).use(same(onCell), any(Point2D.Float.class), anyFloat());
     }
 }

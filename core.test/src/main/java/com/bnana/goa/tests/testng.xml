@@ -20,6 +20,7 @@
             <class name="com.bnana.goa.tests.unit.WanderingOnTouchActionTests" />
             <class name="com.bnana.goa.tests.unit.AttractionOnCellOnTouchActionTests" />
             <class name="com.bnana.goa.tests.unit.CellControllerTests" />
+            <class name="com.bnana.goa.tests.unit.ActorsFactoryCellGroupTests" />
         </classes>
     </test>
 

@@ -13,6 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.bnana.goa.GameOfAttraction;
 import com.bnana.goa.actions.OnTouchAction;
 import com.bnana.goa.actions.WanderingOnTouchAction;
+import com.bnana.goa.actors.ActorsFactoryCellGroup;
+import com.bnana.goa.actors.CellActor;
 import com.bnana.goa.actors.OrganismActor;
 import com.bnana.goa.actors.WanderingCellActor;
 import com.bnana.goa.cell.WanderingCell;
@@ -21,6 +23,7 @@ import com.bnana.goa.force.RadialForceField;
 import com.bnana.goa.organism.Organism;
 
 import java.awt.geom.Rectangle2D;
+import java.util.List;
 
 /**
  * Created by Luca on 8/21/2015.
@@ -66,8 +69,16 @@ public class OverviewStage extends Stage implements ContactListener{
     }
 
     private void createOrganism() {
-        organism = new OrganismActor(world, worldBounds.x, worldBounds.y, worldBounds.width, worldBounds.height, forceField);
+        ActorsFactoryCellGroup actorsFactory = new ActorsFactoryCellGroup();
+
+        organism = new OrganismActor(world, worldBounds.x, worldBounds.y, worldBounds.width, worldBounds.height, forceField, actorsFactory);
         addActor(organism);
+
+        List<CellActor> cellActors = actorsFactory.createActors();
+        for (CellActor cellActor:
+                cellActors) {
+            addActor(cellActor);
+        }
     }
 
     private void createCamera() {

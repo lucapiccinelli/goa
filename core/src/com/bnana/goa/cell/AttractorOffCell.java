@@ -26,6 +26,7 @@ public class AttractorOffCell implements OffCell{
     private float density;
     private Organism belongingOrganism;
     private List<CellDestroyListener> destroyListeners;
+    private CellController cellController;
 
     public AttractorOffCell(Organism belongingOrganism, Point2D.Float position, float density) {
         this.position = position;
@@ -51,7 +52,9 @@ public class AttractorOffCell implements OffCell{
 
     @Override
     public OnCell turnOn() {
-        return makeCell();
+        OnCell tmpOnCell = makeCell();
+        if(cellController != null) cellController.changeSwitchable(tmpOnCell);
+        return tmpOnCell;
     }
 
     @Override
@@ -123,7 +126,11 @@ public class AttractorOffCell implements OffCell{
     }
 
     @Override
-    public void use(CellConsumer consumer) {
+    public void setController(CellController cellController) {
+        this.cellController = cellController;
+    }
 
+    @Override
+    public void use(CellConsumer consumer) {
     }
 }

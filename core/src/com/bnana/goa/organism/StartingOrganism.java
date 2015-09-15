@@ -2,7 +2,10 @@ package com.bnana.goa.organism;
 
 import com.bnana.goa.cell.AttractorOffCell;
 import com.bnana.goa.cell.Cell;
+import com.bnana.goa.cell.CellConsumer;
+import com.bnana.goa.cell.CellController;
 import com.bnana.goa.cell.CellGroup;
+import com.bnana.goa.cell.OffCell;
 import com.bnana.goa.cell.RepulsorOffCell;
 import com.bnana.goa.cell.SimpleCellGroup;
 import com.bnana.goa.cell.generator.InverseProximityCellGenerator;
@@ -17,57 +20,79 @@ import java.util.List;
  * Created by luca.piccinelli on 25/08/2015.
  */
 public class StartingOrganism implements Organism {
-    List<Cell> cells;
-    List<Cell> attractors;
-    List<Cell> repulsors;
+    private final Rectangle2D.Float viewBounds;
+    private final CellGroup cellGroup;
+    List<CellController> cells;
+    List<CellController> attractors;
+    List<CellController> repulsors;
 
-    public StartingOrganism(Rectangle2D.Float viewBounds) {
-        cells = new ArrayList<Cell>();
-        attractors = new ArrayList<Cell>();
-        repulsors = new ArrayList<Cell>();
+    public StartingOrganism(Rectangle2D.Float viewBounds, CellGroup cellGroup) {
+        this.viewBounds = viewBounds;
+        this.cellGroup = cellGroup;
+        cells = new ArrayList<CellController>();
+        attractors = new ArrayList<CellController>();
+        repulsors = new ArrayList<CellController>();
 
         RandomCellGenerator randomCellGenerator = new RandomCellGenerator(this, AttractorOffCell.MakeProtype(), viewBounds);
-        Cell attractor = randomCellGenerator.generate();
-        cells.add(attractor);
-        attractors.add(attractor);
+        OffCell attractor = randomCellGenerator.generate().getAnOffCell();
+        CellController attractorController = new CellController(attractor);
+        attractor.setController(attractorController);
+
+        cells.add(attractorController);
+        attractors.add(attractorController);
 
         InverseProximityCellGenerator proximityCellGenerator = new InverseProximityCellGenerator(attractor);
-        Cell repulsor = proximityCellGenerator.generate();
-        cells.add(repulsor);
-        repulsors.add(repulsor);
-    }
+        OffCell repulsor = proximityCellGenerator.generate().getAnOffCell();
+        CellController repulsorController = new CellController(repulsor);
+        repulsor.setController(repulsorController);
 
-    @Override
-    public CellGroup groupAllCells() {
-        return groupCellsFrom(cells);
-    }
+        cells.add(repulsorController);
+        repulsors.add(repulsorController);
 
-    @Override
-    public CellGroup groupAllAttractors() {
-        return groupCellsFrom(attractors);
-    }
-
-    @Override
-    public CellGroup groupAllRepulsors() {
-        return groupCellsFrom(repulsors);
+        this.cellGroup.add(attractor);
+        this.cellGroup.add(repulsor);
     }
 
     @Override
     public void growAttractors(AttractorOffCell aNewAttractor) {
-        attractors.add(aNewAttractor);
+        this.cellGroup.add(aNewAttractor);
+
+        CellController controller = new CellController(aNewAttractor);
+        attractors.add(controller);
+        cells.add(controller);
     }
 
     @Override
     public void growRepulsor(RepulsorOffCell aNewRepulsor) {
-        repulsors.add(aNewRepulsor);
+        this.cellGroup.add(aNewRepulsor);
+
+        CellController controller = new CellController(aNewRepulsor);
+        repulsors.add(controller);
+        cells.add(controller);
     }
 
-    private CellGroup groupCellsFrom(List<Cell> cellList){
-        CellGroup cellGroup = new SimpleCellGroup();
-        for (Cell cell : cellList){
-            cellGroup.add(cell.getAnOffCell());
+    @Override
+    public void use(CellConsumer cellConsumer) {
+        for (CellController cell :
+                cells) {
+            cell.useCell(cellConsumer);
         }
-        return cellGroup;
+    }
+
+    @Override
+    public void useAttractors(CellConsumer cellConsumer) {
+        for (CellController cell :
+                attractors) {
+            cell.useCell(cellConsumer);
+        }
+    }
+
+    @Override
+    public void useRepulsors(CellConsumer cellConsumer) {
+        for (CellController cell :
+                repulsors) {
+            cell.useCell(cellConsumer);
+        }
     }
 
     @Override

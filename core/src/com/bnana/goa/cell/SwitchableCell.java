@@ -5,4 +5,6 @@ package com.bnana.goa.cell;
  */
 public interface SwitchableCell extends UsableCell {
     SwitchableCell sswitch();
+
+    void setController(CellController cellController);
 }

@@ -33,4 +33,19 @@ public class CellControllerTests {
 
         verify(switchableCell).use(cellConsumer);
     }
+
+    @Test
+    public void YouCanChangeTheSwitchableOfACellController(){
+        SwitchableCell switchableCell = mock(SwitchableCell.class);
+        SwitchableCell switchableCell2 = mock(SwitchableCell.class);
+        CellController cellController = new CellController(switchableCell);
+
+        cellController.changeSwitchable(switchableCell2);
+
+        CellConsumer cellConsumer = mock(CellConsumer.class);
+
+        cellController.useCell(cellConsumer);
+
+        verify(switchableCell2).use(cellConsumer);
+    }
 }

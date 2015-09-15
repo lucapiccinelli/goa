@@ -5,6 +5,8 @@ import com.bnana.goa.actions.OnTouchAction;
 import com.bnana.goa.cell.AttractorOffCell;
 import com.bnana.goa.cell.AttractorOnCell;
 import com.bnana.goa.cell.Cell;
+import com.bnana.goa.cell.CellConsumer;
+import com.bnana.goa.cell.CellController;
 import com.bnana.goa.cell.OffCell;
 import com.bnana.goa.cell.OnCell;
 import com.bnana.goa.cell.PositionConsumer;
@@ -167,5 +169,18 @@ public class OnCellTest {
         cell.destroy();
 
         verify(destroyListener).notifyDestroy(any(CellDestroyEvent.class));
+    }
+
+    @Test(dataProvider = "onCells")
+    public void IfTheControllerIsSetThenTurningOffTheControllerThenRefersToTheOffCell(OnCell cell){
+        CellController cellController = new CellController(cell);
+        cell.setController(cellController);
+
+        OffCell offCell = cell.turnOff();
+
+        CellConsumer cellConsumer = mock(CellConsumer.class);
+        cellController.useCell(cellConsumer);
+
+        verify(offCell).use(cellConsumer);
     }
 }

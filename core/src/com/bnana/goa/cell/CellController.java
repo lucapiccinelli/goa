@@ -17,4 +17,8 @@ public class CellController {
     public void useCell(CellConsumer cellConsumer) {
         switchableCell.use(cellConsumer);
     }
+
+    public void changeSwitchable(SwitchableCell switchableCell) {
+        this.switchableCell = switchableCell;
+    }
 }

@@ -23,24 +23,27 @@ public class OrganismActor extends Actor{
     private final RadialForceFieldUpdater fieldUpdater;
     //    private final ForceField force;
 
-    public OrganismActor(World world, float x, float y, float width, float height, ForceField forceField){
+    public OrganismActor(World world, float x, float y, float width, float height, ForceField forceField, ActorsFactoryCellGroup actorsFactoryCellGroup){
         super();
         this.forceField = forceField;
 
-        organism = new StartingOrganism(new Rectangle2D.Float(x, y, width, height));
+        organism = new StartingOrganism(new Rectangle2D.Float(x, y, width, height), actorsFactoryCellGroup);
         physicOrganism = new PhysicOrganism();
 
+        actorsFactoryCellGroup.turnOn();
         Box2dOrganismPhysics organismPhysics = new Box2dOrganismPhysics(world, physicOrganism);
-        organism.groupAllCells().use(organismPhysics);
+        organism.use(organismPhysics);
         physicOrganism.addPositionListener(organism);
 
         fieldUpdater = new RadialForceFieldUpdater(forceField);
+
+        actorsFactoryCellGroup.turnOff();
     }
 
     @Override
     public void act(float delta){
         fieldUpdater.reset();
-        organism.groupAllAttractors().use(fieldUpdater);
+        organism.use(fieldUpdater);
         super.act(delta);
     }
 

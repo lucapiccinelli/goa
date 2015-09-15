@@ -24,6 +24,7 @@ public class RepulsorOffCell implements OffCell {
     private float density;
     private Organism belongingOrganism;
     private List<CellDestroyListener> destroyListeners;
+    private CellController cellController;
 
     public RepulsorOffCell (Organism belongingOrganism, Point2D.Float position, float density) {
         this.position = position;
@@ -49,7 +50,9 @@ public class RepulsorOffCell implements OffCell {
 
     @Override
     public OnCell turnOn() {
-        return makeCell();
+        OnCell tmpOnCell = makeCell();
+        if(cellController != null) cellController.changeSwitchable(tmpOnCell);
+        return tmpOnCell;
     }
 
     @Override
@@ -118,6 +121,11 @@ public class RepulsorOffCell implements OffCell {
     @Override
     public SwitchableCell sswitch() {
         return turnOn();
+    }
+
+    @Override
+    public void setController(CellController cellController) {
+        this.cellController = cellController;
     }
 
     @Override
