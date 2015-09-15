@@ -1,20 +1,19 @@
 package com.bnana.goa.tests.unit;
 
+import com.bnana.goa.CellDestroyListener;
 import com.bnana.goa.actions.OnTouchAction;
 import com.bnana.goa.cell.AttractorOffCell;
 import com.bnana.goa.cell.Cell;
 import com.bnana.goa.cell.CellConsumer;
 import com.bnana.goa.cell.EvolvableCell;
 import com.bnana.goa.cell.OffCell;
-import com.bnana.goa.cell.OnCell;
 import com.bnana.goa.cell.PositionConsumer;
 import com.bnana.goa.cell.RepulsorOffCell;
 import com.bnana.goa.cell.WanderingCell;
+import com.bnana.goa.events.CellDestroyEvent;
 import com.bnana.goa.events.PositionChangedEvent;
 import com.bnana.goa.physics.PhysicElement;
 
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -24,12 +23,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyFloat;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.same;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 /**
  * Created by luca.piccinelli on 01/09/2015.
@@ -136,5 +133,16 @@ public class WanderingCellTests {
         action.act(anotherAction);
 
         verify(anotherAction).actOn(same(cell), same(element));
+    }
+
+    @Test
+    public void WhenTItIsDestroyedAllItsDestroyListenersShouldbeNotified(){
+        Cell cell = new WanderingCell(new Point2D.Float(0, 0), 1);
+
+        CellDestroyListener destroyListener = mock(CellDestroyListener.class);
+        cell.addDestroyListener(destroyListener);
+        cell.destroy();
+
+        verify(destroyListener).notifyDestroy(any(CellDestroyEvent.class));
     }
 }

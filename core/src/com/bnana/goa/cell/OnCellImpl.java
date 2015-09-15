@@ -1,12 +1,16 @@
 package com.bnana.goa.cell;
 
+import com.bnana.goa.CellDestroyListener;
 import com.bnana.goa.actions.OnTouchAction;
+import com.bnana.goa.events.CellDestroyEvent;
 import com.bnana.goa.events.PositionChangedEvent;
 import com.bnana.goa.exceptions.InvalidIntegrateRequestException;
 import com.bnana.goa.organism.Organism;
 import com.bnana.goa.physics.PhysicElement;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.List;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -18,12 +22,15 @@ class OnCellImpl implements OnCell {
     private final OffCell offCell;
     private Point2D.Float position;
     private final float density;
+    private List<CellDestroyListener> destroyListeners;
 
     OnCellImpl(Organism belongingOrganism, OffCell offCell, Point2D.Float position, float density) {
         this.belongingOrganism = belongingOrganism;
         this.offCell = offCell;
         this.position = position;
         this.density = density;
+
+        destroyListeners = new ArrayList<CellDestroyListener>();
     }
 
     @Override
@@ -72,6 +79,19 @@ class OnCellImpl implements OnCell {
     @Override
     public OnTouchAction createOnTouchAction(PhysicElement element) {
         throw new NotImplementedException();
+    }
+
+    @Override
+    public void addDestroyListener(CellDestroyListener destroyListener) {
+        destroyListeners.add(destroyListener);
+    }
+
+    @Override
+    public void destroy() {
+        CellDestroyEvent event = new CellDestroyEvent(this);
+        for (CellDestroyListener destroyListener : destroyListeners) {
+            destroyListener.notifyDestroy(event);
+        }
     }
 
     @Override

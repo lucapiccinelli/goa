@@ -1,5 +1,6 @@
 package com.bnana.goa.tests.unit;
 
+import com.bnana.goa.CellDestroyListener;
 import com.bnana.goa.cell.AttractorOffCell;
 import com.bnana.goa.cell.AttractorOnCell;
 import com.bnana.goa.cell.CellConsumer;
@@ -7,6 +8,7 @@ import com.bnana.goa.cell.OffCell;
 import com.bnana.goa.cell.OnCell;
 import com.bnana.goa.cell.PositionConsumer;
 import com.bnana.goa.cell.RepulsorOffCell;
+import com.bnana.goa.events.CellDestroyEvent;
 import com.bnana.goa.events.PositionChangedEvent;
 import com.bnana.goa.organism.Organism;
 
@@ -170,5 +172,14 @@ public class OffCellTest {
         attractorOffCell.growOrganism(organism);
 
         verify(organism).growAttractors(same(attractorOffCell));
+    }
+
+    @Test(dataProvider = "offCells")
+    public void WhenTItIsDestroyedAllItsDestroyListenersShouldbeNotified(OffCell cell){
+        CellDestroyListener destroyListener = mock(CellDestroyListener.class);
+        cell.addDestroyListener(destroyListener);
+        cell.destroy();
+
+        verify(destroyListener).notifyDestroy(any(CellDestroyEvent.class));
     }
 }

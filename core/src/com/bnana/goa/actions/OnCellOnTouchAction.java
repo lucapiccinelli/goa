@@ -38,6 +38,8 @@ public class OnCellOnTouchAction implements OnTouchAction {
         theOtherElement.removePositionListener(wanderingCell);
 
         OffCell evolvedCell = wanderingCell.evolve();
+        wanderingCell.destroy();
+
         theOtherElement.setAction(evolvedCell.turnOn().createOnTouchAction(theOtherElement));
         theOtherElement.addPositionListener(evolvedCell);
         onCell.integrate(evolvedCell);

@@ -1,5 +1,6 @@
 package com.bnana.goa.cell;
 
+import com.bnana.goa.CellDestroyListener;
 import com.bnana.goa.PositionListener;
 import com.bnana.goa.actions.OnTouchAction;
 import com.bnana.goa.organism.Organism;
@@ -19,4 +20,8 @@ public interface Cell extends PositionListener {
     OffCell getAnOffCell();
 
     OnTouchAction createOnTouchAction(PhysicElement element);
+
+    void addDestroyListener(CellDestroyListener destroyListener);
+
+    void destroy();
 }

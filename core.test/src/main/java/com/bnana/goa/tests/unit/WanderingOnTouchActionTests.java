@@ -156,4 +156,20 @@ public class WanderingOnTouchActionTests {
 
         verify(element).addPositionListener(same(wanderingCell.evolve()));
     }
+
+    @Test
+    public void WhenActingOnAnOnCellTheWanderingShouldBeDestroyed(){
+        PhysicElement element = mock(PhysicElement.class);
+        WanderingCell wanderingCell = mock(WanderingCell.class);
+        OffCell offCell = mock(OffCell.class);
+
+        when(wanderingCell.evolve()).thenReturn(offCell);
+        when(offCell.turnOn()).thenReturn(mock(OnCell.class));
+
+        OnTouchAction action = new WanderingOnTouchAction(wanderingCell, element);
+
+        action.actOn(mock(OnCell.class), mock(PhysicElement.class));
+
+        verify(wanderingCell).destroy();
+    }
 }

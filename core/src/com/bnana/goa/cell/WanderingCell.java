@@ -1,13 +1,17 @@
 package com.bnana.goa.cell;
 
+import com.bnana.goa.CellDestroyListener;
 import com.bnana.goa.actions.OnTouchAction;
 import com.bnana.goa.actions.WanderingOnTouchAction;
+import com.bnana.goa.events.CellDestroyEvent;
 import com.bnana.goa.events.PositionChangedEvent;
 import com.bnana.goa.organism.Organism;
 import com.bnana.goa.physics.PhysicElement;
 import com.bnana.goa.utils.EuclideanDistance;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -19,6 +23,7 @@ public class WanderingCell implements EvolvableCell {
     private final Random random;
     private final EuclideanDistance distance;
     private OffCell evolved;
+    private List<CellDestroyListener> destroyListeners;
 
     private WanderingCell(){
         this(new Point2D.Float(0, 0), 1f);
@@ -30,6 +35,8 @@ public class WanderingCell implements EvolvableCell {
 
         random = new Random();
         distance = new EuclideanDistance(position);
+
+        destroyListeners = new ArrayList<CellDestroyListener>();
 
         evolved = null;
     }
@@ -71,6 +78,19 @@ public class WanderingCell implements EvolvableCell {
     @Override
     public OnTouchAction createOnTouchAction(PhysicElement element) {
         return new WanderingOnTouchAction(this, element);
+    }
+
+    @Override
+    public void addDestroyListener(CellDestroyListener destroyListener) {
+        destroyListeners.add(destroyListener);
+    }
+
+    @Override
+    public void destroy() {
+        CellDestroyEvent event = new CellDestroyEvent(this);
+        for (CellDestroyListener destroyListener : destroyListeners) {
+            destroyListener.notifyDestroy(event);
+        }
     }
 
     @Override

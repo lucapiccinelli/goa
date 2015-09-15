@@ -1,5 +1,6 @@
 package com.bnana.goa.cell;
 
+import com.bnana.goa.CellDestroyListener;
 import com.bnana.goa.actions.OnCellOnTouchAction;
 import com.bnana.goa.actions.OnTouchAction;
 import com.bnana.goa.events.PositionChangedEvent;
@@ -63,6 +64,16 @@ public class AttractorOnCell implements OnCell {
     @Override
     public OnTouchAction createOnTouchAction(PhysicElement element) {
         return new OnCellOnTouchAction(this, element);
+    }
+
+    @Override
+    public void addDestroyListener(CellDestroyListener destroyListener) {
+        onCellImpl.addDestroyListener(destroyListener);
+    }
+
+    @Override
+    public void destroy() {
+        onCellImpl.destroy();
     }
 
     @Override
