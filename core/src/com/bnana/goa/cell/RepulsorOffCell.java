@@ -101,7 +101,7 @@ public class RepulsorOffCell implements OffCell {
     }
 
     private OnCell makeCell() {
-        if (onCell == null) onCell = new RepulsorOnCell(belongingOrganism, this, position, density);
+        if (onCell == null) onCell = new RepulsorOnCell(this, position, density, belongingOrganism, cellController);
         return onCell;
     }
 

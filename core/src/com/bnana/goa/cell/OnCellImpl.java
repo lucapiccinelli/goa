@@ -26,10 +26,15 @@ class OnCellImpl implements OnCell {
     private CellController cellController;
 
     OnCellImpl(Organism belongingOrganism, OffCell offCell, Point2D.Float position, float density) {
+        this(offCell, position, density, belongingOrganism, null);
+    }
+
+    OnCellImpl(OffCell offCell, Point2D.Float position, float density, Organism belongingOrganism, CellController cellController){
         this.belongingOrganism = belongingOrganism;
         this.offCell = offCell;
         this.position = position;
         this.density = density;
+        this.cellController = cellController;
 
         destroyListeners = new ArrayList<CellDestroyListener>();
     }

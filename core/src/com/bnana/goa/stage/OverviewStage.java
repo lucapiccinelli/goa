@@ -71,7 +71,7 @@ public class OverviewStage extends Stage implements ContactListener{
         organism = new OrganismActor(world, worldBounds.x, worldBounds.y, worldBounds.width, worldBounds.height, forceField, organismInnerActorsFactory);
         addActor(organism);
 
-        organismInnerActorsFactory.turnOn();
+        //organismInnerActorsFactory.turnOn();
     }
 
     private void createCamera() {

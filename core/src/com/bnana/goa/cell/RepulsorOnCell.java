@@ -17,9 +17,12 @@ public class RepulsorOnCell implements OnCell {
     private float density;
 
     public RepulsorOnCell(Organism belongingOrganism, OffCell offCell, Point2D.Float position, float density) {
-        this.onCellImpl = new OnCellImpl(belongingOrganism, offCell, position, density);
+        this(offCell, position, density, belongingOrganism, null);
     }
 
+    public RepulsorOnCell(OffCell offCell, Point2D.Float position, float density, Organism belongingOrganism, CellController cellController){
+        this.onCellImpl = new OnCellImpl(offCell, position, density, belongingOrganism, cellController);
+    }
 
     @Override
     public OffCell turnOff() {

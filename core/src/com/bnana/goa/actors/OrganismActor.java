@@ -45,7 +45,7 @@ public class OrganismActor extends Actor{
     @Override
     public void act(float delta){
         fieldUpdater.reset();
-        organism.useAttractors(fieldUpdater);
+        organism.use(fieldUpdater);
         super.act(delta);
     }
 

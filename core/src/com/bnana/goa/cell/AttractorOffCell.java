@@ -102,7 +102,7 @@ public class AttractorOffCell implements OffCell{
     }
 
     private OnCell makeCell() {
-        if (onCell == null) onCell = new AttractorOnCell(belongingOrganism, this, position, density);
+        if (onCell == null) onCell = new AttractorOnCell(this, position, density, belongingOrganism, cellController);
         return onCell;
     }
 
