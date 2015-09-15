@@ -11,12 +11,12 @@ import java.util.Set;
 /**
  * Created by luca.piccinelli on 08/09/2015.
  */
-public class OnCellOnTouchAction implements OnTouchAction {
+public class SwitchableCellOnTouchAction implements OnTouchAction {
     private final SwitchableCell switchableCell;
     private final PhysicElement element;
     private Set<OnTouchAction> stoppedActions;
 
-    public OnCellOnTouchAction(SwitchableCell cell, PhysicElement element) {
+    public SwitchableCellOnTouchAction(SwitchableCell cell, PhysicElement element) {
         this.switchableCell = cell;
         this.element = element;
 

@@ -1,7 +1,7 @@
 package com.bnana.goa.cell;
 
 import com.bnana.goa.CellDestroyListener;
-import com.bnana.goa.actions.OnCellOnTouchAction;
+import com.bnana.goa.actions.SwitchableCellOnTouchAction;
 import com.bnana.goa.actions.OnTouchAction;
 import com.bnana.goa.events.CellDestroyEvent;
 import com.bnana.goa.events.PositionChangedEvent;
@@ -84,7 +84,7 @@ public class RepulsorOffCell implements OffCell {
 
     @Override
     public OnTouchAction createOnTouchAction(PhysicElement element) {
-        return new OnCellOnTouchAction(this, element);
+        return new SwitchableCellOnTouchAction(this, element);
     }
 
     @Override

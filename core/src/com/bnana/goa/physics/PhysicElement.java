@@ -1,9 +1,6 @@
 package com.bnana.goa.physics;
 
-import com.badlogic.gdx.physics.box2d.Body;
 import com.bnana.goa.PositionChangesNotifier;
-import com.bnana.goa.PositionListener;
-import com.bnana.goa.actions.OnCellOnTouchAction;
 import com.bnana.goa.actions.OnTouchAction;
 import com.bnana.goa.force.ForceField;
 

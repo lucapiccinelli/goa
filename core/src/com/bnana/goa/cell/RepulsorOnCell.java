@@ -1,10 +1,9 @@
 package com.bnana.goa.cell;
 
 import com.bnana.goa.CellDestroyListener;
-import com.bnana.goa.actions.OnCellOnTouchAction;
+import com.bnana.goa.actions.SwitchableCellOnTouchAction;
 import com.bnana.goa.actions.OnTouchAction;
 import com.bnana.goa.events.PositionChangedEvent;
-import com.bnana.goa.exceptions.InvalidIntegrateRequestException;
 import com.bnana.goa.organism.Organism;
 import com.bnana.goa.physics.PhysicElement;
 
@@ -64,7 +63,7 @@ public class RepulsorOnCell implements OnCell {
 
     @Override
     public OnTouchAction createOnTouchAction(PhysicElement element) {
-        return new OnCellOnTouchAction(this, element);
+        return new SwitchableCellOnTouchAction(this, element);
     }
 
     @Override
