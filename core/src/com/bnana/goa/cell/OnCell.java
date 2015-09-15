@@ -7,5 +7,4 @@ import com.bnana.goa.exceptions.InvalidIntegrateRequestException;
  */
 public interface OnCell extends SwitchableCell {
     OffCell turnOff();
-    void integrate(OffCell aNewCell);
 }

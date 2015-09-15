@@ -48,7 +48,7 @@ class OnCellImpl implements OnCell {
     @Override
     public void integrate(OffCell aNewCell) {
         if(belongingOrganism == null)
-            throw new InvalidIntegrateRequestException("The cell you requested integrate on doesn't belong to any body");
+            throw new InvalidIntegrateRequestException("The OnCell you requested to integrate on doesn't belong to any body");
 
         aNewCell.growOrganism(belongingOrganism);
     }

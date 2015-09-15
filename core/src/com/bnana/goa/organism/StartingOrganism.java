@@ -56,6 +56,7 @@ public class StartingOrganism implements Organism {
     @Override
     public void growAttractors(AttractorOffCell aNewAttractor) {
         this.cellGroup.add(aNewAttractor);
+        aNewAttractor.setBelongingOrganism(this);
 
         CellController controller = new CellController(aNewAttractor);
         attractors.add(controller);
@@ -65,6 +66,7 @@ public class StartingOrganism implements Organism {
     @Override
     public void growRepulsor(RepulsorOffCell aNewRepulsor) {
         this.cellGroup.add(aNewRepulsor);
+        aNewRepulsor.setBelongingOrganism(this);
 
         CellController controller = new CellController(aNewRepulsor);
         repulsors.add(controller);

@@ -1,25 +1,23 @@
 package com.bnana.goa.actions;
 
 import com.bnana.goa.cell.OffCell;
-import com.bnana.goa.cell.OnCell;
+import com.bnana.goa.cell.SwitchableCell;
 import com.bnana.goa.cell.WanderingCell;
 import com.bnana.goa.physics.PhysicElement;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
  * Created by luca.piccinelli on 08/09/2015.
  */
 public class OnCellOnTouchAction implements OnTouchAction {
-    private final OnCell onCell;
+    private final SwitchableCell switchableCell;
     private final PhysicElement element;
     private Set<OnTouchAction> stoppedActions;
 
-    public OnCellOnTouchAction(OnCell cell, PhysicElement element) {
-        this.onCell = cell;
+    public OnCellOnTouchAction(SwitchableCell cell, PhysicElement element) {
+        this.switchableCell = cell;
         this.element = element;
 
         stoppedActions = new HashSet<OnTouchAction>();
@@ -28,7 +26,7 @@ public class OnCellOnTouchAction implements OnTouchAction {
     @Override
     public void act(OnTouchAction anotherAction) {
         if(stoppedActions.contains(anotherAction)) return;
-        anotherAction.actOn(onCell, element);
+        anotherAction.actOn(switchableCell, element);
         anotherAction.stopActing(this);
     }
 
@@ -40,13 +38,13 @@ public class OnCellOnTouchAction implements OnTouchAction {
         OffCell evolvedCell = wanderingCell.evolve();
         wanderingCell.destroy();
 
-        theOtherElement.setAction(evolvedCell.turnOn().createOnTouchAction(theOtherElement));
+        theOtherElement.setAction(evolvedCell.createOnTouchAction(theOtherElement));
         theOtherElement.addPositionListener(evolvedCell);
-        onCell.integrate(evolvedCell);
+        switchableCell.integrate(evolvedCell);
     }
 
     @Override
-    public void actOn(OnCell cell, PhysicElement element) {
+    public void actOn(SwitchableCell switchableCell, PhysicElement element) {
 
     }
 

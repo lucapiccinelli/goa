@@ -37,7 +37,6 @@ public class OverviewStage extends Stage implements ContactListener{
     private float accumulator;
     private OrganismActor organism;
     private RadialForceField forceField;
-    private WanderingCellActor wanderingCell;
 
     public OverviewStage(GameOfAttraction game) {
         this.game = game;
@@ -60,14 +59,16 @@ public class OverviewStage extends Stage implements ContactListener{
     }
 
     private void createWanderingCells() {
-        wanderingCell = new WanderingCellActor(world, new RandomCellGenerator(null, WanderingCell.MakePrototype(), worldBounds), forceField);
-        addActor(wanderingCell);
+        addActor(new WanderingCellActor(world, new RandomCellGenerator(null, WanderingCell.MakePrototype(), worldBounds), forceField));
+        addActor(new WanderingCellActor(world, new RandomCellGenerator(null, WanderingCell.MakePrototype(), worldBounds), forceField));
+        addActor(new WanderingCellActor(world, new RandomCellGenerator(null, WanderingCell.MakePrototype(), worldBounds), forceField));
     }
 
     private void createOrganism() {
         ActorsFactoryCellGroup actorsFactory = new ActorsFactoryCellGroup(this);
 
         organism = new OrganismActor(world, worldBounds.x, worldBounds.y, worldBounds.width, worldBounds.height, forceField, actorsFactory);
+        actorsFactory.turnOn();
         addActor(organism);
     }
 

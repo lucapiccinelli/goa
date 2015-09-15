@@ -1,6 +1,7 @@
 package com.bnana.goa.tests.unit;
 
 import com.bnana.goa.CellDestroyListener;
+import com.bnana.goa.actions.OnTouchAction;
 import com.bnana.goa.cell.AttractorOffCell;
 import com.bnana.goa.cell.AttractorOnCell;
 import com.bnana.goa.cell.CellConsumer;
@@ -12,7 +13,9 @@ import com.bnana.goa.cell.RepulsorOffCell;
 import com.bnana.goa.cell.SwitchableCell;
 import com.bnana.goa.events.CellDestroyEvent;
 import com.bnana.goa.events.PositionChangedEvent;
+import com.bnana.goa.exceptions.InvalidIntegrateRequestException;
 import com.bnana.goa.organism.Organism;
+import com.bnana.goa.physics.PhysicElement;
 
 import org.mockito.AdditionalMatchers;
 import org.mockito.Mockito;
@@ -38,19 +41,34 @@ import static org.mockito.Mockito.verify;
  */
 public class OffCellTest {
 
+    private Organism organism;
+
+    @BeforeClass
+    public void setUp(){
+        organism = mock(Organism.class);
+    }
+
     @DataProvider
-    public Object[][] offCells(){
+    public Object[][] offCellsWithoutBody(){
         return new OffCell[][]{
                 {AttractorOffCell.MakeProtype()},
                 {RepulsorOffCell.MakeProtype()}};
+    }
+
+
+    @DataProvider
+    public Object[][] offCells(){
+        return new OffCell[][]{
+                {new AttractorOffCell(organism, new Point2D.Float())},
+                {new RepulsorOffCell(organism, new Point2D.Float())}};
     }
 
     @DataProvider
     public Object[][] positionedOffCells(){
         Point2D.Float position = new Point2D.Float(2f, 3f);
         return new Object[][]{
-                { new AttractorOffCell(mock(Organism.class), position), position },
-                { new RepulsorOffCell(mock(Organism.class), position), position }
+                { new AttractorOffCell(organism, position), position },
+                { new RepulsorOffCell(organism, position), position }
         };
     }
 
@@ -221,5 +239,29 @@ public class OffCellTest {
         controller.useCell(cellConsumer);
 
         verify(cellConsumer).use(same(onCell), any(Point2D.Float.class), anyFloat());
+    }
+
+    @Test(dataProvider = "offCells")
+    public void WhenIntegratingANewCellShouldAskTheCellToGrowTheOrganism(OffCell cell){
+        OffCell newOffCell = mock(OffCell.class);
+        cell.integrate(newOffCell);
+
+        verify(newOffCell).growOrganism(same(organism));
+    }
+
+    @Test(dataProvider = "offCellsWithoutBody", expectedExceptions = InvalidIntegrateRequestException.class)
+    public void WhenIntegratingWithACellWithoutOrganismShouldThrow(OffCell cell){
+        cell.integrate(mock(OffCell.class));
+    }
+
+    @Test(dataProvider = "offCells")
+    public void ShouldCreateAnOnTouchActionThatRefersToItSelfAndToTheGivenPhysicElement(OffCell offCell) {
+        PhysicElement element = mock(PhysicElement.class);
+        OnTouchAction action = offCell.createOnTouchAction(element);
+
+        OnTouchAction anotherAction = mock(OnTouchAction.class);
+        action.act(anotherAction);
+
+        verify(anotherAction).actOn(same(offCell), same(element));
     }
 }

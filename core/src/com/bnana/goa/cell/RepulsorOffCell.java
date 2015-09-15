@@ -1,9 +1,11 @@
 package com.bnana.goa.cell;
 
 import com.bnana.goa.CellDestroyListener;
+import com.bnana.goa.actions.OnCellOnTouchAction;
 import com.bnana.goa.actions.OnTouchAction;
 import com.bnana.goa.events.CellDestroyEvent;
 import com.bnana.goa.events.PositionChangedEvent;
+import com.bnana.goa.exceptions.InvalidIntegrateRequestException;
 import com.bnana.goa.organism.Organism;
 import com.bnana.goa.physics.PhysicElement;
 import com.bnana.goa.utils.EuclideanDistance;
@@ -34,6 +36,10 @@ public class RepulsorOffCell implements OffCell {
         distanceCalculator = new EuclideanDistance(position);
 
         destroyListeners = new ArrayList<CellDestroyListener>();
+    }
+
+    public void setBelongingOrganism(Organism belongingOrganism) {
+        this.belongingOrganism = belongingOrganism;
     }
 
     public RepulsorOffCell (Point2D.Float position, float density) {
@@ -78,7 +84,7 @@ public class RepulsorOffCell implements OffCell {
 
     @Override
     public OnTouchAction createOnTouchAction(PhysicElement element) {
-        return null;
+        return new OnCellOnTouchAction(this, element);
     }
 
     @Override
@@ -126,6 +132,14 @@ public class RepulsorOffCell implements OffCell {
     @Override
     public void setController(CellController cellController) {
         this.cellController = cellController;
+    }
+
+    @Override
+    public void integrate(OffCell aNewCell) {
+        if(belongingOrganism == null)
+            throw new InvalidIntegrateRequestException("The RepulsorOffCell you requested to integrate on doesn't belong to any body");
+
+        aNewCell.growOrganism(belongingOrganism);
     }
 
     @Override

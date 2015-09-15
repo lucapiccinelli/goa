@@ -7,4 +7,6 @@ public interface SwitchableCell extends UsableCell {
     SwitchableCell sswitch();
 
     void setController(CellController cellController);
+
+    void integrate(OffCell evolvedCell);
 }

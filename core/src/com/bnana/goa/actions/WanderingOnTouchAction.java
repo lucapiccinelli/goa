@@ -1,13 +1,11 @@
 package com.bnana.goa.actions;
 
 import com.bnana.goa.cell.OffCell;
-import com.bnana.goa.cell.OnCell;
+import com.bnana.goa.cell.SwitchableCell;
 import com.bnana.goa.cell.WanderingCell;
 import com.bnana.goa.physics.PhysicElement;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -39,16 +37,16 @@ public class WanderingOnTouchAction implements OnTouchAction {
     }
 
     @Override
-    public void actOn(OnCell onCell, PhysicElement theOtherElement) {
+    public void actOn(SwitchableCell switchableCell, PhysicElement theOtherElement) {
         physicElement.stop();
         physicElement.removePositionListener(wanderingCell);
 
         OffCell evolved = wanderingCell.evolve();
         wanderingCell.destroy();
 
-        physicElement.setAction(evolved.turnOn().createOnTouchAction(physicElement));
+        physicElement.setAction(evolved.createOnTouchAction(physicElement));
         physicElement.addPositionListener(evolved);
-        onCell.integrate(evolved);
+        switchableCell.integrate(evolved);
     }
 
     @Override
