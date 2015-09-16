@@ -145,7 +145,7 @@ public class RepulsorOffCell implements OffCell {
 
     @Override
     public void use(CellConsumer consumer) {
-
+        consumer.useItOff(this, position, density);
     }
 
     @Override

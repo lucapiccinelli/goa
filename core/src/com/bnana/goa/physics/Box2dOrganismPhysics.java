@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.bnana.goa.cell.Cell;
+import com.bnana.goa.cell.OffCell;
 
 import java.awt.geom.Point2D;
 
@@ -42,5 +43,10 @@ public class Box2dOrganismPhysics implements OrganismPhysics {
         cellBody.addPositionListener(cell);
         physicElement.add(cellBody);
         physicElement.addPositionListener(cell);
+    }
+
+    @Override
+    public void useItOff(OffCell cell, Point2D.Float position, float density) {
+        use(cell, position, density);
     }
 }

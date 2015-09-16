@@ -62,6 +62,11 @@ public class WanderingCellTests {
             public void use(Cell cell, Point2D.Float position, float density) {
                 densityAccumulator[0] += density;
             }
+
+            @Override
+            public void useItOff(OffCell cell, Point2D.Float position, float density) {
+
+            }
         };
 
         for (OffCell cell : evolvedCells){

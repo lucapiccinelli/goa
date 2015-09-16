@@ -9,6 +9,4 @@ import java.awt.geom.Point2D;
  * Created by Luca on 8/26/2015.
  */
 public interface OrganismPhysics extends CellConsumer {
-    @Override
-    void use(Cell cell, Point2D.Float position, float density);
 }

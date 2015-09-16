@@ -2,6 +2,7 @@ package com.bnana.goa.force;
 
 import com.bnana.goa.cell.Cell;
 import com.bnana.goa.cell.CellConsumer;
+import com.bnana.goa.cell.OffCell;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -43,6 +44,11 @@ public class RadialForceFieldUpdater implements CellConsumer {
         points[0].setLocation(x, y);
         densities[0] = this.density;
         field.update(points, densities);
+    }
+
+    @Override
+    public void useItOff(OffCell cell, Point2D.Float position, float density) {
+
     }
 
     public void reset(){

@@ -131,11 +131,11 @@ public class OffCellTest {
     }
 
     @Test(dataProvider = "offCells")
-    public void AnOffCellCantDoAnythingWithACellConsumer(OffCell offCell){
+    public void AnOffCellMustTellTheCellConsumerThatItIsOff(OffCell offCell){
         CellConsumer consumer = mock(CellConsumer.class);
         offCell.use(consumer);
 
-        verify(consumer, times(0)).use(any(OffCell.class), any(Point2D.Float.class), anyFloat());
+        verify(consumer).useItOff(same(offCell), any(Point2D.Float.class), anyFloat());
     }
 
 

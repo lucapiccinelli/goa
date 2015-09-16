@@ -21,7 +21,6 @@ public class OrganismActor extends Actor{
     private final PhysicElement physicOrganism;
     private ForceField forceField;
     private final RadialForceFieldUpdater fieldUpdater;
-    //    private final ForceField force;
 
     public OrganismActor(World world, float x, float y, float width, float height, ForceField forceField, ActorsFactoryCellGroup actorsFactoryCellGroup){
         super();
@@ -30,16 +29,11 @@ public class OrganismActor extends Actor{
         organism = new StartingOrganism(new Rectangle2D.Float(x, y, width, height), actorsFactoryCellGroup);
         physicOrganism = new PhysicOrganism();
 
-        actorsFactoryCellGroup.turnOn();
-        try {
-            Box2dOrganismPhysics organismPhysics = new Box2dOrganismPhysics(world, physicOrganism);
-            organism.use(organismPhysics);
-            physicOrganism.addPositionListener(organism);
+        Box2dOrganismPhysics organismPhysics = new Box2dOrganismPhysics(world, physicOrganism);
+        organism.use(organismPhysics);
+        physicOrganism.addPositionListener(organism);
 
-            fieldUpdater = new RadialForceFieldUpdater(forceField);
-        } finally {
-            actorsFactoryCellGroup.turnOff();
-        }
+        fieldUpdater = new RadialForceFieldUpdater(forceField);
     }
 
     @Override

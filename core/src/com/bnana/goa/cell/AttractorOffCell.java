@@ -146,6 +146,7 @@ public class AttractorOffCell implements OffCell{
 
     @Override
     public void use(CellConsumer consumer) {
+        consumer.useItOff(this, position, density);
     }
 
     @Override
