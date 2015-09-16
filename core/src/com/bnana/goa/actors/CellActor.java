@@ -14,6 +14,7 @@ import com.bnana.goa.cell.Cell;
 import com.bnana.goa.cell.CellConsumer;
 import com.bnana.goa.cell.OffCell;
 import com.bnana.goa.cell.PositionConsumer;
+import com.bnana.goa.cell.SwitchableCell;
 import com.bnana.goa.events.CellDestroyEvent;
 import com.bnana.goa.utils.Const;
 
@@ -23,7 +24,7 @@ import java.awt.geom.Point2D;
  * Created by Luca on 9/15/2015.
  */
 public class CellActor extends Actor implements CellConsumer, CellDestroyListener {
-    private OffCell offCell;
+    private SwitchableCell offCell;
 
     public CellActor(final OffCell offCell) {
         this.offCell = offCell;
@@ -34,7 +35,8 @@ public class CellActor extends Actor implements CellConsumer, CellDestroyListene
         addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                offCell.turnOn();
+                CellActor actor = (CellActor) event.getTarget();
+                actor.offCell = actor.offCell.sswitch();
                 return true;
             }
         });
