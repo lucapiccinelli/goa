@@ -9,7 +9,9 @@ public class Const {
     public static int APP_WIDTH = 800;
     public static int APP_HEIGHT = 480;
 
-    public static int VIEWPORT_WIDTH = APP_WIDTH;
-    public static int VIEWPORT_HEIGHT = APP_HEIGHT;
+    public static int VIEWPORT_WIDTH = 80;
+    public static int VIEWPORT_HEIGHT = 48;
     public static float DEFAULT_CELL_DENSITY = 1;
+
+    public static final float RENDERING_SCALE = APP_WIDTH / VIEWPORT_WIDTH;
 }

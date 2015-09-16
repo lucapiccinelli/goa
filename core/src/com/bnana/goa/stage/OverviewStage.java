@@ -1,7 +1,9 @@
 package com.bnana.goa.stage;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.Contact;
@@ -18,6 +20,7 @@ import com.bnana.goa.actors.WanderingCellActor;
 import com.bnana.goa.cell.WanderingCell;
 import com.bnana.goa.cell.generator.RandomCellGenerator;
 import com.bnana.goa.force.RadialForceField;
+import com.bnana.goa.utils.Const;
 
 import java.awt.geom.Rectangle2D;
 
@@ -26,8 +29,8 @@ import java.awt.geom.Rectangle2D;
  */
 public class OverviewStage extends Stage implements ContactListener{
     private static final float TIME_STEP = 1 /60f;
-    private final int VIEWPORT_WIDTH = 80;
-    private final int VIEWPORT_HEIGHT = 52;
+    private final int VIEWPORT_WIDTH = Const.VIEWPORT_WIDTH;
+    private final int VIEWPORT_HEIGHT = Const.VIEWPORT_HEIGHT;
     private final World world;
     private final Rectangle2D.Float worldBounds;
 
@@ -52,6 +55,8 @@ public class OverviewStage extends Stage implements ContactListener{
         createOrganism();
 
         createWanderingCells();
+
+        Gdx.input.setInputProcessor(this);
     }
 
     private void createForceFields() {
