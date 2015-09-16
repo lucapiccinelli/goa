@@ -14,6 +14,7 @@ public class CellActor extends Actor implements CellDestroyListener {
 
     public CellActor(OffCell offCell) {
         this.offCell = offCell;
+        this.offCell.addDestroyListener(this);
     }
 
     @Override

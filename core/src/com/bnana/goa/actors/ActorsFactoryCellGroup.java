@@ -27,7 +27,6 @@ public class ActorsFactoryCellGroup implements CellGroup{
     public void add(OffCell offCell) {
         offCells.add(offCell);
         CellActor actor = new CellActor(offCell);
-        offCell.addDestroyListener(actor);
         stage.addActor(actor);
     }
 
