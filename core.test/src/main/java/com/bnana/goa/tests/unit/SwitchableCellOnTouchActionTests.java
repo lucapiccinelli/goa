@@ -56,7 +56,7 @@ public class SwitchableCellOnTouchActionTests {
 
     @Test
     public void TheOtherActionShouldActOnTheAttractorOnCell(){
-        AttractorOnCell cell = new AttractorOnCell(mock(Organism.class), mock(AttractorOffCell.class), new Point2D.Float(), 1f);
+        AttractorOnCell cell = new AttractorOnCell(mock(AttractorOffCell.class), new Point2D.Float(), 1f, mock(Organism.class));
 
         OnTouchAction attractorAction = new SwitchableCellOnTouchAction(cell, mock(PhysicElement.class));
         OnTouchAction anotherAction = mock(OnTouchAction.class);

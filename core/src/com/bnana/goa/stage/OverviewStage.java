@@ -71,12 +71,8 @@ public class OverviewStage extends Stage implements ContactListener{
     }
 
     private void createOrganism() {
-        ActorsFactoryCellGroup organismInnerActorsFactory = new ActorsFactoryCellGroup(this);
-
-        organism = new OrganismActor(world, worldBounds.x, worldBounds.y, worldBounds.width, worldBounds.height, forceField, organismInnerActorsFactory);
+        organism = new OrganismActor(world, worldBounds.x, worldBounds.y, worldBounds.width, worldBounds.height, forceField);
         addActor(organism);
-
-        //organismInnerActorsFactory.turnOn();
     }
 
     private void createCamera() {

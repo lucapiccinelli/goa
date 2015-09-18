@@ -16,12 +16,8 @@ public class AttractorOnCell implements OnCell {
     private final OnCellImpl onCellImpl;
     private float density;
 
-    public AttractorOnCell(Organism belongingOrganism, OffCell offCell, Point2D.Float position, float density) {
-        this(offCell, position, density, belongingOrganism, null);
-    }
-
-    public AttractorOnCell(OffCell offCell, Point2D.Float position, float density, Organism belongingOrganism, CellController cellController){
-        this.onCellImpl = new OnCellImpl(offCell, position, density, belongingOrganism, cellController);
+    public AttractorOnCell(OffCell offCell, Point2D.Float position, float density, Organism belongingOrganism){
+        this.onCellImpl = new OnCellImpl(offCell, position, density, belongingOrganism);
     }
 
     @Override
@@ -92,11 +88,6 @@ public class AttractorOnCell implements OnCell {
     @Override
     public SwitchableCell sswitch() {
         return onCellImpl.sswitch();
-    }
-
-    @Override
-    public void setController(CellController cellController) {
-        onCellImpl.setController(cellController);
     }
 
 

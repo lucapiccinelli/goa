@@ -46,24 +46,24 @@ public class OnCellTest {
     @DataProvider
     public Object[][] onCells(){
         return new OnCell[][]{
-                { new AttractorOnCell(mock(Organism.class), offCell, new Point2D.Float(0, 0), 1)},
-                { new RepulsorOnCell(mock(Organism.class), offCell, new Point2D.Float(0, 0), 1)},
+                { new AttractorOnCell(offCell, new Point2D.Float(0, 0), 1, mock(Organism.class))},
+                { new RepulsorOnCell(offCell, new Point2D.Float(0, 0), 1, mock(Organism.class))},
         };
     }
 
     @DataProvider
     public Object[][] onCellsWithRealOffCells(){
         return new OnCell[][]{
-                { new AttractorOnCell(mock(Organism.class), realAttractorOffCell, new Point2D.Float(0, 0), 1)},
-                { new RepulsorOnCell(mock(Organism.class), realRepulsorOffCell, new Point2D.Float(0, 0), 1)},
+                { new AttractorOnCell(realAttractorOffCell, new Point2D.Float(0, 0), 1, mock(Organism.class))},
+                { new RepulsorOnCell(realRepulsorOffCell, new Point2D.Float(0, 0), 1, mock(Organism.class))},
         };
     }
 
     @DataProvider
     public Object[][] onCellsWithouOrganism(){
         return new OnCell[][]{
-                { new AttractorOnCell(null, offCell, new Point2D.Float(0, 0), 1)},
-                { new RepulsorOnCell(null, offCell, new Point2D.Float(0, 0), 1)},
+                { new AttractorOnCell(offCell, new Point2D.Float(0, 0), 1, null)},
+                { new RepulsorOnCell(offCell, new Point2D.Float(0, 0), 1, null)},
         };
     }
 
@@ -89,12 +89,12 @@ public class OnCellTest {
     @DataProvider
     public Object[][] pointProvider(){
         return new Object[][]{
-                {new AttractorOnCell(mock(Organism.class), AttractorOffCell.MakeProtype(), new Point2D.Float(0, 0), 1), new Point2D.Float(1, 1), 1.4142135f},
-                {new AttractorOnCell(mock(Organism.class), AttractorOffCell.MakeProtype(), new Point2D.Float(0, 0), 1), new Point2D.Float(2, 2), 2.828427f},
-                {new AttractorOnCell(mock(Organism.class), AttractorOffCell.MakeProtype(), new Point2D.Float(0, 0), 1), new Point2D.Float(0, 5), 5f},
-                {new RepulsorOnCell(mock(Organism.class), RepulsorOffCell.MakeProtype(), new Point2D.Float(0, 0), 1), new Point2D.Float(1, 1), 1.4142135f},
-                {new RepulsorOnCell(mock(Organism.class), RepulsorOffCell.MakeProtype(), new Point2D.Float(0, 0), 1), new Point2D.Float(2, 2), 2.828427f},
-                {new RepulsorOnCell(mock(Organism.class), RepulsorOffCell.MakeProtype(), new Point2D.Float(0, 0), 1), new Point2D.Float(0, 5), 5f},
+                {new AttractorOnCell(AttractorOffCell.MakeProtype(), new Point2D.Float(0, 0), 1, mock(Organism.class)), new Point2D.Float(1, 1), 1.4142135f},
+                {new AttractorOnCell(AttractorOffCell.MakeProtype(), new Point2D.Float(0, 0), 1, mock(Organism.class)), new Point2D.Float(2, 2), 2.828427f},
+                {new AttractorOnCell(AttractorOffCell.MakeProtype(), new Point2D.Float(0, 0), 1, mock(Organism.class)), new Point2D.Float(0, 5), 5f},
+                {new RepulsorOnCell(RepulsorOffCell.MakeProtype(), new Point2D.Float(0, 0), 1, mock(Organism.class)), new Point2D.Float(1, 1), 1.4142135f},
+                {new RepulsorOnCell(RepulsorOffCell.MakeProtype(), new Point2D.Float(0, 0), 1, mock(Organism.class)), new Point2D.Float(2, 2), 2.828427f},
+                {new RepulsorOnCell(RepulsorOffCell.MakeProtype(), new Point2D.Float(0, 0), 1, mock(Organism.class)), new Point2D.Float(0, 5), 5f},
         };
     }
 
@@ -141,7 +141,7 @@ public class OnCellTest {
         AttractorOffCell newOffCell = mock(AttractorOffCell.class);
         Organism organism = mock(Organism.class);
 
-        AttractorOnCell cell = new AttractorOnCell(organism, mock(OffCell.class), new Point2D.Float(), 1);
+        AttractorOnCell cell = new AttractorOnCell(mock(OffCell.class), new Point2D.Float(), 1, organism);
         cell.integrate(newOffCell);
 
         verify(newOffCell).growOrganism(same(organism));
@@ -152,7 +152,7 @@ public class OnCellTest {
         OffCell newOffCell = mock(OffCell.class);
         Organism organism = mock(Organism.class);
 
-        RepulsorOnCell cell = new RepulsorOnCell(organism, mock(OffCell.class), new Point2D.Float(), 1);
+        RepulsorOnCell cell = new RepulsorOnCell(mock(OffCell.class), new Point2D.Float(), 1, organism);
         cell.integrate(newOffCell);
 
         verify(newOffCell).growOrganism(same(organism));
@@ -182,18 +182,5 @@ public class OnCellTest {
         cell.destroy();
 
         verify(destroyListener).notifyDestroy(any(CellDestroyEvent.class));
-    }
-
-    @Test(dataProvider = "onCells")
-    public void IfTheControllerIsSetThenTurningOffTheControllerThenRefersToTheOffCell(OnCell cell){
-        CellController cellController = new CellController(cell);
-        cell.setController(cellController);
-
-        OffCell offCell = cell.turnOff();
-
-        CellConsumer cellConsumer = mock(CellConsumer.class);
-        cellController.useCell(cellConsumer);
-
-        verify(offCell).use(cellConsumer);
     }
 }

@@ -16,12 +16,8 @@ public class RepulsorOnCell implements OnCell {
     private final OnCellImpl onCellImpl;
     private float density;
 
-    public RepulsorOnCell(Organism belongingOrganism, OffCell offCell, Point2D.Float position, float density) {
-        this(offCell, position, density, belongingOrganism, null);
-    }
-
-    public RepulsorOnCell(OffCell offCell, Point2D.Float position, float density, Organism belongingOrganism, CellController cellController){
-        this.onCellImpl = new OnCellImpl(offCell, position, density, belongingOrganism, cellController);
+    public RepulsorOnCell(OffCell offCell, Point2D.Float position, float density, Organism belongingOrganism){
+        this.onCellImpl = new OnCellImpl(offCell, position, density, belongingOrganism);
     }
 
     @Override
@@ -92,10 +88,5 @@ public class RepulsorOnCell implements OnCell {
     @Override
     public SwitchableCell sswitch() {
         return onCellImpl.sswitch();
-    }
-
-    @Override
-    public void setController(CellController cellController) {
-        onCellImpl.setController(cellController);
     }
 }

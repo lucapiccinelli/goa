@@ -23,25 +23,18 @@ class OnCellImpl implements OnCell {
     private Point2D.Float position;
     private final float density;
     private List<CellDestroyListener> destroyListeners;
-    private CellController cellController;
 
-    OnCellImpl(Organism belongingOrganism, OffCell offCell, Point2D.Float position, float density) {
-        this(offCell, position, density, belongingOrganism, null);
-    }
-
-    OnCellImpl(OffCell offCell, Point2D.Float position, float density, Organism belongingOrganism, CellController cellController){
+    OnCellImpl(OffCell offCell, Point2D.Float position, float density, Organism belongingOrganism){
         this.belongingOrganism = belongingOrganism;
         this.offCell = offCell;
         this.position = position;
         this.density = density;
-        this.cellController = cellController;
 
         destroyListeners = new ArrayList<CellDestroyListener>();
     }
 
     @Override
     public OffCell turnOff() {
-        if(cellController != null) cellController.changeSwitchable(offCell);
         return offCell;
     }
 
@@ -118,11 +111,6 @@ class OnCellImpl implements OnCell {
     @Override
     public SwitchableCell sswitch() {
         return turnOff();
-    }
-
-    @Override
-    public void setController(CellController cellController) {
-        this.cellController = cellController;
     }
 
     @Override

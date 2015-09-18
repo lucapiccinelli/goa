@@ -1,13 +1,10 @@
 package com.bnana.goa.actors;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.bnana.goa.cell.Cell;
 import com.bnana.goa.cell.CellConsumer;
 import com.bnana.goa.cell.CellGroup;
 import com.bnana.goa.cell.OffCell;
 
-import java.awt.Component;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +23,7 @@ public class ActorsFactoryCellGroup implements CellGroup{
     @Override
     public void add(OffCell offCell) {
         offCells.add(offCell);
-        CellActor actor = new CellActor(offCell);
+        CellActorController actor = new CellActorController(offCell);
         stage.addActor(actor);
     }
 

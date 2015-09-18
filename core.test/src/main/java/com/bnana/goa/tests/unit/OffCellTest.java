@@ -244,18 +244,6 @@ public class OffCellTest {
     }
 
     @Test(dataProvider = "offCells")
-    public void IfTheControllerIsSetThenTurningOnTheControllerThenRefersToTheOnCell(OffCell cell){
-        CellController controller = new CellController(cell);
-        cell.setController(controller);
-
-        OnCell onCell = cell.turnOn();
-        CellConsumer cellConsumer = mock(CellConsumer.class);
-        controller.useCell(cellConsumer);
-
-        verify(cellConsumer).use(same(onCell), any(Point2D.Float.class), anyFloat());
-    }
-
-    @Test(dataProvider = "offCells")
     public void WhenIntegratingANewCellShouldAskTheCellToGrowTheOrganism(OffCell cell){
         OffCell newOffCell = mock(OffCell.class);
         cell.integrate(newOffCell);

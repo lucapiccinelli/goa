@@ -1,19 +1,15 @@
 package com.bnana.goa.actors;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.utils.Align;
 import com.bnana.goa.CellDestroyListener;
-import com.bnana.goa.PositionListener;
 import com.bnana.goa.cell.Cell;
 import com.bnana.goa.cell.CellConsumer;
+import com.bnana.goa.cell.CellController;
 import com.bnana.goa.cell.OffCell;
-import com.bnana.goa.cell.PositionConsumer;
 import com.bnana.goa.cell.SwitchableCell;
 import com.bnana.goa.events.CellDestroyEvent;
 import com.bnana.goa.utils.Const;
@@ -23,23 +19,35 @@ import java.awt.geom.Point2D;
 /**
  * Created by Luca on 9/15/2015.
  */
-public class CellActor extends Actor implements CellConsumer, CellDestroyListener {
-    private SwitchableCell offCell;
+public class CellActorController extends Actor implements CellController, CellConsumer, CellDestroyListener {
+    private SwitchableCell switchableCell;
 
-    public CellActor(final OffCell offCell) {
-        this.offCell = offCell;
-        this.offCell.addDestroyListener(this);
+    public CellActorController(final SwitchableCell offCell) {
 
-        this.offCell.use(this);
+        this.switchableCell = offCell;
+        this.switchableCell.addDestroyListener(this);
+
+        this.switchableCell.use(this);
 
         addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                CellActor actor = (CellActor) event.getTarget();
-                actor.offCell = actor.offCell.sswitch();
+                CellActorController actor = (CellActorController) event.getTarget();
+                actor.sswitch();
                 return true;
             }
         });
+    }
+
+    @Override
+    public void use(Cell cell, Point2D.Float position, float density) {
+
+    }
+
+    @Override
+    public void useItOff(OffCell cell, Point2D.Float position, float density) {
+        setBounds(0, 0, 1f * Const.RENDERING_SCALE, 1f * Const.RENDERING_SCALE);
+        setPosition(position.x * Const.RENDERING_SCALE, position.y * Const.RENDERING_SCALE, Align.center);
     }
 
     @Override
@@ -58,13 +66,12 @@ public class CellActor extends Actor implements CellConsumer, CellDestroyListene
     }
 
     @Override
-    public void use(Cell cell, Point2D.Float position, float density) {
-
+    public void sswitch() {
+        switchableCell = switchableCell.sswitch();
     }
 
     @Override
-    public void useItOff(OffCell cell, Point2D.Float position, float density) {
-        setBounds(0, 0, 1f * Const.RENDERING_SCALE, 1f * Const.RENDERING_SCALE);
-        setPosition(position.x * Const.RENDERING_SCALE, position.y * Const.RENDERING_SCALE, Align.center);
+    public void useCell(CellConsumer cellConsumer) {
+        switchableCell.use(cellConsumer);
     }
 }

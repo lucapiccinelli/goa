@@ -2,14 +2,10 @@ package com.bnana.goa.tests.unit;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.bnana.goa.actors.ActorsFactoryCellGroup;
-import com.bnana.goa.actors.CellActor;
-import com.bnana.goa.cell.AttractorOffCell;
+import com.bnana.goa.actors.CellActorController;
 import com.bnana.goa.cell.OffCell;
 
-import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import java.util.List;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
@@ -28,7 +24,7 @@ public class ActorsFactoryCellGroupTests {
 
         factoryCellGroup.add(offCell);
 
-        verify(stage).addActor(any(CellActor.class));
+        verify(stage).addActor(any(CellActorController.class));
     }
 
     @Test
@@ -39,6 +35,6 @@ public class ActorsFactoryCellGroupTests {
 
         factoryCellGroup.add(offCell);
 
-        verify(offCell).addDestroyListener(any(CellActor.class));
+        verify(offCell).addDestroyListener(any(CellActorController.class));
     }
 }
