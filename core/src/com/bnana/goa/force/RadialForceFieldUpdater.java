@@ -48,11 +48,14 @@ public class RadialForceFieldUpdater implements CellConsumer {
 
     @Override
     public void useItOff(OffCell cell, Point2D.Float position, float density) {
-
     }
 
     public void reset(){
         positions.clear();
         density = 0;
+        points[0].setLocation(0, 0);
+        densities[0] = 0;
+
+        field.update(points, densities);
     }
 }
