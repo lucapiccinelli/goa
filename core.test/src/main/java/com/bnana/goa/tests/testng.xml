@@ -21,7 +21,8 @@
             <class name="com.bnana.goa.tests.unit.SwitchableCellOnTouchActionTests" />
             <class name="com.bnana.goa.tests.unit.CellActorControllerTests" />
             <class name="com.bnana.goa.tests.unit.ActorsFactoryCellGroupTests" />
-            <class name="com.bnana.goa.tests.unit.CellActorControllerGroupFactoryTests" />
+            <class name="com.bnana.goa.tests.unit.Box2dScaleManagerTests" />
+            viewportWidth
         </classes>
     </test>
 
