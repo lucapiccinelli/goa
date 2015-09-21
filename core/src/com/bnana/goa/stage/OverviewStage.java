@@ -21,6 +21,7 @@ import com.bnana.goa.actors.WanderingCellActor;
 import com.bnana.goa.cell.WanderingCell;
 import com.bnana.goa.cell.generator.RandomCellGenerator;
 import com.bnana.goa.force.RadialForceField;
+import com.bnana.goa.utils.Box2dScaleManager;
 import com.bnana.goa.utils.Const;
 
 import java.awt.geom.Rectangle2D;
@@ -41,6 +42,7 @@ public class OverviewStage extends Stage implements ContactListener{
     private float accumulator;
     private OrganismActor organism;
     private RadialForceField forceField;
+    private Box2dScaleManager scaleManager;
 
     public OverviewStage(GameOfAttraction game) {
         super();
@@ -74,7 +76,7 @@ public class OverviewStage extends Stage implements ContactListener{
     }
 
     private void createOrganism() {
-        organism = new OrganismActor(world, worldBounds.x, worldBounds.y, worldBounds.width, worldBounds.height, forceField);
+        organism = new OrganismActor(world, worldBounds.x, worldBounds.y, worldBounds.width, worldBounds.height, forceField, scaleManager);
         addActor(organism);
     }
 
@@ -84,6 +86,8 @@ public class OverviewStage extends Stage implements ContactListener{
         camera.setToOrtho(false, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0f);
         camera.update();
+
+        scaleManager = new Box2dScaleManager(camera, Const.APP_WIDTH, Const.APP_HEIGHT);
     }
 
     @Override

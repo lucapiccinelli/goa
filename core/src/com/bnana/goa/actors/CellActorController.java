@@ -13,6 +13,7 @@ import com.bnana.goa.cell.OffCell;
 import com.bnana.goa.cell.SwitchableCell;
 import com.bnana.goa.events.CellDestroyEvent;
 import com.bnana.goa.utils.Const;
+import com.bnana.goa.utils.ScaleManager;
 
 import java.awt.geom.Point2D;
 
@@ -21,10 +22,12 @@ import java.awt.geom.Point2D;
  */
 public class CellActorController extends Actor implements CellController, CellConsumer, CellDestroyListener {
     private SwitchableCell switchableCell;
+    private ScaleManager sm;
 
-    public CellActorController(final SwitchableCell offCell) {
+    public CellActorController(final SwitchableCell offCell, ScaleManager sm) {
 
         this.switchableCell = offCell;
+        this.sm = sm;
         this.switchableCell.addDestroyListener(this);
 
         this.switchableCell.use(this);
@@ -46,8 +49,8 @@ public class CellActorController extends Actor implements CellController, CellCo
 
     @Override
     public void useItOff(OffCell cell, Point2D.Float position, float density) {
-        setBounds(0, 0, 1f * Const.RENDERING_SCALE, 1f * Const.RENDERING_SCALE);
-        setPosition(position.x * Const.RENDERING_SCALE, position.y * Const.RENDERING_SCALE, Align.center);
+        setBounds(0, 0, sm.s(1f), sm.s(1f));
+        setPosition(sm.s(position.x), sm.s(position.y), Align.center);
     }
 
     @Override

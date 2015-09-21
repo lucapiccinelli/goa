@@ -12,6 +12,7 @@ import com.bnana.goa.organism.StartingOrganism;
 import com.bnana.goa.physics.Box2dOrganismPhysics;
 import com.bnana.goa.physics.PhysicElement;
 import com.bnana.goa.physics.PhysicOrganism;
+import com.bnana.goa.utils.ScaleManager;
 
 import java.awt.geom.Rectangle2D;
 
@@ -22,14 +23,26 @@ public class OrganismActor extends Group {
 
     private final StartingOrganism organism;
     private final PhysicElement physicOrganism;
+    private final World world;
+    private final float x;
+    private final float y;
+    private final float width;
+    private final float height;
     private ForceField forceField;
+    private final ScaleManager sm;
     private final RadialForceFieldUpdater fieldUpdater;
 
-    public OrganismActor(World world, float x, float y, float width, float height, ForceField forceField){
+    public OrganismActor(World world, float x, float y, float width, float height, ForceField forceField, ScaleManager sm){
         super();
+        this.world = world;
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
         this.forceField = forceField;
+        this.sm = sm;
 
-        organism = new StartingOrganism(new Rectangle2D.Float(x, y, width, height), new CellActorControllerGroupFactory(this));
+        organism = new StartingOrganism(new Rectangle2D.Float(x, y, width, height), new CellActorControllerGroupFactory(this, sm));
         physicOrganism = new PhysicOrganism();
 
         Box2dOrganismPhysics organismPhysics = new Box2dOrganismPhysics(world, physicOrganism);

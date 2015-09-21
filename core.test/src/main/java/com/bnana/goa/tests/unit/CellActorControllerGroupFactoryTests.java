@@ -15,6 +15,7 @@ import com.bnana.goa.cell.factories.CellControllerFactory;
 import com.bnana.goa.events.PositionChangedEvent;
 import com.bnana.goa.organism.Organism;
 import com.bnana.goa.physics.PhysicElement;
+import com.bnana.goa.utils.ScaleManager;
 
 import org.testng.annotations.Test;
 
@@ -34,7 +35,7 @@ public class CellActorControllerGroupFactoryTests {
     @Test
     public void ItCreatesANewCellActorControllerAndAddItToTheParentGroup(){
         Group group = mock(Group.class);
-        CellControllerFactory factory = new CellActorControllerGroupFactory(group);
+        CellControllerFactory factory = new CellActorControllerGroupFactory(group, mock(ScaleManager.class));
         CellActorController controller = (CellActorController)factory.make(mock(SwitchableCell.class));
 
         verify(group).addActor(same(controller));
@@ -110,7 +111,7 @@ public class CellActorControllerGroupFactoryTests {
         };
         Group group = mock(Group.class);
 
-        CellControllerFactory factory = new CellActorControllerGroupFactory(group);
+        CellControllerFactory factory = new CellActorControllerGroupFactory(group, mock(ScaleManager.class));
         CellController controller = factory.make(switchableCell);
 
         CellConsumer consumer = mock(CellConsumer.class);

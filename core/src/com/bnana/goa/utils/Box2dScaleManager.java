@@ -21,7 +21,7 @@ public class Box2dScaleManager implements ScaleManager {
     }
 
     @Override
-    public float s(int n) {
+    public float s(float n) {
         return n * scale;
     }
 }

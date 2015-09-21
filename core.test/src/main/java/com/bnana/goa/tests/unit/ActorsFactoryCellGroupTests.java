@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.bnana.goa.actors.ActorsFactoryCellGroup;
 import com.bnana.goa.actors.CellActorController;
 import com.bnana.goa.cell.OffCell;
+import com.bnana.goa.utils.ScaleManager;
 
 import org.testng.annotations.Test;
 
@@ -20,7 +21,7 @@ public class ActorsFactoryCellGroupTests {
     public void WhenAddingAnOffCellItAdsAnActorToTheStage(){
         Stage stage = mock(Stage.class);
         OffCell offCell = mock(OffCell.class);
-        ActorsFactoryCellGroup factoryCellGroup = new ActorsFactoryCellGroup(stage);
+        ActorsFactoryCellGroup factoryCellGroup = new ActorsFactoryCellGroup(stage, mock(ScaleManager.class));
 
         factoryCellGroup.add(offCell);
 
@@ -31,7 +32,7 @@ public class ActorsFactoryCellGroupTests {
     public void WhenAddingAnOffCellItAdsAnActorToTheStageAndAddTheActorToCellDestroyListeners(){
         Stage stage = mock(Stage.class);
         OffCell offCell = mock(OffCell.class);
-        ActorsFactoryCellGroup factoryCellGroup = new ActorsFactoryCellGroup(stage);
+        ActorsFactoryCellGroup factoryCellGroup = new ActorsFactoryCellGroup(stage, mock(ScaleManager.class));
 
         factoryCellGroup.add(offCell);
 
