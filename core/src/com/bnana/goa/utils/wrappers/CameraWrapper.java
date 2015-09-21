@@ -1,5 +1,6 @@
 package com.bnana.goa.utils.wrappers;
 
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
 /**
@@ -7,7 +8,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
  */
 public class CameraWrapper {
 
-    public static OrthographicCamera getCamera(int viewportWidth, int viewportHeight) {
+    public static Camera getCamera(int viewportWidth, int viewportHeight) {
         return new OrthographicCamera(viewportWidth, viewportHeight);
     }
 }

@@ -43,6 +43,8 @@ public class OverviewStage extends Stage implements ContactListener{
     private RadialForceField forceField;
 
     public OverviewStage(GameOfAttraction game) {
+        super();
+
         this.game = game;
         this.world = new World(new Vector2(0f, 0f), true);
         this.world.setContactListener(this);
