@@ -5,6 +5,7 @@ import com.bnana.goa.PositionListener;
 import com.bnana.goa.actions.OnTouchAction;
 import com.bnana.goa.organism.Organism;
 import com.bnana.goa.physics.PhysicElement;
+import com.bnana.goa.rendering.CellRenderer;
 
 import java.awt.geom.Point2D;
 
@@ -29,4 +30,6 @@ public interface Cell extends PositionListener {
     void destroy();
 
     void setPosition(Point2D.Float position);
+
+    void render(CellRenderer cellRenderer);
 }

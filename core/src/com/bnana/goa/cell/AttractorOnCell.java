@@ -6,6 +6,7 @@ import com.bnana.goa.actions.OnTouchAction;
 import com.bnana.goa.events.PositionChangedEvent;
 import com.bnana.goa.organism.Organism;
 import com.bnana.goa.physics.PhysicElement;
+import com.bnana.goa.rendering.CellRenderer;
 
 import java.awt.geom.Point2D;
 
@@ -78,6 +79,11 @@ public class AttractorOnCell implements OnCell {
     @Override
     public void setPosition(Point2D.Float position) {
         onCellImpl.setPosition(position);
+    }
+
+    @Override
+    public void render(CellRenderer cellRenderer) {
+
     }
 
     @Override

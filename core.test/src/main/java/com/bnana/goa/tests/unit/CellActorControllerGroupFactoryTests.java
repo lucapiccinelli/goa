@@ -15,6 +15,7 @@ import com.bnana.goa.cell.factories.CellControllerFactory;
 import com.bnana.goa.events.PositionChangedEvent;
 import com.bnana.goa.organism.Organism;
 import com.bnana.goa.physics.PhysicElement;
+import com.bnana.goa.rendering.CellRenderer;
 import com.bnana.goa.utils.ScaleManager;
 
 import org.testng.annotations.Test;
@@ -101,6 +102,11 @@ public class CellActorControllerGroupFactoryTests {
 
             @Override
             public void setPosition(Point2D.Float position) {
+
+            }
+
+            @Override
+            public void render(CellRenderer cellRenderer) {
 
             }
 

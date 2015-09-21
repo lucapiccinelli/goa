@@ -7,6 +7,7 @@ import com.bnana.goa.events.PositionChangedEvent;
 import com.bnana.goa.exceptions.InvalidIntegrateRequestException;
 import com.bnana.goa.organism.Organism;
 import com.bnana.goa.physics.PhysicElement;
+import com.bnana.goa.rendering.CellRenderer;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -116,5 +117,10 @@ class OnCellImpl implements OnCell {
     @Override
     public void setPosition(Point2D.Float position) {
         this.position = position;
+    }
+
+    @Override
+    public void render(CellRenderer cellRenderer) {
+
     }
 }
