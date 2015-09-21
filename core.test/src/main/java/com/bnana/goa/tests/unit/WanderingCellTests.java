@@ -9,10 +9,13 @@ import com.bnana.goa.cell.EvolvableCell;
 import com.bnana.goa.cell.OffCell;
 import com.bnana.goa.cell.PositionConsumer;
 import com.bnana.goa.cell.RepulsorOffCell;
+import com.bnana.goa.cell.RepulsorOnCell;
 import com.bnana.goa.cell.WanderingCell;
 import com.bnana.goa.events.CellDestroyEvent;
 import com.bnana.goa.events.PositionChangedEvent;
+import com.bnana.goa.organism.Organism;
 import com.bnana.goa.physics.PhysicElement;
+import com.bnana.goa.rendering.CellRenderer;
 
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -149,5 +152,17 @@ public class WanderingCellTests {
         cell.destroy();
 
         verify(destroyListener).notifyDestroy(any(CellDestroyEvent.class));
+    }
+
+    @Test
+    public void RenderingAWanderingCellShouldCallRenderWanderingCell(){
+        Point2D.Float position = new Point2D.Float(2, 3);
+        float density = 1f;
+        WanderingCell cell = new WanderingCell(position, density);
+        CellRenderer cellRenderer = mock(CellRenderer.class);
+
+        cell.render(cellRenderer);
+
+        verify(cellRenderer).renderWanderingCell(same(cell), eq(position), eq(density));
     }
 }

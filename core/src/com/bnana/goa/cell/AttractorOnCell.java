@@ -83,7 +83,7 @@ public class AttractorOnCell implements OnCell {
 
     @Override
     public void render(CellRenderer cellRenderer) {
-
+        cellRenderer.renderAttractorOnCell(this, onCellImpl.getPosition(), onCellImpl.getDensity());
     }
 
     @Override

@@ -101,7 +101,7 @@ public class WanderingCell implements EvolvableCell {
 
     @Override
     public void render(CellRenderer cellRenderer) {
-
+        cellRenderer.renderWanderingCell(this, position, density);
     }
 
     @Override

@@ -16,6 +16,7 @@ import com.bnana.goa.events.PositionChangedEvent;
 import com.bnana.goa.exceptions.InvalidIntegrateRequestException;
 import com.bnana.goa.organism.Organism;
 import com.bnana.goa.physics.PhysicElement;
+import com.bnana.goa.rendering.CellRenderer;
 
 import org.mockito.AdditionalMatchers;
 import org.mockito.Mockito;
@@ -23,7 +24,9 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import org.w3c.dom.Attr;
 
+import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.lang.reflect.Type;
 
@@ -265,5 +268,29 @@ public class OffCellTest {
         action.act(anotherAction);
 
         verify(anotherAction).actOn(same(offCell), same(element));
+    }
+
+    @Test
+    public void RenderingAnAttractorShouldCallRenderAttractor(){
+        Point2D.Float position = new Point2D.Float(2, 3);
+        float density = 1f;
+        AttractorOffCell cell = new AttractorOffCell(mock(Organism.class), position, density);
+        CellRenderer cellRenderer = mock(CellRenderer.class);
+
+        cell.render(cellRenderer);
+
+        verify(cellRenderer).renderAttractorOffCell(same(cell), eq(position), eq(density));
+    }
+
+    @Test
+    public void RenderingARepulsorShouldCallRenderRepulsor(){
+        Point2D.Float position = new Point2D.Float(2, 3);
+        float density = 1f;
+        RepulsorOffCell cell = new RepulsorOffCell(mock(Organism.class), position, density);
+        CellRenderer cellRenderer = mock(CellRenderer.class);
+
+        cell.render(cellRenderer);
+
+        verify(cellRenderer).renderRepulsorOffCell(same(cell), eq(position), eq(density));
     }
 }

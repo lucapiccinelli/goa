@@ -149,6 +149,6 @@ public class RepulsorOffCell implements OffCell {
 
     @Override
     public void render(CellRenderer cellRenderer) {
-
+        cellRenderer.renderRepulsorOffCell(this, position, density);
     }
 }

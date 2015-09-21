@@ -2,7 +2,9 @@ package com.bnana.goa.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.bnana.goa.GameOfAttraction;
 import com.bnana.goa.stage.OverviewStage;
@@ -11,6 +13,7 @@ import com.bnana.goa.stage.OverviewStage;
  * Created by Luca on 8/21/2015.
  */
 public class GameScreen implements Screen {
+    private final ShapeRenderer shapeRenderer;
     private Stage overviewStage;
     private GameOfAttraction game;
 
@@ -18,7 +21,8 @@ public class GameScreen implements Screen {
 
     public GameScreen(GameOfAttraction game) {
         this.game = game;
-        overviewStage = new OverviewStage(game);
+        this.shapeRenderer = new ShapeRenderer();
+        overviewStage = new OverviewStage(game, shapeRenderer);
 
         currentStage = overviewStage;
     }
@@ -30,6 +34,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         currentStage.draw();

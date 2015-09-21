@@ -1,8 +1,10 @@
 package com.bnana.goa.stage;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -13,6 +15,8 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Scaling;
+import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.bnana.goa.GameOfAttraction;
 import com.bnana.goa.actions.OnTouchAction;
 import com.bnana.goa.actors.ActorsFactoryCellGroup;
@@ -21,6 +25,8 @@ import com.bnana.goa.actors.WanderingCellActor;
 import com.bnana.goa.cell.WanderingCell;
 import com.bnana.goa.cell.generator.RandomCellGenerator;
 import com.bnana.goa.force.RadialForceField;
+import com.bnana.goa.rendering.CellRenderer;
+import com.bnana.goa.rendering.FlatGeneratedGraphicCellRenderer;
 import com.bnana.goa.utils.Box2dScaleManager;
 import com.bnana.goa.utils.Const;
 
@@ -43,11 +49,14 @@ public class OverviewStage extends Stage implements ContactListener{
     private OrganismActor organism;
     private RadialForceField forceField;
     private Box2dScaleManager scaleManager;
+    private ShapeRenderer shapeRenderer;
+    private CellRenderer cellRenderer;
 
-    public OverviewStage(GameOfAttraction game) {
+    public OverviewStage(GameOfAttraction game, ShapeRenderer shapeRenderer) {
         super();
 
         this.game = game;
+        this.shapeRenderer = shapeRenderer;
         this.world = new World(new Vector2(0f, 0f), true);
         this.world.setContactListener(this);
         accumulator = 0;
@@ -57,6 +66,9 @@ public class OverviewStage extends Stage implements ContactListener{
 
         createForceFields();
         createCamera();
+
+        cellRenderer = new FlatGeneratedGraphicCellRenderer(shapeRenderer, scaleManager);
+
         createOrganism();
 
         createWanderingCells();
@@ -70,13 +82,13 @@ public class OverviewStage extends Stage implements ContactListener{
 
     private void createWanderingCells() {
         RandomCellGenerator generator = new RandomCellGenerator(null, WanderingCell.MakePrototype(), worldBounds);
-        addActor(new WanderingCellActor(world, generator, forceField));
-        addActor(new WanderingCellActor(world, generator, forceField));
-        addActor(new WanderingCellActor(world, generator, forceField));
+        addActor(new WanderingCellActor(world, generator, forceField, cellRenderer));
+        addActor(new WanderingCellActor(world, generator, forceField, cellRenderer));
+        addActor(new WanderingCellActor(world, generator, forceField, cellRenderer));
     }
 
     private void createOrganism() {
-        organism = new OrganismActor(world, worldBounds.x, worldBounds.y, worldBounds.width, worldBounds.height, forceField, scaleManager);
+        organism = new OrganismActor(world, worldBounds.x, worldBounds.y, worldBounds.width, worldBounds.height, forceField, scaleManager, cellRenderer);
         addActor(organism);
     }
 
@@ -93,9 +105,7 @@ public class OverviewStage extends Stage implements ContactListener{
     @Override
     public void draw(){
         super.draw();
-        Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        renderer.render(world, camera.combined);
+        //renderer.render(world, camera.combined);
     }
 
     @Override

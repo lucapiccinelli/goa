@@ -83,7 +83,7 @@ public class RepulsorOnCell implements OnCell {
 
     @Override
     public void render(CellRenderer cellRenderer) {
-
+        cellRenderer.renderRepulsorOnCell(this, onCellImpl.getPosition(), onCellImpl.getDensity());
     }
 
     @Override

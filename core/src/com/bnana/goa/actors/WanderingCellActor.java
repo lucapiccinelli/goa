@@ -14,6 +14,7 @@ import com.bnana.goa.events.CellDestroyEvent;
 import com.bnana.goa.force.ForceField;
 import com.bnana.goa.physics.Box2dOrganismPhysics;
 import com.bnana.goa.physics.PhysicCell;
+import com.bnana.goa.rendering.CellRenderer;
 
 /**
  * Created by Luca on 9/2/2015.
@@ -22,12 +23,16 @@ public class WanderingCellActor extends Actor implements CellDestroyListener{
 
     private final WanderingCell cell;
     private World world;
+    private final RandomCellGenerator cellGenerator;
     private final ForceField forceField;
+    private final CellRenderer cellRenderer;
     private final PhysicCell physicCell;
 
-    public WanderingCellActor(World world, RandomCellGenerator cellGenerator, ForceField forceField){
+    public WanderingCellActor(World world, RandomCellGenerator cellGenerator, ForceField forceField, CellRenderer cellRenderer){
         this.world = world;
+        this.cellGenerator = cellGenerator;
         this.forceField = forceField;
+        this.cellRenderer = cellRenderer;
         physicCell = new PhysicCell();
         Box2dOrganismPhysics organismPhysics = new Box2dOrganismPhysics(world, physicCell);
 
@@ -45,6 +50,7 @@ public class WanderingCellActor extends Actor implements CellDestroyListener{
     @Override
     public void  draw(Batch batch, float parentAlpha){
         physicCell.notifyPositionChanged();
+        cell.use(cellRenderer);
         super.draw(batch, parentAlpha);
     }
 

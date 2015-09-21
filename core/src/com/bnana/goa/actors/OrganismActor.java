@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.bnana.goa.actors.factories.CellActorControllerGroupFactory;
+import com.bnana.goa.cell.CellConsumer;
 import com.bnana.goa.cell.CellController;
 import com.bnana.goa.force.ForceField;
 import com.bnana.goa.force.RadialForceFieldUpdater;
@@ -13,6 +14,7 @@ import com.bnana.goa.organism.StartingOrganism;
 import com.bnana.goa.physics.Box2dOrganismPhysics;
 import com.bnana.goa.physics.PhysicElement;
 import com.bnana.goa.physics.PhysicOrganism;
+import com.bnana.goa.rendering.CellRenderer;
 import com.bnana.goa.rendering.FlatGeneratedGraphicCellRenderer;
 import com.bnana.goa.utils.ScaleManager;
 
@@ -33,8 +35,9 @@ public class OrganismActor extends Group {
     private ForceField forceField;
     private final ScaleManager sm;
     private final RadialForceFieldUpdater fieldUpdater;
+    private CellConsumer cellRenderer;
 
-    public OrganismActor(World world, float x, float y, float width, float height, ForceField forceField, ScaleManager sm){
+    public OrganismActor(World world, float x, float y, float width, float height, ForceField forceField, ScaleManager sm, CellRenderer cellRenderer){
         super();
         this.world = world;
         this.x = x;
@@ -43,6 +46,7 @@ public class OrganismActor extends Group {
         this.height = height;
         this.forceField = forceField;
         this.sm = sm;
+        this.cellRenderer = cellRenderer;
 
         organism = new StartingOrganism(new Rectangle2D.Float(x, y, width, height), new CellActorControllerGroupFactory(this, sm));
         physicOrganism = new PhysicOrganism();
@@ -64,7 +68,10 @@ public class OrganismActor extends Group {
     @Override
     public void  draw(Batch batch, float parentAlpha){
         physicOrganism.notifyPositionChanged();
-        organism.use(new FlatGeneratedGraphicCellRenderer(new ShapeRenderer(), sm));
         super.draw(batch, parentAlpha);
+        batch.end();
+
+        organism.use(cellRenderer);
+        batch.begin();
     }
 }
