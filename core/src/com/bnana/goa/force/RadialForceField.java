@@ -1,9 +1,9 @@
 package com.bnana.goa.force;
 
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.bnana.goa.exceptions.GoaArgumentException;
+import com.bnana.goa.rendering.ForceRenderer;
 
 import java.awt.geom.Point2D;
 
@@ -44,9 +44,19 @@ public class RadialForceField implements ForceField {
         Vector2 bodyCenter = body.getWorldCenter();
         float distance = centerOfMass.dst(bodyCenter);
 
-        float finalMagnitude = magnitude / distance;
+        float finalMagnitude = valueAtDistance(distance);
 
         Vector2 force = bodyCenter.sub(centerOfMass).nor().scl(finalMagnitude);
         body.applyForceToCenter(force, true);
+    }
+
+    @Override
+    public void render(ForceRenderer forceRenderer) {
+        forceRenderer.renderForce(this, centerOfMass, magnitude);
+    }
+
+    @Override
+    public float valueAtDistance(float distance) {
+        return magnitude / (float)Math.pow(distance, 2);
     }
 }

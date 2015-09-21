@@ -91,4 +91,12 @@ public class RadialForceFieldTests {
         ForceField radialForceField = new RadialForceField();
         radialForceField.update(new Point2D.Float[1], new float[0]);
     }
+
+    @Test
+    public void YouCanMeasureTheForceAtACertainDistance(){
+        ForceField radialForceField = new RadialForceField();
+        radialForceField.update(new Point2D.Float[]{new Point2D.Float()}, new float[]{3});
+
+        Assert.assertEquals(radialForceField.valueAtDistance(10f), 3f);
+    }
 }

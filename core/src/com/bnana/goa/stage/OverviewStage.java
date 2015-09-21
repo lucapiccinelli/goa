@@ -20,6 +20,7 @@ import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.bnana.goa.GameOfAttraction;
 import com.bnana.goa.actions.OnTouchAction;
 import com.bnana.goa.actors.ActorsFactoryCellGroup;
+import com.bnana.goa.actors.ForceActor;
 import com.bnana.goa.actors.OrganismActor;
 import com.bnana.goa.actors.WanderingCellActor;
 import com.bnana.goa.cell.WanderingCell;
@@ -27,6 +28,7 @@ import com.bnana.goa.cell.generator.RandomCellGenerator;
 import com.bnana.goa.force.RadialForceField;
 import com.bnana.goa.rendering.CellRenderer;
 import com.bnana.goa.rendering.FlatGeneratedGraphicCellRenderer;
+import com.bnana.goa.rendering.GeneratedGraphicForceRenderer;
 import com.bnana.goa.utils.Box2dScaleManager;
 import com.bnana.goa.utils.Const;
 
@@ -64,13 +66,11 @@ public class OverviewStage extends Stage implements ContactListener{
         int offset = 10;
         worldBounds = new Rectangle2D.Float(offset, offset, VIEWPORT_WIDTH - offset, VIEWPORT_HEIGHT - offset);
 
-        createForceFields();
         createCamera();
 
+        createForceFields();
         cellRenderer = new FlatGeneratedGraphicCellRenderer(shapeRenderer, scaleManager);
-
         createOrganism();
-
         createWanderingCells();
 
         Gdx.input.setInputProcessor(this);
@@ -78,6 +78,8 @@ public class OverviewStage extends Stage implements ContactListener{
 
     private void createForceFields() {
         forceField = new RadialForceField();
+        ForceActor forceActor = new ForceActor(forceField, new GeneratedGraphicForceRenderer(shapeRenderer, scaleManager));
+        addActor(forceActor);
     }
 
     private void createWanderingCells() {
