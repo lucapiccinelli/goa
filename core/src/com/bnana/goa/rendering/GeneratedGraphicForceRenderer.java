@@ -27,19 +27,23 @@ public class GeneratedGraphicForceRenderer implements ForceRenderer{
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
-        int distance = 10;
+        int distanceGrow = 1;
+        int distance = 1;
         float forceValue = 0;
         Array<Float> values = new Array<Float>();
+        float max = Float.MIN_VALUE;
         do {
             forceValue = Math.abs(forceField.valueAtDistance(distance));
+            if(forceValue > max) max = forceValue;
             values.add(forceValue);
-            distance += 10;
-        }while (forceValue > 0.001);
+            distance += distanceGrow;
+        }while (forceValue > 0.1);
 
+        float scale = 1f / max;
         for (int i = values.size - 1; i >= 0; i--){
-            shapeRenderer.setColor(1f, 1f, 1 - values.get(i) * 10, 1f);
-            shapeRenderer.circle(sm.s(position.x), sm.s(position.y), distance);
-            distance -= 10;
+            shapeRenderer.setColor(1f, 1f, 1 - values.get(i) * scale, 1f);
+            shapeRenderer.circle(position.x, position.y, distance);
+            distance -= distanceGrow;
         }
 
         shapeRenderer.end();

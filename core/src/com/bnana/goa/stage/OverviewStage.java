@@ -55,7 +55,7 @@ public class OverviewStage extends Stage implements ContactListener{
     private CellRenderer cellRenderer;
 
     public OverviewStage(GameOfAttraction game, ShapeRenderer shapeRenderer) {
-        super();
+        super(new ScalingViewport(Scaling.stretch, Const.VIEWPORT_WIDTH, Const.VIEWPORT_HEIGHT, new OrthographicCamera(Const.VIEWPORT_WIDTH, Const.VIEWPORT_HEIGHT)));
 
         this.game = game;
         this.shapeRenderer = shapeRenderer;
@@ -96,8 +96,8 @@ public class OverviewStage extends Stage implements ContactListener{
 
     private void createCamera() {
         this.renderer = new Box2DDebugRenderer();
-        this.camera = new OrthographicCamera();
-        camera.setToOrtho(false, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
+        this.camera = (OrthographicCamera) getCamera();
+        //camera.setToOrtho(false, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0f);
         camera.update();
 
@@ -106,6 +106,8 @@ public class OverviewStage extends Stage implements ContactListener{
 
     @Override
     public void draw(){
+        camera.update();
+        shapeRenderer.setProjectionMatrix(camera.combined);
         super.draw();
         //renderer.render(world, camera.combined);
     }
@@ -119,6 +121,10 @@ public class OverviewStage extends Stage implements ContactListener{
         while (accumulator >= delta){
             world.step(TIME_STEP, 6, 2);
             accumulator -= TIME_STEP;
+        }
+
+        if(Gdx.input.isTouched()){
+            System.out.println(Gdx.input.getX() + " - " + Gdx.input.getY());
         }
     }
 

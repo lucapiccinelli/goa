@@ -40,6 +40,8 @@ public class CellActorController extends Actor implements CellController, CellCo
                 return true;
             }
         });
+
+        debug();
     }
 
     @Override
