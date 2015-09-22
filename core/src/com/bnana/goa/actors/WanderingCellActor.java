@@ -1,7 +1,9 @@
 package com.bnana.goa.actors;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.bnana.goa.CellDestroyListener;
@@ -14,7 +16,9 @@ import com.bnana.goa.events.CellDestroyEvent;
 import com.bnana.goa.force.ForceField;
 import com.bnana.goa.physics.Box2dOrganismPhysics;
 import com.bnana.goa.physics.PhysicCell;
+import com.bnana.goa.rendering.CellForceFieldRenderer;
 import com.bnana.goa.rendering.CellRenderer;
+import com.bnana.goa.utils.Const;
 
 /**
  * Created by Luca on 9/2/2015.
@@ -22,13 +26,15 @@ import com.bnana.goa.rendering.CellRenderer;
 public class WanderingCellActor extends Actor implements CellDestroyListener{
 
     private final WanderingCell cell;
+    private final TextureRegion textureRegion;
     private World world;
     private final RandomCellGenerator cellGenerator;
     private final ForceField forceField;
     private final CellRenderer cellRenderer;
+    private final CellRenderer forceFieldRenderer;
     private final PhysicCell physicCell;
 
-    public WanderingCellActor(World world, RandomCellGenerator cellGenerator, ForceField forceField, CellRenderer cellRenderer){
+    public WanderingCellActor(World world, RandomCellGenerator cellGenerator, ForceField forceField, CellRenderer cellRenderer, Batch batch){
         this.world = world;
         this.cellGenerator = cellGenerator;
         this.forceField = forceField;
@@ -36,9 +42,15 @@ public class WanderingCellActor extends Actor implements CellDestroyListener{
         physicCell = new PhysicCell();
         Box2dOrganismPhysics organismPhysics = new Box2dOrganismPhysics(world, physicCell);
 
+        forceFieldRenderer = new CellForceFieldRenderer(forceField, batch);
+
         cell = (WanderingCell)cellGenerator.generate();
         cell.use(organismPhysics);
         cell.addDestroyListener(this);
+
+
+
+        textureRegion = new TextureRegion(new Texture(Gdx.files.internal(Const.FORCE_ARROW_IMAGE_PATH)));
     }
 
     @Override
@@ -50,8 +62,12 @@ public class WanderingCellActor extends Actor implements CellDestroyListener{
     @Override
     public void  draw(Batch batch, float parentAlpha){
         physicCell.notifyPositionChanged();
-        cell.use(cellRenderer);
         super.draw(batch, parentAlpha);
+        //batch.draw(textureRegion, 0, 0, Const.VIEWPORT_WIDTH, Const.VIEWPORT_HEIGHT);
+        cell.use(forceFieldRenderer);
+        batch.end();
+        cell.use(cellRenderer);
+        batch.begin();
     }
 
     @Override

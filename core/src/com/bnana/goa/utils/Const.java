@@ -14,4 +14,6 @@ public class Const {
     public static float DEFAULT_CELL_DENSITY = 1;
 
     public static final float RENDERING_SCALE = APP_WIDTH / VIEWPORT_WIDTH;
+
+    public static final String FORCE_ARROW_IMAGE_PATH = "force_arrow.png";
 }

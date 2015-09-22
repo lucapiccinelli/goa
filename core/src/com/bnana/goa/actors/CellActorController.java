@@ -40,8 +40,6 @@ public class CellActorController extends Actor implements CellController, CellCo
                 return true;
             }
         });
-
-        debug();
     }
 
     @Override
@@ -51,8 +49,8 @@ public class CellActorController extends Actor implements CellController, CellCo
 
     @Override
     public void useItOff(OffCell cell, Point2D.Float position, float density) {
-        setBounds(0, 0, sm.s(1f), sm.s(1f));
-        setPosition(sm.s(position.x), sm.s(position.y), Align.center);
+        setBounds(0, 0, 1.2f, 1.2f);
+        setPosition(position.x, position.y, Align.center);
     }
 
     @Override

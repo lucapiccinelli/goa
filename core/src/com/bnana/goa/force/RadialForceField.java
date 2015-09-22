@@ -59,4 +59,17 @@ public class RadialForceField implements ForceField {
     public float valueAtDistance(float distance) {
         return magnitude / (float)Math.pow(distance, 2);
     }
+
+    @Override
+    public float valueAtPoint(Point2D.Float position) {
+        float distance = centerOfMass.dst(position.x, position.y);
+        return valueAtDistance(distance);
+    }
+
+    @Override
+    public Vector2 direction(Point2D.Float position) {
+        Vector2 direction = new Vector2(position.x, position.y);
+        direction.sub(centerOfMass).nor();
+        return direction;
+    }
 }

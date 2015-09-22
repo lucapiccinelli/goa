@@ -1,5 +1,6 @@
 package com.bnana.goa.force;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.bnana.goa.rendering.ForceRenderer;
 
@@ -16,4 +17,8 @@ public interface ForceField {
     void render(ForceRenderer forceRenderer);
 
     float valueAtDistance(float distance);
+
+    float valueAtPoint(Point2D.Float position);
+
+    Vector2 direction(Point2D.Float position);
 }

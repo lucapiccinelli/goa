@@ -1,5 +1,6 @@
 package com.bnana.goa.tests.unit;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.bnana.goa.exceptions.GoaArgumentException;
 import com.bnana.goa.force.ForceField;
@@ -12,6 +13,7 @@ import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.hamcrest.core.Is;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.awt.geom.Point2D;
@@ -98,5 +100,32 @@ public class RadialForceFieldTests {
         radialForceField.update(new Point2D.Float[]{new Point2D.Float()}, new float[]{3});
 
         Assert.assertEquals(radialForceField.valueAtDistance(10f), 3f);
+    }
+
+    @Test
+    public void YouCanMeasureTheForceAtACertainPoint(){
+        ForceField radialForceField = new RadialForceField();
+        radialForceField.update(new Point2D.Float[]{new Point2D.Float()}, new float[]{3});
+
+        Assert.assertEquals(radialForceField.valueAtPoint(new Point2D.Float(0, 10)), 3f);
+    }
+
+    @DataProvider
+    public Object[][] directions(){
+        return new Object[][]{
+                {new Point2D.Float(0,  10), new Vector2(0, 1)},
+                {new Point2D.Float(10,  0), new Vector2(1, 0)},
+                {new Point2D.Float(0, -10), new Vector2(0, -1)},
+                {new Point2D.Float(-10, 0), new Vector2(-1, 0)},
+                {new Point2D.Float(10, 5), new Vector2(0.8944272f, 0.4472136f)},
+        };
+    }
+
+    @Test(dataProvider = "directions")
+    public void YouCanAskToAForceWhereItPushesAtACertainPoint(Point2D.Float point, Vector2 expected){
+        ForceField radialForceField = new RadialForceField();
+        radialForceField.update(new Point2D.Float[]{new Point2D.Float()}, new float[]{3});
+
+        Assert.assertEquals(radialForceField.direction(point), expected);
     }
 }

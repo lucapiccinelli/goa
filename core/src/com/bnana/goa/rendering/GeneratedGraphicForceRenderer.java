@@ -23,7 +23,7 @@ public class GeneratedGraphicForceRenderer implements ForceRenderer{
 
     @Override
     public void renderForce(ForceField forceField, Vector2 position, float magnitude){
-        if (position.x == 0 && position.y == 0) return;
+        if (magnitude == 0) return;
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
