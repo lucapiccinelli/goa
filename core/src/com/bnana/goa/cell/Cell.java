@@ -1,5 +1,6 @@
 package com.bnana.goa.cell;
 
+import com.badlogic.gdx.math.Vector2;
 import com.bnana.goa.CellDestroyListener;
 import com.bnana.goa.PositionListener;
 import com.bnana.goa.actions.OnTouchAction;
@@ -17,9 +18,9 @@ public interface Cell extends PositionListener {
 
     float distance(Cell cell);
 
-    Cell prototype(Organism belongingOrganism, Point2D.Float position, float density);
+    Cell prototype(Organism belongingOrganism, Vector2 position, float density);
 
-    Cell opposite(Point2D.Float position, float density);
+    Cell opposite(Vector2 position, float density);
 
     OffCell getAnOffCell();
 
@@ -29,7 +30,7 @@ public interface Cell extends PositionListener {
 
     void destroy();
 
-    void setPosition(Point2D.Float position);
+    void setPosition(Vector2 position);
 
     void render(CellRenderer cellRenderer);
 }

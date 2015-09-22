@@ -1,5 +1,6 @@
 package com.bnana.goa.tests.unit;
 
+import com.badlogic.gdx.math.Vector2;
 import com.bnana.goa.actions.*;
 import com.bnana.goa.cell.AttractorOnCell;
 import com.bnana.goa.cell.OffCell;
@@ -24,7 +25,7 @@ import static org.mockito.Mockito.when;
 public class WanderingOnTouchActionTests {
     @Test
     public void TheOtherActionShouldActOnTheWanderingCell(){
-        WanderingCell cell = new WanderingCell(new Point2D.Float(), 1f);
+        WanderingCell cell = new WanderingCell(new Vector2(), 1f);
 
         OnTouchAction wanderingOnTouchAction = new WanderingOnTouchAction(cell, mock(PhysicElement.class));
         OnTouchAction anotherAction = mock(OnTouchAction.class);
@@ -115,7 +116,7 @@ public class WanderingOnTouchActionTests {
     @Test
     public void WhenActingOnAnAttractorWanderingCellShouldBeIntegratedIntoTheOrganism(){
         PhysicElement element = mock(PhysicElement.class);
-        WanderingCell wanderingCell = new WanderingCell(new Point2D.Float(), 1f);
+        WanderingCell wanderingCell = new WanderingCell(new Vector2(), 1f);
         OnTouchAction action = new WanderingOnTouchAction(wanderingCell, element);
 
         OnCell attractor = mock(OnCell.class);
@@ -127,7 +128,7 @@ public class WanderingOnTouchActionTests {
     @Test
     public void WhenActingOnAnOnCellItShouldChangeItsActionTypeToAnOnCellOnTouchAction(){
         PhysicElement element = mock(PhysicElement.class);
-        WanderingCell wanderingCell = new WanderingCell(new Point2D.Float(), 1f);
+        WanderingCell wanderingCell = new WanderingCell(new Vector2(), 1f);
         OnTouchAction action = new WanderingOnTouchAction(wanderingCell, element);
 
         action.actOn(mock(OnCell.class), mock(PhysicElement.class));
@@ -138,7 +139,7 @@ public class WanderingOnTouchActionTests {
     @Test
     public void WhenActingOnAnOnCellItShouldRemoveTheWanderingCellFromPositionListeners(){
         PhysicElement element = mock(PhysicElement.class);
-        WanderingCell wanderingCell = new WanderingCell(new Point2D.Float(), 1f);
+        WanderingCell wanderingCell = new WanderingCell(new Vector2(), 1f);
         OnTouchAction action = new WanderingOnTouchAction(wanderingCell, element);
 
         action.actOn(mock(OnCell.class), mock(PhysicElement.class));
@@ -149,7 +150,7 @@ public class WanderingOnTouchActionTests {
     @Test
     public void WhenActingOnAnOnCellItShouldAddTheEvolvedCellToPositionListeners(){
         PhysicElement element = mock(PhysicElement.class);
-        WanderingCell wanderingCell = new WanderingCell(new Point2D.Float(), 1f);
+        WanderingCell wanderingCell = new WanderingCell(new Vector2(), 1f);
         OnTouchAction action = new WanderingOnTouchAction(wanderingCell, element);
 
         action.actOn(mock(OnCell.class), mock(PhysicElement.class));

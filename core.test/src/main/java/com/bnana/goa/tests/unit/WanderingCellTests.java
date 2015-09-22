@@ -1,5 +1,6 @@
 package com.bnana.goa.tests.unit;
 
+import com.badlogic.gdx.math.Vector2;
 import com.bnana.goa.CellDestroyListener;
 import com.bnana.goa.actions.OnTouchAction;
 import com.bnana.goa.cell.AttractorOffCell;
@@ -37,13 +38,13 @@ import static org.mockito.Mockito.verify;
 public class WanderingCellTests {
     @Test
     public void AWanderingCellCanEvolveToAnOffCell(){
-        EvolvableCell wanderingCell = new WanderingCell(new Point2D.Float(0, 0), 1f);
+        EvolvableCell wanderingCell = new WanderingCell(new Vector2(0, 0), 1f);
         Assert.assertNotNull(wanderingCell.evolve());
     }
 
     @Test
     public void AWanderingCellEvolvesAlwaysToTheSameCell(){
-        EvolvableCell wanderingCell = new WanderingCell(new Point2D.Float(0, 0), 1f);
+        EvolvableCell wanderingCell = new WanderingCell(new Vector2(0, 0), 1f);
 
         OffCell evolved = wanderingCell.evolve();
         OffCell evolved2 = wanderingCell.evolve();
@@ -56,18 +57,18 @@ public class WanderingCellTests {
         List<OffCell> evolvedCells = new ArrayList<>();
         int totalRolls = 1000;
         for (int i = 0; i < totalRolls; i++){
-            evolvedCells.add(new WanderingCell(new Point2D.Float(0, 0), 1f).evolve());
+            evolvedCells.add(new WanderingCell(new Vector2(0, 0), 1f).evolve());
         }
 
         final float densityAccumulator[] = {0};
         CellConsumer densityAccumulatorConsumer = new CellConsumer() {
             @Override
-            public void use(Cell cell, Point2D.Float position, float density) {
+            public void use(Cell cell, Vector2 position, float density) {
                 densityAccumulator[0] += density;
             }
 
             @Override
-            public void useItOff(OffCell cell, Point2D.Float position, float density) {
+            public void useItOff(OffCell cell, Vector2 position, float density) {
 
             }
         };
@@ -83,43 +84,43 @@ public class WanderingCellTests {
     @DataProvider
     public Object[][] pointProvider(){
         return new Object[][]{
-                {new AttractorOffCell(new Point2D.Float(0, 0), 1), new Point2D.Float(1, 1), 1.4142135f},
-                {new AttractorOffCell(new Point2D.Float(0, 0), 1), new Point2D.Float(2, 2), 2.828427f},
-                {new AttractorOffCell(new Point2D.Float(0, 0), 1), new Point2D.Float(0, 5), 5f},
-                {new WanderingCell(new Point2D.Float(0, 0), 1), new Point2D.Float(1, 1), 1.4142135f},
-                {new RepulsorOffCell(new Point2D.Float(0, 0), 1), new Point2D.Float(2, 2), 2.828427f},
-                {new WanderingCell(new Point2D.Float(0, 0), 1), new Point2D.Float(0, 5), 5f},
+                {new AttractorOffCell(new Vector2(0, 0), 1), new Vector2(1, 1), 1.4142135f},
+                {new AttractorOffCell(new Vector2(0, 0), 1), new Vector2(2, 2), 2.828427f},
+                {new AttractorOffCell(new Vector2(0, 0), 1), new Vector2(0, 5), 5f},
+                {new WanderingCell(new Vector2(0, 0), 1), new Vector2(1, 1), 1.4142135f},
+                {new RepulsorOffCell(new Vector2(0, 0), 1), new Vector2(2, 2), 2.828427f},
+                {new WanderingCell(new Vector2(0, 0), 1), new Vector2(0, 5), 5f},
         };
     }
 
     @Test(dataProvider = "pointProvider")
-    public void TheDistanceBetweenTheseCellsShouldBe(Cell cell2, Point2D.Float p, float result){
+    public void TheDistanceBetweenTheseCellsShouldBe(Cell cell2, Vector2 p, float result){
         WanderingCell cell1 = new WanderingCell(p, 1);
         Assert.assertEquals(cell1.distance(cell2), result);
     }
 
     @Test
     public void requestingAnOnCellItShouldReturnANotNullCell(){
-        Cell cell = new WanderingCell(new Point2D.Float(0, 0), 1);
+        Cell cell = new WanderingCell(new Vector2(0, 0), 1);
         Assert.assertNotNull(cell.getAnOffCell());
     }
 
     @Test
     public void requestingAnOnCellItShouldReturnANewOffCell(){
-        Cell cell = new WanderingCell(new Point2D.Float(0, 0), 1);
+        Cell cell = new WanderingCell(new Vector2(0, 0), 1);
         Assert.assertNotSame(cell, cell.getAnOffCell());
     }
 
     @Test
     public void prototypingShouldReturnAWanderingCell(){
         WanderingCell prototype = WanderingCell.MakePrototype();
-        Assert.assertEquals(WanderingCell.class, prototype.prototype(null, new Point2D.Float(3, 2), 1f).getClass());
+        Assert.assertEquals(WanderingCell.class, prototype.prototype(null, new Vector2(3, 2), 1f).getClass());
     }
 
     @Test
     public void WhenNotifiedThatThePositionHasChangedItShouldBeUpdated(){
-        Point2D.Float position = new Point2D.Float(5, 10);
-        WanderingCell cell = new WanderingCell(new Point2D.Float(0, 0), 1);
+        Vector2 position = new Vector2(5, 10);
+        WanderingCell cell = new WanderingCell(new Vector2(0, 0), 1);
         PositionChangedEvent event = new PositionChangedEvent(this, position);
 
         cell.updatePosition(event);
@@ -132,7 +133,7 @@ public class WanderingCellTests {
 
     @Test
     public void ShouldCreateAWanderingOnTouchActionThatRefersToItSelfAndToTheGivenPhysicElement() {
-        WanderingCell cell = new WanderingCell(new Point2D.Float(0, 0), 1);
+        WanderingCell cell = new WanderingCell(new Vector2(0, 0), 1);
 
         PhysicElement element = mock(PhysicElement.class);
         OnTouchAction action = cell.createOnTouchAction(element);
@@ -145,7 +146,7 @@ public class WanderingCellTests {
 
     @Test
     public void WhenTItIsDestroyedAllItsDestroyListenersShouldbeNotified(){
-        Cell cell = new WanderingCell(new Point2D.Float(0, 0), 1);
+        Cell cell = new WanderingCell(new Vector2(0, 0), 1);
 
         CellDestroyListener destroyListener = mock(CellDestroyListener.class);
         cell.addDestroyListener(destroyListener);
@@ -156,7 +157,7 @@ public class WanderingCellTests {
 
     @Test
     public void RenderingAWanderingCellShouldCallRenderWanderingCell(){
-        Point2D.Float position = new Point2D.Float(2, 3);
+        Vector2 position = new Vector2(2, 3);
         float density = 1f;
         WanderingCell cell = new WanderingCell(position, density);
         CellRenderer cellRenderer = mock(CellRenderer.class);

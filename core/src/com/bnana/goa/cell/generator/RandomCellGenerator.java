@@ -1,6 +1,7 @@
 package com.bnana.goa.cell.generator;
 
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.bnana.goa.organism.Organism;
 import com.bnana.goa.utils.Const;
 import com.bnana.goa.cell.Cell;
@@ -30,6 +31,6 @@ public class RandomCellGenerator implements CellGenerator {
         float x = rand.nextFloat() * bounds.width + bounds.x;
         float y = rand.nextFloat() * bounds.height + bounds.y;
 
-        return cellPrototype.prototype(organism, new Point2D.Float(x,y), Const.DEFAULT_CELL_DENSITY);
+        return cellPrototype.prototype(organism, new Vector2(x,y), Const.DEFAULT_CELL_DENSITY);
     }
 }

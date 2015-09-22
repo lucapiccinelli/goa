@@ -17,7 +17,7 @@ public class BodyWrapper {
         return WorldWrapper.GetNewWorldZeroGravity().createBody(new BodyDef());
     }
 
-    public static Body getNewCircleBody(Point2D.Float position, int mass) {
+    public static Body getNewCircleBody(Vector2 position, int mass) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.position.set(position.x, position.y);
         bodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -34,13 +34,13 @@ public class BodyWrapper {
         return body;
     }
 
-    public static Point2D.Float getBodyPosition(Body body) {
+    public static Vector2 getBodyPosition(Body body) {
         Vector2 position = body.getPosition();
-        return new Point2D.Float(position.x, position.y);
+        return new Vector2(position.x, position.y);
     }
 
     public static Body getNewBodyWithLinearVelocityNotZero() {
-        Body body = getNewCircleBody(new Point2D.Float(), 1);
+        Body body = getNewCircleBody(new Vector2(), 1);
         body.setLinearVelocity(10, 10);
 
         return body;

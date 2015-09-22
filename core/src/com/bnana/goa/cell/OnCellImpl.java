@@ -1,5 +1,6 @@
 package com.bnana.goa.cell;
 
+import com.badlogic.gdx.math.Vector2;
 import com.bnana.goa.CellDestroyListener;
 import com.bnana.goa.actions.OnTouchAction;
 import com.bnana.goa.events.CellDestroyEvent;
@@ -21,11 +22,11 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 class OnCellImpl implements OnCell {
     private Organism belongingOrganism;
     private final OffCell offCell;
-    private Point2D.Float position;
+    private Vector2 position;
     private final float density;
     private List<CellDestroyListener> destroyListeners;
 
-    OnCellImpl(OffCell offCell, Point2D.Float position, float density, Organism belongingOrganism){
+    OnCellImpl(OffCell offCell, Vector2 position, float density, Organism belongingOrganism){
         this.belongingOrganism = belongingOrganism;
         this.offCell = offCell;
         this.position = position;
@@ -63,12 +64,12 @@ class OnCellImpl implements OnCell {
     }
 
     @Override
-    public Cell prototype(Organism belongingOrganism, Point2D.Float position, float density) {
+    public Cell prototype(Organism belongingOrganism, Vector2 position, float density) {
         return null;
     }
 
     @Override
-    public Cell opposite(Point2D.Float position, float density) {
+    public Cell opposite(Vector2 position, float density) {
         return null;
     }
 
@@ -101,7 +102,7 @@ class OnCellImpl implements OnCell {
         offCell.setPosition(position);
     }
 
-    Point2D.Float getPosition() {
+    Vector2 getPosition() {
         return position;
     }
 
@@ -115,7 +116,7 @@ class OnCellImpl implements OnCell {
     }
 
     @Override
-    public void setPosition(Point2D.Float position) {
+    public void setPosition(Vector2 position) {
         this.position = position;
     }
 

@@ -1,5 +1,6 @@
 package com.bnana.goa.force;
 
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.bnana.goa.exceptions.GoaArgumentException;
@@ -17,24 +18,24 @@ public class RadialForceField implements ForceField {
     private final Vector2 centerOfMass;
     private float magnitude;
 
-    public RadialForceField(Point2D.Float centerOfMass, float magnitude) {
+    public RadialForceField(Vector2 centerOfMass, float magnitude) {
         this.centerOfMass = new Vector2(centerOfMass.x, centerOfMass.y);
         this.magnitude = magnitude * MAGNITUDE_SCALE;
     }
 
     public RadialForceField() {
-        this(new Point2D.Float(0, 0), 0);
+        this(new Vector2(0, 0), 0);
     }
 
     @Override
-    public void update(Point2D.Float[] positions, float[] magnitudes) {
+    public void update(Vector2[] positions, float[] magnitudes) {
         if (positions.length < 1)
             throw new GoaArgumentException("You must provide a position as the center of the force in order to update");
 
         if (magnitudes.length < 1)
             throw new GoaArgumentException("You must provide a magnitude in order to update the force");
 
-        Point2D.Float position = positions[0];
+        Vector2 position = positions[0];
         magnitude = magnitudes[0] * MAGNITUDE_SCALE;
         centerOfMass.set(position.x, position.y);
     }
@@ -61,13 +62,13 @@ public class RadialForceField implements ForceField {
     }
 
     @Override
-    public float valueAtPoint(Point2D.Float position) {
+    public float valueAtPoint(Vector2 position) {
         float distance = centerOfMass.dst(position.x, position.y);
         return valueAtDistance(distance);
     }
 
     @Override
-    public Vector2 direction(Point2D.Float position) {
+    public Vector2 direction(Vector2 position) {
         Vector2 direction = new Vector2(position.x, position.y);
         direction.sub(centerOfMass).nor();
         return direction;

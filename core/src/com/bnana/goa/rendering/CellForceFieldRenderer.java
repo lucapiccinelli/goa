@@ -37,27 +37,27 @@ public class CellForceFieldRenderer implements CellRenderer {
     }
 
     @Override
-    public void renderAttractorOffCell(AttractorOffCell attractorOffCell, Point2D.Float position, float density) {
+    public void renderAttractorOffCell(AttractorOffCell attractorOffCell, Vector2 position, float density) {
 
     }
 
     @Override
-    public void renderRepulsorOffCell(RepulsorOffCell repulsorOffCell, Point2D.Float position, float density) {
+    public void renderRepulsorOffCell(RepulsorOffCell repulsorOffCell, Vector2 position, float density) {
 
     }
 
     @Override
-    public void renderAttractorOnCell(AttractorOnCell attractorOnCell, Point2D.Float position, float density) {
+    public void renderAttractorOnCell(AttractorOnCell attractorOnCell, Vector2 position, float density) {
 
     }
 
     @Override
-    public void renderRepulsorOnCell(RepulsorOnCell repulsorOnCell, Point2D.Float position, float density) {
+    public void renderRepulsorOnCell(RepulsorOnCell repulsorOnCell, Vector2 position, float density) {
 
     }
 
     @Override
-    public void renderWanderingCell(WanderingCell wanderingCell, Point2D.Float position, float density) {
+    public void renderWanderingCell(WanderingCell wanderingCell, Vector2 position, float density) {
         float magnitude = forceField.valueAtPoint(position);
         if(magnitude == 0) return;
 
@@ -74,12 +74,12 @@ public class CellForceFieldRenderer implements CellRenderer {
     }
 
     @Override
-    public void use(Cell cell, Point2D.Float position, float density) {
+    public void use(Cell cell, Vector2 position, float density) {
         cell.render(this);
     }
 
     @Override
-    public void useItOff(OffCell cell, Point2D.Float position, float density) {
+    public void useItOff(OffCell cell, Vector2 position, float density) {
         use(cell, position, density);
     }
 }

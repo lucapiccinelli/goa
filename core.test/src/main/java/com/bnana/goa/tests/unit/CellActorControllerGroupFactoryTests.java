@@ -1,5 +1,6 @@
 package com.bnana.goa.tests.unit;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.bnana.goa.CellDestroyListener;
 import com.bnana.goa.actions.OnTouchAction;
@@ -57,7 +58,7 @@ public class CellActorControllerGroupFactoryTests {
 
             @Override
             public void use(CellConsumer consumer) {
-                consumer.use(this, mock(Point2D.Float.class), 1);
+                consumer.use(this, mock(Vector2.class), 1);
             }
 
             @Override
@@ -71,12 +72,12 @@ public class CellActorControllerGroupFactoryTests {
             }
 
             @Override
-            public Cell prototype(Organism belongingOrganism, Point2D.Float position, float density) {
+            public Cell prototype(Organism belongingOrganism, Vector2 position, float density) {
                 return null;
             }
 
             @Override
-            public Cell opposite(Point2D.Float position, float density) {
+            public Cell opposite(Vector2 position, float density) {
                 return null;
             }
 
@@ -101,7 +102,7 @@ public class CellActorControllerGroupFactoryTests {
             }
 
             @Override
-            public void setPosition(Point2D.Float position) {
+            public void setPosition(Vector2 position) {
 
             }
 
@@ -124,6 +125,6 @@ public class CellActorControllerGroupFactoryTests {
 
         controller.useCell(consumer);
 
-        verify(consumer).use(same(switchableCell), any(Point2D.Float.class), anyFloat());
+        verify(consumer).use(same(switchableCell), any(Vector2.class), anyFloat());
     }
 }

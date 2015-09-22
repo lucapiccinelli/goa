@@ -1,5 +1,6 @@
 package com.bnana.goa.tests.unit;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
@@ -33,7 +34,7 @@ public class Box2dOrganismPhysicsTests {
         PhysicElement physicElement = mock(PhysicElement.class);
         OrganismPhysics physics = new Box2dOrganismPhysics(world, physicElement);
 
-        physics.use(mock(Cell.class), new Point2D.Float(10, 20), 1);
+        physics.use(mock(Cell.class), new Vector2(10, 20), 1);
 
         Assert.assertEquals(WorldWrapper.countBodies(world), 1);
     }
@@ -44,7 +45,7 @@ public class Box2dOrganismPhysicsTests {
         PhysicElement physicElement = mock(PhysicElement.class);
         OrganismPhysics physics = new Box2dOrganismPhysics(world, physicElement);
 
-        physics.use(mock(Cell.class), new Point2D.Float(10, 20), 1);
+        physics.use(mock(Cell.class), new Vector2(10, 20), 1);
 
         verify(physicElement, times(1)).add(any(PhysicElement.class));
     }
@@ -56,7 +57,7 @@ public class Box2dOrganismPhysicsTests {
         Cell cell = mock(Cell.class);
         OrganismPhysics physics = new Box2dOrganismPhysics(world, physicElement);
 
-        physics.use(cell, new Point2D.Float(), 1);
+        physics.use(cell, new Vector2(), 1);
 
         verify(physicElement).addPositionListener(same(cell));
     }
@@ -71,7 +72,7 @@ public class Box2dOrganismPhysicsTests {
         when(cell.createOnTouchAction(physicElement)).thenReturn(action);
 
         OrganismPhysics physics = new Box2dOrganismPhysics(world, physicElement);
-        physics.use(cell, new Point2D.Float(), 1);
+        physics.use(cell, new Vector2(), 1);
 
         Array<Body> bodies = new Array<>();
         world.getBodies(bodies);

@@ -1,5 +1,7 @@
 package com.bnana.goa.tests.unit;
 
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.bnana.goa.cell.AttractorOffCell;
 import com.bnana.goa.cell.OffCell;
 import com.bnana.goa.cell.PositionConsumer;
@@ -35,7 +37,7 @@ public class RandomCellGeneratorTest {
     }
     @Test(dataProvider = "offCellsProvider")
     public void ARandomCellShouldBeGeneratedBetweenBounds(OffCell offCellPrototype){
-        Rectangle2D.Float bounds = new Rectangle2D.Float(0, 0, 20, 30);
+        Rectangle bounds = new Rectangle(0, 0, 20, 30);
         CellGenerator cellGenerator = new RandomCellGenerator(mock(Organism.class), offCellPrototype, bounds);
         Cell offCell = cellGenerator.generate();
 
@@ -43,9 +45,9 @@ public class RandomCellGeneratorTest {
         final float[] y = {-1};
         PositionConsumer consumer = new PositionConsumer () {
             @Override
-            public void use(Point2D.Float position) {
-                x[0] = (float) position.getX();
-                y[0] = (float) position.getY();
+            public void use(Vector2 position) {
+                x[0] = (float) position.x;
+                y[0] = (float) position.y;
             }
         };
 
@@ -55,17 +57,17 @@ public class RandomCellGeneratorTest {
                 .assertThat(x[0],
                         Matchers.allOf(
                                 Is.is(Matchers.greaterThanOrEqualTo(bounds.x)),
-                                Is.is(Matchers.lessThan((float) bounds.getMaxX()))));
+                                Is.is(Matchers.lessThan((float) bounds.x + bounds.width))));
         MatcherAssert
                 .assertThat(y[0],
                         Matchers.allOf(
                                 Is.is(Matchers.greaterThanOrEqualTo(bounds.y)),
-                                Is.is(Matchers.lessThan((float) bounds.getMaxY()))));
+                                Is.is(Matchers.lessThan((float) bounds.y + bounds.height))));
     }
 
     @Test(dataProvider="offCellsProvider")
     public void TheCellReturnedMustBeOfTheSameConcreteClassOfThePrototype(OffCell offCellPrototype){
-        Rectangle2D.Float bounds = new Rectangle2D.Float(0, 0, 20, 30);
+        Rectangle bounds = new Rectangle(0, 0, 20, 30);
         CellGenerator cellGenerator = new RandomCellGenerator(mock(Organism.class), offCellPrototype, bounds);
 
         Cell generatedCell = cellGenerator.generate();

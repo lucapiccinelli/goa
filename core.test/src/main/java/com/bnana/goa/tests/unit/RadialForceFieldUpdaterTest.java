@@ -1,5 +1,6 @@
 package com.bnana.goa.tests.unit;
 
+import com.badlogic.gdx.math.Vector2;
 import com.bnana.goa.cell.Cell;
 import com.bnana.goa.cell.CellConsumer;
 import com.bnana.goa.force.ForceField;
@@ -20,7 +21,7 @@ import static org.mockito.Mockito.verify;
  * Created by Luca on 8/21/2015.
  */
 public class RadialForceFieldUpdaterTest {
-    private Point2D.Float[] points;
+    private Vector2[] points;
     private float[] masses;
     private ForceField field;
     private int testDimension;
@@ -30,10 +31,10 @@ public class RadialForceFieldUpdaterTest {
     public void fixtureSetup(){
         testDimension = 3;
 
-        points = new Point2D.Float[]{
-                new Point2D.Float(1, 1),
-                new Point2D.Float(2, 2),
-                new Point2D.Float(3, 3)
+        points = new Vector2[]{
+                new Vector2(1, 1),
+                new Vector2(2, 2),
+                new Vector2(3, 3)
         };
         masses = new float[]{1f, 2f, 3f};
 
@@ -50,7 +51,7 @@ public class RadialForceFieldUpdaterTest {
             forceFieldUpdater.use(cell, points[i], masses[i]);
         }
 
-        Point2D.Float[] forceCenter = new Point2D.Float[]{new Point2D.Float(2f, 2f)};
+        Vector2[] forceCenter = new Vector2[]{new Vector2(2f, 2f)};
         verify(field, atLeastOnce()).update(
                 AdditionalMatchers.aryEq(forceCenter),
                 AdditionalMatchers.aryEq(new float[]{6}));

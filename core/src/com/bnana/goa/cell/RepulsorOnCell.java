@@ -1,5 +1,6 @@
 package com.bnana.goa.cell;
 
+import com.badlogic.gdx.math.Vector2;
 import com.bnana.goa.CellDestroyListener;
 import com.bnana.goa.actions.SwitchableCellOnTouchAction;
 import com.bnana.goa.actions.OnTouchAction;
@@ -17,7 +18,7 @@ public class RepulsorOnCell implements OnCell {
     private final OnCellImpl onCellImpl;
     private float density;
 
-    public RepulsorOnCell(OffCell offCell, Point2D.Float position, float density, Organism belongingOrganism){
+    public RepulsorOnCell(OffCell offCell, Vector2 position, float density, Organism belongingOrganism){
         this.onCellImpl = new OnCellImpl(offCell, position, density, belongingOrganism);
     }
 
@@ -47,12 +48,12 @@ public class RepulsorOnCell implements OnCell {
     }
 
     @Override
-    public Cell prototype(Organism belongingOrganism, Point2D.Float position, float density) {
+    public Cell prototype(Organism belongingOrganism, Vector2 position, float density) {
         return onCellImpl.prototype(belongingOrganism, position, density);
     }
 
     @Override
-    public Cell opposite(Point2D.Float position, float density) {
+    public Cell opposite(Vector2 position, float density) {
         return onCellImpl.opposite(position, density);
     }
 
@@ -77,7 +78,7 @@ public class RepulsorOnCell implements OnCell {
     }
 
     @Override
-    public void setPosition(Point2D.Float position) {
+    public void setPosition(Vector2 position) {
         onCellImpl.setPosition(position);
     }
 

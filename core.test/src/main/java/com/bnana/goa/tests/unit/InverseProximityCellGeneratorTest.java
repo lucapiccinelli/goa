@@ -1,5 +1,6 @@
 package com.bnana.goa.tests.unit;
 
+import com.badlogic.gdx.math.Vector2;
 import com.bnana.goa.cell.AttractorOffCell;
 import com.bnana.goa.cell.OffCell;
 import com.bnana.goa.cell.RepulsorOffCell;
@@ -20,7 +21,7 @@ import java.lang.reflect.Type;
 public class InverseProximityCellGeneratorTest {
     @Test
     public void TheDistanceBeetweenTheSourceCellAndTheNewCellShouldBeExactly1(){
-        OffCell sourceCell = new AttractorOffCell(new Point2D.Float(8, 13), 1f);
+        OffCell sourceCell = new AttractorOffCell(new Vector2(8, 13), 1f);
         CellGenerator proximityCellGenerator = new InverseProximityCellGenerator(sourceCell);
 
         Cell generatedCell = proximityCellGenerator.generate();

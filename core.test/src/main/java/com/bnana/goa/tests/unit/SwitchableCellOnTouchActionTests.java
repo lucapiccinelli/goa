@@ -1,5 +1,6 @@
 package com.bnana.goa.tests.unit;
 
+import com.badlogic.gdx.math.Vector2;
 import com.bnana.goa.actions.SwitchableCellOnTouchAction;
 import com.bnana.goa.actions.OnTouchAction;
 import com.bnana.goa.cell.AttractorOffCell;
@@ -56,7 +57,7 @@ public class SwitchableCellOnTouchActionTests {
 
     @Test
     public void TheOtherActionShouldActOnTheAttractorOnCell(){
-        AttractorOnCell cell = new AttractorOnCell(mock(AttractorOffCell.class), new Point2D.Float(), 1f, mock(Organism.class));
+        AttractorOnCell cell = new AttractorOnCell(mock(AttractorOffCell.class), new Vector2(), 1f, mock(Organism.class));
 
         OnTouchAction attractorAction = new SwitchableCellOnTouchAction(cell, mock(PhysicElement.class));
         OnTouchAction anotherAction = mock(OnTouchAction.class);
@@ -99,7 +100,7 @@ public class SwitchableCellOnTouchActionTests {
         AttractorOnCell attractor = mock(AttractorOnCell.class);
         OnTouchAction attractorAction = new SwitchableCellOnTouchAction(attractor, mock(PhysicElement.class));
 
-        WanderingCell wanderingCell = new WanderingCell(new Point2D.Float(), 1f);
+        WanderingCell wanderingCell = new WanderingCell(new Vector2(), 1f);
         attractorAction.actOn(wanderingCell, mock(PhysicElement.class));
 
         verify(attractor).integrate(same(wanderingCell.evolve()));

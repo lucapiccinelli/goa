@@ -10,10 +10,10 @@ import java.awt.geom.Point2D;
  */
 public class EuclideanDistance implements CellDistance {
     private Vector2 cachedVector;
-    private Point2D.Float source;
+    private Vector2 source;
     private float distance;
 
-    public EuclideanDistance(Point2D.Float source) {
+    public EuclideanDistance(Vector2 source) {
         this.source = source;
         cachedVector = new Vector2();
 
@@ -21,7 +21,7 @@ public class EuclideanDistance implements CellDistance {
     }
 
     @Override
-    public void use(Point2D.Float position) {
+    public void use(Vector2 position) {
         distance = cachedVector.set(source.x - position.x, source.y - position.y).len();
     }
 

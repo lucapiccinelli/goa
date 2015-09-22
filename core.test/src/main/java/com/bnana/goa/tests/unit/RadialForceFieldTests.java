@@ -28,34 +28,34 @@ import static org.hamcrest.Matchers.lessThan;
 public class RadialForceFieldTests {
     @Test
     public void ApplyingARadialForceFieldToABodyItsPositionShouldChange(){
-        ForceField radialForceField = new RadialForceField(new Point2D.Float(3, 3), 3f);
+        ForceField radialForceField = new RadialForceField(new Vector2(3, 3), 3f);
 
-        Point2D.Float startingPosition = new Point2D.Float(2, 2);
+        Vector2 startingPosition = new Vector2(2, 2);
         Body body = BodyWrapper.getNewCircleBody(startingPosition, 1);
         radialForceField.apply(body);
 
         WorldWrapper.StepTheWorld(body);
 
-        Point2D.Float finalPosition = BodyWrapper.getBodyPosition(body);
+        Vector2 finalPosition = BodyWrapper.getBodyPosition(body);
         Assert.assertNotEquals(finalPosition, startingPosition);
     }
 
     @Test
     public void ApplyingANegativeRadialForceFieldToABodyItsFinalPositionDistanceShouldBeFartherFrom0(){
-        ForceField radialForceField = new RadialForceField(new Point2D.Float(3, 3), -3f);
+        ForceField radialForceField = new RadialForceField(new Vector2(3, 3), -3f);
 
-        Point2D.Float startingPosition = new Point2D.Float(2, 2);
+        Vector2 startingPosition = new Vector2(2, 2);
         Body body = BodyWrapper.getNewCircleBody(startingPosition, 1);
         radialForceField.apply(body);
 
         WorldWrapper.StepTheWorld(body);
 
-        Point2D.Float finalPosition = BodyWrapper.getBodyPosition(body);
+        Vector2 finalPosition = BodyWrapper.getBodyPosition(body);
 
-        EuclideanDistance startDistance = new EuclideanDistance(new Point2D.Float(0, 0));
+        EuclideanDistance startDistance = new EuclideanDistance(new Vector2(0, 0));
         startDistance.use(startingPosition);
 
-        EuclideanDistance finalDistance = new EuclideanDistance(new Point2D.Float(0, 0));
+        EuclideanDistance finalDistance = new EuclideanDistance(new Vector2(0, 0));
         finalDistance.use(finalPosition);
 
         assertThat(finalDistance.getDistance(), greaterThan(startDistance.getDistance()));
@@ -63,20 +63,20 @@ public class RadialForceFieldTests {
 
     @Test
     public void ApplyingAPositiveRadialForceFieldToABodyItsFinalPositionDistanceShouldBeCloserTo0(){
-        ForceField radialForceField = new RadialForceField(new Point2D.Float(3, 3), 3f);
+        ForceField radialForceField = new RadialForceField(new Vector2(3, 3), 3f);
 
-        Point2D.Float startingPosition = new Point2D.Float(2, 2);
+        Vector2 startingPosition = new Vector2(2, 2);
         Body body = BodyWrapper.getNewCircleBody(startingPosition, 1);
         radialForceField.apply(body);
 
         WorldWrapper.StepTheWorld(body);
 
-        Point2D.Float finalPosition = BodyWrapper.getBodyPosition(body);
+        Vector2 finalPosition = BodyWrapper.getBodyPosition(body);
 
-        EuclideanDistance startDistance = new EuclideanDistance(new Point2D.Float(0, 0));
+        EuclideanDistance startDistance = new EuclideanDistance(new Vector2(0, 0));
         startDistance.use(startingPosition);
 
-        EuclideanDistance finalDistance = new EuclideanDistance(new Point2D.Float(0, 0));
+        EuclideanDistance finalDistance = new EuclideanDistance(new Vector2(0, 0));
         finalDistance.use(finalPosition);
 
         assertThat(finalDistance.getDistance(), lessThan(startDistance.getDistance()));
@@ -85,19 +85,19 @@ public class RadialForceFieldTests {
     @Test(expectedExceptions = GoaArgumentException.class)
     public void UpdatingARadialForceFieldWithAZeroLengthPositionArrayShouldThrow(){
         ForceField radialForceField = new RadialForceField();
-        radialForceField.update(new Point2D.Float[0], new float[1]);
+        radialForceField.update(new Vector2[0], new float[1]);
     }
 
     @Test(expectedExceptions = GoaArgumentException.class)
     public void UpdatingARadialForceFieldWithAZeroLengthMAgnitudeArrayShouldThrow(){
         ForceField radialForceField = new RadialForceField();
-        radialForceField.update(new Point2D.Float[1], new float[0]);
+        radialForceField.update(new Vector2[1], new float[0]);
     }
 
     @Test
     public void YouCanMeasureTheForceAtACertainDistance(){
         ForceField radialForceField = new RadialForceField();
-        radialForceField.update(new Point2D.Float[]{new Point2D.Float()}, new float[]{3});
+        radialForceField.update(new Vector2[]{new Vector2()}, new float[]{3});
 
         Assert.assertEquals(radialForceField.valueAtDistance(10f), 3f);
     }
@@ -105,26 +105,26 @@ public class RadialForceFieldTests {
     @Test
     public void YouCanMeasureTheForceAtACertainPoint(){
         ForceField radialForceField = new RadialForceField();
-        radialForceField.update(new Point2D.Float[]{new Point2D.Float()}, new float[]{3});
+        radialForceField.update(new Vector2[]{new Vector2()}, new float[]{3});
 
-        Assert.assertEquals(radialForceField.valueAtPoint(new Point2D.Float(0, 10)), 3f);
+        Assert.assertEquals(radialForceField.valueAtPoint(new Vector2(0, 10)), 3f);
     }
 
     @DataProvider
     public Object[][] directions(){
         return new Object[][]{
-                {new Point2D.Float(0,  10), new Vector2(0, 1)},
-                {new Point2D.Float(10,  0), new Vector2(1, 0)},
-                {new Point2D.Float(0, -10), new Vector2(0, -1)},
-                {new Point2D.Float(-10, 0), new Vector2(-1, 0)},
-                {new Point2D.Float(10, 5), new Vector2(0.8944272f, 0.4472136f)},
+                {new Vector2(0,  10), new Vector2(0, 1)},
+                {new Vector2(10,  0), new Vector2(1, 0)},
+                {new Vector2(0, -10), new Vector2(0, -1)},
+                {new Vector2(-10, 0), new Vector2(-1, 0)},
+                {new Vector2(10, 5), new Vector2(0.8944272f, 0.4472136f)},
         };
     }
 
     @Test(dataProvider = "directions")
-    public void YouCanAskToAForceWhereItPushesAtACertainPoint(Point2D.Float point, Vector2 expected){
+    public void YouCanAskToAForceWhereItPushesAtACertainPoint(Vector2 point, Vector2 expected){
         ForceField radialForceField = new RadialForceField();
-        radialForceField.update(new Point2D.Float[]{new Point2D.Float()}, new float[]{3});
+        radialForceField.update(new Vector2[]{new Vector2()}, new float[]{3});
 
         Assert.assertEquals(radialForceField.direction(point), expected);
     }

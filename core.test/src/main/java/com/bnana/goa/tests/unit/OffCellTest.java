@@ -1,5 +1,6 @@
 package com.bnana.goa.tests.unit;
 
+import com.badlogic.gdx.math.Vector2;
 import com.bnana.goa.CellDestroyListener;
 import com.bnana.goa.actions.OnTouchAction;
 import com.bnana.goa.cell.AttractorOffCell;
@@ -62,13 +63,13 @@ public class OffCellTest {
     @DataProvider
     public Object[][] offCells(){
         return new OffCell[][]{
-                {new AttractorOffCell(organism, new Point2D.Float())},
-                {new RepulsorOffCell(organism, new Point2D.Float())}};
+                {new AttractorOffCell(organism, new Vector2())},
+                {new RepulsorOffCell(organism, new Vector2())}};
     }
 
     @DataProvider
     public Object[][] positionedOffCells(){
-        Point2D.Float position = new Point2D.Float(2f, 3f);
+        Vector2 position = new Vector2(2f, 3f);
         return new Object[][]{
                 { new AttractorOffCell(organism, position), position },
                 { new RepulsorOffCell(organism, position), position }
@@ -77,7 +78,7 @@ public class OffCellTest {
 
     @DataProvider
     public Object[][] densOffCells(){
-        Point2D.Float position = new Point2D.Float(2f, 3f);
+        Vector2 position = new Vector2(2f, 3f);
         return new Object[][]{
                 { new AttractorOffCell(mock(Organism.class), position, AttractorOffCell.DEFAULT_DENSITY ), position, AttractorOffCell.DEFAULT_DENSITY, -AttractorOffCell.DEFAULT_DENSITY },
                 { new RepulsorOffCell(mock(Organism.class), position, RepulsorOffCell.DEFAULT_DENSITY ), position, RepulsorOffCell.DEFAULT_DENSITY, RepulsorOffCell.DEFAULT_DENSITY }
@@ -92,7 +93,7 @@ public class OffCellTest {
     }
 
     @Test(dataProvider = "positionedOffCells")
-    void AnOffCellTurnedOnShouldMaintainTheSamePosition(OffCell offCell, Point2D.Float position){
+    void AnOffCellTurnedOnShouldMaintainTheSamePosition(OffCell offCell, Vector2 position){
         OnCell onCell = offCell.turnOn();
 
         CellConsumer mock = Mockito.mock(CellConsumer.class);
@@ -102,13 +103,13 @@ public class OffCellTest {
     }
 
     @Test(dataProvider = "densOffCells")
-    void AnOffCellTurnedOnShouldMaintainTheSameDensity(OffCell offCell, Point2D.Float position, float density, float densityOut){
+    void AnOffCellTurnedOnShouldMaintainTheSameDensity(OffCell offCell, Vector2 position, float density, float densityOut){
         OnCell onCell = offCell.turnOn();
 
         CellConsumer mock = Mockito.mock(CellConsumer.class);
         onCell.use(mock);
 
-        Mockito.verify(mock).use(Mockito.same(onCell), Mockito.any(Point2D.Float.class), eq(densityOut));
+        Mockito.verify(mock).use(Mockito.same(onCell), Mockito.any(Vector2.class), eq(densityOut));
     }
 
     @Test(dataProvider = "offCells")
@@ -138,7 +139,7 @@ public class OffCellTest {
         CellConsumer consumer = mock(CellConsumer.class);
         offCell.use(consumer);
 
-        verify(consumer).useItOff(same(offCell), any(Point2D.Float.class), anyFloat());
+        verify(consumer).useItOff(same(offCell), any(Vector2.class), anyFloat());
     }
 
 
@@ -146,38 +147,38 @@ public class OffCellTest {
     public Object[][] densityProvider() { return new Object[][]{{1f}, {-1f}}; }
     @Test(dataProvider = "densityProvider")
     public void AnAttractorCellDensityShouldAlwaysBeNegative(float density){
-        Point2D.Float position = new Point2D.Float(0, 0);
+        Vector2 position = new Vector2(0, 0);
         OffCell offCell = new AttractorOffCell(mock(Organism.class), position, density);
 
         CellConsumer mock = Mockito.mock(CellConsumer.class);
         offCell.turnOn().use(mock);
-        Mockito.verify(mock).use(any(OnCell.class), Mockito.any(Point2D.Float.class), AdditionalMatchers.leq(0f));
+        Mockito.verify(mock).use(any(OnCell.class), Mockito.any(Vector2.class), AdditionalMatchers.leq(0f));
     }
 
     @Test(dataProvider = "densityProvider")
     public void ARepulsorCellDensityShouldAlwaysBePositive(float density){
-        Point2D.Float position = new Point2D.Float(0, 0);
+        Vector2 position = new Vector2(0, 0);
         OffCell offCell = new RepulsorOffCell(mock(Organism.class), position, density);
 
         CellConsumer mock = Mockito.mock(CellConsumer.class);
         offCell.turnOn().use(mock);
-        Mockito.verify(mock).use(any(OnCell.class), Mockito.any(Point2D.Float.class), AdditionalMatchers.geq(0f));
+        Mockito.verify(mock).use(any(OnCell.class), Mockito.any(Vector2.class), AdditionalMatchers.geq(0f));
     }
 
     @DataProvider
     public Object[][] pointProvider(){
         return new Object[][]{
-                {new AttractorOffCell(mock(Organism.class), new Point2D.Float(0, 0), 1), new Point2D.Float(1, 1), 1.4142135f},
-                {new AttractorOffCell(mock(Organism.class), new Point2D.Float(0, 0), 1), new Point2D.Float(2, 2), 2.828427f},
-                {new AttractorOffCell(mock(Organism.class), new Point2D.Float(0, 0), 1), new Point2D.Float(0, 5), 5f},
-                {new RepulsorOffCell(mock(Organism.class), new Point2D.Float(0, 0), 1), new Point2D.Float(1, 1), 1.4142135f},
-                {new RepulsorOffCell(mock(Organism.class), new Point2D.Float(0, 0), 1), new Point2D.Float(2, 2), 2.828427f},
-                {new RepulsorOffCell(mock(Organism.class), new Point2D.Float(0, 0), 1), new Point2D.Float(0, 5), 5f},
+                {new AttractorOffCell(mock(Organism.class), new Vector2(0, 0), 1), new Vector2(1, 1), 1.4142135f},
+                {new AttractorOffCell(mock(Organism.class), new Vector2(0, 0), 1), new Vector2(2, 2), 2.828427f},
+                {new AttractorOffCell(mock(Organism.class), new Vector2(0, 0), 1), new Vector2(0, 5), 5f},
+                {new RepulsorOffCell(mock(Organism.class), new Vector2(0, 0), 1), new Vector2(1, 1), 1.4142135f},
+                {new RepulsorOffCell(mock(Organism.class), new Vector2(0, 0), 1), new Vector2(2, 2), 2.828427f},
+                {new RepulsorOffCell(mock(Organism.class), new Vector2(0, 0), 1), new Vector2(0, 5), 5f},
         };
     }
 
     @Test(dataProvider = "pointProvider")
-    public void TheDistanceBetweenTheseCellsShouldBe(OffCell cell1, Point2D.Float p, float result){
+    public void TheDistanceBetweenTheseCellsShouldBe(OffCell cell1, Vector2 p, float result){
         RepulsorOffCell cell2 = new RepulsorOffCell(mock(Organism.class), p, 1);
         Assert.assertEquals(cell1.distance(cell2), result);
     }
@@ -192,7 +193,7 @@ public class OffCellTest {
     }
     @Test(dataProvider = "cellSources")
     public void AnOffCellShouldBeAbleToGenerateItsOpposite(OffCell cell, Type expectedOpposite){
-        Assert.assertEquals(cell.opposite(new Point2D.Float(0, 0), 1f).getClass(), expectedOpposite);
+        Assert.assertEquals(cell.opposite(new Vector2(0, 0), 1f).getClass(), expectedOpposite);
     }
 
     @Test(dataProvider = "offCells")
@@ -202,7 +203,7 @@ public class OffCellTest {
 
     @Test(dataProvider = "offCells")
     public void WhenNotifiedThatThePositionHasChangedItShouldBeUpdated(OffCell cell){
-        Point2D.Float position = new Point2D.Float(5, 10);
+        Vector2 position = new Vector2(5, 10);
         PositionChangedEvent event = new PositionChangedEvent(this, position);
 
         cell.updatePosition(event);
@@ -215,7 +216,7 @@ public class OffCellTest {
 
     @Test(dataProvider = "offCells")
     public void WhenNotifiedThatThePositionHasChangedAlsoTheOnCellShouldBeUpdated(OffCell cell){
-        Point2D.Float position = new Point2D.Float(5, 10);
+        Vector2 position = new Vector2(5, 10);
         PositionChangedEvent event = new PositionChangedEvent(this, position);
 
         OnCell onCell = cell.turnOn();
@@ -229,7 +230,7 @@ public class OffCellTest {
 
     @Test
     public void AnAttractorGrowingAnOrganismShouldGrowItsAttractors(){
-        AttractorOffCell attractorOffCell = new AttractorOffCell(new Point2D.Float(), 1);
+        AttractorOffCell attractorOffCell = new AttractorOffCell(new Vector2(), 1);
         Organism organism = mock(Organism.class);
 
         attractorOffCell.growOrganism(organism);
@@ -272,7 +273,7 @@ public class OffCellTest {
 
     @Test
     public void RenderingAnAttractorShouldCallRenderAttractor(){
-        Point2D.Float position = new Point2D.Float(2, 3);
+        Vector2 position = new Vector2(2, 3);
         float density = 1f;
         AttractorOffCell cell = new AttractorOffCell(mock(Organism.class), position, density);
         CellRenderer cellRenderer = mock(CellRenderer.class);
@@ -284,7 +285,7 @@ public class OffCellTest {
 
     @Test
     public void RenderingARepulsorShouldCallRenderRepulsor(){
-        Point2D.Float position = new Point2D.Float(2, 3);
+        Vector2 position = new Vector2(2, 3);
         float density = 1f;
         RepulsorOffCell cell = new RepulsorOffCell(mock(Organism.class), position, density);
         CellRenderer cellRenderer = mock(CellRenderer.class);

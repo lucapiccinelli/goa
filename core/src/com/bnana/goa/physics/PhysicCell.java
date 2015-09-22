@@ -15,7 +15,7 @@ import java.util.List;
  * Created by Luca on 9/2/2015.
  */
 public class PhysicCell implements PhysicElement {
-    private final Point2D.Float positionUsedToNotify;
+    private final Vector2 positionUsedToNotify;
     private Body body;
     private List<PositionListener> positionListeners;
     private PositionChangedEvent positionChangedEvent;
@@ -27,7 +27,7 @@ public class PhysicCell implements PhysicElement {
 
     public PhysicCell(Body body) {
         this.body = body;
-        this.positionUsedToNotify = new Point2D.Float();
+        this.positionUsedToNotify = new Vector2();
         positionChangedEvent = new PositionChangedEvent(this, positionUsedToNotify);
 
         positionListeners = new ArrayList<PositionListener>();
@@ -83,7 +83,7 @@ public class PhysicCell implements PhysicElement {
         if(body != null)
         {
             Vector2 vectorPosition = body.getWorldCenter();
-            positionUsedToNotify.setLocation(vectorPosition.x, vectorPosition.y);
+            positionUsedToNotify.set(vectorPosition.x, vectorPosition.y);
             for (PositionListener positionListener : positionListeners){
                 positionListener.updatePosition(positionChangedEvent);
             }

@@ -1,5 +1,6 @@
 package com.bnana.goa.force;
 
+import com.badlogic.gdx.math.Vector2;
 import com.bnana.goa.cell.Cell;
 import com.bnana.goa.cell.CellConsumer;
 import com.bnana.goa.cell.OffCell;
@@ -14,46 +15,46 @@ import java.util.List;
 public class RadialForceFieldUpdater implements CellConsumer {
     private ForceField field;
     private float density;
-    private List<Point2D.Float> positions;
-    private Point2D.Float[] points;
+    private List<Vector2> positions;
+    private Vector2[] points;
     private float[] densities;
 
     public RadialForceFieldUpdater(ForceField field) {
 
         this.field = field;
         density = 0;
-        positions = new ArrayList<Point2D.Float>();
-        points = new Point2D.Float[]{new Point2D.Float()};
+        positions = new ArrayList<Vector2>();
+        points = new Vector2[]{new Vector2()};
         densities = new float[]{0};
     }
 
     @Override
-    public void use(Cell cell, Point2D.Float position, float density) {
+    public void use(Cell cell, Vector2 position, float density) {
         positions.add(position);
 
         this.density += density;
         float x = 0;
         float y = 0;
-        for (Point2D.Float p : positions) {
-            x += p.getX();
-            y += p.getY();
+        for (Vector2 p : positions) {
+            x += p.x;
+            y += p.y;
         }
         x /= positions.size();
         y /= positions.size();
 
-        points[0].setLocation(x, y);
+        points[0].set(x, y);
         densities[0] = this.density;
         field.update(points, densities);
     }
 
     @Override
-    public void useItOff(OffCell cell, Point2D.Float position, float density) {
+    public void useItOff(OffCell cell, Vector2 position, float density) {
     }
 
     public void reset(){
         positions.clear();
         density = 0;
-        points[0].setLocation(0, 0);
+        points[0].set(0, 0);
         densities[0] = 0;
 
         field.update(points, densities);

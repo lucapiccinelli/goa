@@ -1,5 +1,6 @@
 package com.bnana.goa.cell;
 
+import com.badlogic.gdx.math.Vector2;
 import com.bnana.goa.CellDestroyListener;
 import com.bnana.goa.actions.OnTouchAction;
 import com.bnana.goa.actions.WanderingOnTouchAction;
@@ -19,7 +20,7 @@ import java.util.Random;
  * Created by luca.piccinelli on 01/09/2015.
  */
 public class WanderingCell implements EvolvableCell {
-    private Point2D.Float position;
+    private Vector2 position;
     private float density;
     private final Random random;
     private final EuclideanDistance distance;
@@ -27,10 +28,10 @@ public class WanderingCell implements EvolvableCell {
     private List<CellDestroyListener> destroyListeners;
 
     private WanderingCell(){
-        this(new Point2D.Float(0, 0), 1f);
+        this(new Vector2(0, 0), 1f);
     }
 
-    public WanderingCell(Point2D.Float position, float density) {
+    public WanderingCell(Vector2 position, float density) {
         this.position = position;
         this.density = density;
 
@@ -62,12 +63,12 @@ public class WanderingCell implements EvolvableCell {
     }
 
     @Override
-    public Cell prototype(Organism belongingOrganism, Point2D.Float position, float density) {
+    public Cell prototype(Organism belongingOrganism, Vector2 position, float density) {
         return new WanderingCell(position, density);
     }
 
     @Override
-    public Cell opposite(Point2D.Float position, float density) {
+    public Cell opposite(Vector2 position, float density) {
         return null;
     }
 
@@ -95,7 +96,7 @@ public class WanderingCell implements EvolvableCell {
     }
 
     @Override
-    public void setPosition(Point2D.Float position) {
+    public void setPosition(Vector2 position) {
         this.position = position;
     }
 

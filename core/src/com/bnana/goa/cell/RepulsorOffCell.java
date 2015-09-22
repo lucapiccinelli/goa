@@ -1,5 +1,6 @@
 package com.bnana.goa.cell;
 
+import com.badlogic.gdx.math.Vector2;
 import com.bnana.goa.CellDestroyListener;
 import com.bnana.goa.actions.SwitchableCellOnTouchAction;
 import com.bnana.goa.actions.OnTouchAction;
@@ -23,12 +24,12 @@ public class RepulsorOffCell implements OffCell {
     private final EuclideanDistance distanceCalculator;
 
     private OnCell onCell;
-    private Point2D.Float position;
+    private Vector2 position;
     private float density;
     private Organism belongingOrganism;
     private List<CellDestroyListener> destroyListeners;
 
-    public RepulsorOffCell (Organism belongingOrganism, Point2D.Float position, float density) {
+    public RepulsorOffCell (Organism belongingOrganism, Vector2 position, float density) {
         this.position = position;
         this.density = Math.abs(density);
         this.belongingOrganism = belongingOrganism;
@@ -42,16 +43,16 @@ public class RepulsorOffCell implements OffCell {
         this.belongingOrganism = belongingOrganism;
     }
 
-    public RepulsorOffCell (Point2D.Float position, float density) {
+    public RepulsorOffCell (Vector2 position, float density) {
         this(null, position, density);
     }
 
-    public RepulsorOffCell (Organism belongingOrganism, Point2D.Float position) {
+    public RepulsorOffCell (Organism belongingOrganism, Vector2 position) {
         this(belongingOrganism, position, 1);
     }
 
     private RepulsorOffCell () {
-        this(null, new Point2D.Float(0, 0), 1);
+        this(null, new Vector2(0, 0), 1);
     }
 
     @Override
@@ -66,13 +67,13 @@ public class RepulsorOffCell implements OffCell {
     }
 
     @Override
-    public Cell prototype(Organism belongingOrganism, Point2D.Float position, float density) {
+    public Cell prototype(Organism belongingOrganism, Vector2 position, float density) {
         return new RepulsorOffCell(belongingOrganism, position, density);
     }
 
 
     @Override
-    public OffCell opposite(Point2D.Float position, float density) {
+    public OffCell opposite(Vector2 position, float density) {
         return new AttractorOffCell(belongingOrganism, position, density);
     }
 
@@ -143,7 +144,7 @@ public class RepulsorOffCell implements OffCell {
     }
 
     @Override
-    public void setPosition(Point2D.Float position) {
+    public void setPosition(Vector2 position) {
         this.position = position;
     }
 

@@ -1,5 +1,6 @@
 package com.bnana.goa.physics;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
@@ -23,7 +24,7 @@ public class Box2dOrganismPhysics implements OrganismPhysics {
     }
 
     @Override
-    public void use(Cell cell, Point2D.Float position, float density) {
+    public void use(Cell cell, Vector2 position, float density) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(position.x, position.y);
@@ -46,7 +47,7 @@ public class Box2dOrganismPhysics implements OrganismPhysics {
     }
 
     @Override
-    public void useItOff(OffCell cell, Point2D.Float position, float density) {
+    public void useItOff(OffCell cell, Vector2 position, float density) {
         use(cell, position, density);
     }
 }

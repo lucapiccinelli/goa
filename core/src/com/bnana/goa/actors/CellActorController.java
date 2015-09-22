@@ -1,6 +1,7 @@
 package com.bnana.goa.actors;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -43,12 +44,12 @@ public class CellActorController extends Actor implements CellController, CellCo
     }
 
     @Override
-    public void use(Cell cell, Point2D.Float position, float density) {
+    public void use(Cell cell, Vector2 position, float density) {
 
     }
 
     @Override
-    public void useItOff(OffCell cell, Point2D.Float position, float density) {
+    public void useItOff(OffCell cell, Vector2 position, float density) {
         setBounds(0, 0, 1.2f, 1.2f);
         setPosition(position.x, position.y, Align.center);
     }

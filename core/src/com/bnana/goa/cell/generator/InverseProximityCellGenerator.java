@@ -1,6 +1,7 @@
 package com.bnana.goa.cell.generator;
 
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.bnana.goa.cell.OffCell;
 import com.bnana.goa.cell.Cell;
 import com.bnana.goa.cell.PositionConsumer;
@@ -31,13 +32,13 @@ public class InverseProximityCellGenerator implements CellGenerator, PositionCon
     }
 
     @Override
-    public void use(Point2D.Float position) {
+    public void use(Vector2 position) {
         float randomAngle = random.nextFloat() * 360;
 
         float x = MathUtils.cosDeg(randomAngle) * 2f;
         float y = MathUtils.sinDeg(randomAngle) * 2f;
         generatedCell = sourceCell.opposite(
-                new Point2D.Float(
+                new Vector2(
                         position.x + x,
                         position.y + y), Const.DEFAULT_CELL_DENSITY);
     }

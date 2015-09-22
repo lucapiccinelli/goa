@@ -10,7 +10,7 @@ import java.awt.geom.Point2D;
  * Created by Luca on 8/21/2015.
  */
 public interface ForceField {
-    void update(Point2D.Float[] positions, float[] magnitudes);
+    void update(Vector2[] positions, float[] magnitudes);
 
     void apply(Body body);
 
@@ -18,7 +18,7 @@ public interface ForceField {
 
     float valueAtDistance(float distance);
 
-    float valueAtPoint(Point2D.Float position);
+    float valueAtPoint(Vector2 position);
 
-    Vector2 direction(Point2D.Float position);
+    Vector2 direction(Vector2 position);
 }
