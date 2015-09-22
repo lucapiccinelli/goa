@@ -63,7 +63,6 @@ public class WanderingCellActor extends Actor implements CellDestroyListener{
     public void  draw(Batch batch, float parentAlpha){
         physicCell.notifyPositionChanged();
         super.draw(batch, parentAlpha);
-        //batch.draw(textureRegion, 0, 0, Const.VIEWPORT_WIDTH, Const.VIEWPORT_HEIGHT);
         cell.use(forceFieldRenderer);
         batch.end();
         cell.use(cellRenderer);

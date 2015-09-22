@@ -1,6 +1,7 @@
 package com.bnana.goa.rendering;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -61,12 +62,14 @@ public class CellForceFieldRenderer implements CellRenderer {
         if(magnitude == 0) return;
 
         Vector2 direction = forceField.direction(position).scl(Math.signum(magnitude));
-        magnitude = MathUtils.log(10, (float) (1.2 + Math.abs(magnitude))) * 10;
+        magnitude = MathUtils.log(10, (float) (1.2 + Math.abs(magnitude))) * 2;
 
         Affine2 transform = new Affine2();
         float skew = direction.angle();
         Vector2 perpendicularDirection = new Vector2(-direction.y, direction.x).scl(magnitude * 0.5f);
         transform.preTranslate(position.x + direction.x - perpendicularDirection.x, position.y + direction.y - perpendicularDirection.y).rotate(skew);
+        Color c = batch.getColor();
+        batch.setColor(c.r, c.g, c.b, magnitude * 0.3f);
         batch.draw(textureRegion, magnitude, magnitude, transform);
     }
 

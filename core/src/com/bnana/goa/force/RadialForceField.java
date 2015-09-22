@@ -11,7 +11,7 @@ import java.awt.geom.Point2D;
  * Created by Luca on 8/27/2015.
  */
 public class RadialForceField implements ForceField {
-    private final float MAGNITUDE_SCALE = 100f;
+    private final float MAGNITUDE_SCALE = 500f;
 
 
     private final Vector2 centerOfMass;
