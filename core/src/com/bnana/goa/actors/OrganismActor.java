@@ -2,6 +2,7 @@ package com.bnana.goa.actors;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -48,7 +49,7 @@ public class OrganismActor extends Group {
         this.sm = sm;
         this.cellRenderer = cellRenderer;
 
-        organism = new StartingOrganism(new Rectangle2D.Float(x, y, width, height), new CellActorControllerGroupFactory(this, sm));
+        organism = new StartingOrganism(new Rectangle(x, y, width, height), new CellActorControllerGroupFactory(this, sm));
         physicOrganism = new PhysicOrganism();
 
         Box2dOrganismPhysics organismPhysics = new Box2dOrganismPhysics(world, physicOrganism);

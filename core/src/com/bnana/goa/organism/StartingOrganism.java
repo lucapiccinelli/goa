@@ -1,5 +1,6 @@
 package com.bnana.goa.organism;
 
+import com.badlogic.gdx.math.Rectangle;
 import com.bnana.goa.cell.AttractorOffCell;
 import com.bnana.goa.cell.CellConsumer;
 import com.bnana.goa.cell.CellController;
@@ -18,13 +19,13 @@ import java.util.List;
  * Created by luca.piccinelli on 25/08/2015.
  */
 public class StartingOrganism implements Organism {
-    private final Rectangle2D.Float viewBounds;
+    private final Rectangle viewBounds;
     private CellControllerFactory controllerFactory;
     List<CellController> cells;
     List<CellController> attractors;
     List<CellController> repulsors;
 
-    public StartingOrganism(Rectangle2D.Float viewBounds, CellControllerFactory cellControllerFactory) {
+    public StartingOrganism(Rectangle viewBounds, CellControllerFactory cellControllerFactory) {
         this.viewBounds = viewBounds;
         this.controllerFactory = cellControllerFactory;
         cells = new ArrayList<CellController>();

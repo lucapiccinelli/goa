@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -40,7 +41,7 @@ public class OverviewStage extends Stage implements ContactListener{
     private final int VIEWPORT_WIDTH = Const.VIEWPORT_WIDTH;
     private final int VIEWPORT_HEIGHT = Const.VIEWPORT_HEIGHT;
     private final World world;
-    private final Rectangle2D.Float worldBounds;
+    private final Rectangle worldBounds;
 
     private GameOfAttraction game;
     private OrthographicCamera camera;
@@ -62,7 +63,7 @@ public class OverviewStage extends Stage implements ContactListener{
         accumulator = 0;
 
         int offset = 10;
-        worldBounds = new Rectangle2D.Float(offset, offset, VIEWPORT_WIDTH - offset, VIEWPORT_HEIGHT - offset);
+        worldBounds = new Rectangle(offset, offset, VIEWPORT_WIDTH - offset, VIEWPORT_HEIGHT - offset);
 
         createCamera();
 
