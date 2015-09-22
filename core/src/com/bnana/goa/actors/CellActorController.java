@@ -50,7 +50,7 @@ public class CellActorController extends Actor implements CellController, CellCo
 
     @Override
     public void useItOff(OffCell cell, Vector2 position, float density) {
-        setBounds(0, 0, 1.2f, 1.2f);
+        setBounds(0, 0, 2f, 2f);
         setPosition(position.x, position.y, Align.center);
     }
 
