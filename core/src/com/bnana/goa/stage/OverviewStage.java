@@ -28,10 +28,16 @@ import com.bnana.goa.force.RadialForceField;
 import com.bnana.goa.rendering.CellRenderer;
 import com.bnana.goa.rendering.FlatGeneratedGraphicCellRenderer;
 import com.bnana.goa.rendering.GeneratedGraphicForceRenderer;
+import com.bnana.goa.tween.PercentageManager;
+import com.bnana.goa.tween.PercentageManagerAccessor;
+import com.bnana.goa.tween.ShapeRendererAccessor;
+import com.bnana.goa.tween.Vector2Accessor;
 import com.bnana.goa.utils.Box2dScaleManager;
 import com.bnana.goa.utils.Const;
 
 import java.awt.geom.Rectangle2D;
+
+import aurelienribon.tweenengine.Tween;
 
 /**
  * Created by Luca on 8/21/2015.
@@ -42,6 +48,7 @@ public class OverviewStage extends Stage implements ContactListener{
     private final int VIEWPORT_HEIGHT = Const.VIEWPORT_HEIGHT;
     private final World world;
     private final Rectangle worldBounds;
+    private final Rectangle wanderingWorldBounds;
 
     private GameOfAttraction game;
     private OrthographicCamera camera;
@@ -52,23 +59,32 @@ public class OverviewStage extends Stage implements ContactListener{
     private Box2dScaleManager scaleManager;
     private ShapeRenderer shapeRenderer;
     private CellRenderer cellRenderer;
+    private ShapeRenderer forceActorShapeRenderer;
 
     public OverviewStage(GameOfAttraction game, ShapeRenderer shapeRenderer) {
         super(new ScalingViewport(Scaling.stretch, Const.VIEWPORT_WIDTH, Const.VIEWPORT_HEIGHT, new OrthographicCamera(Const.VIEWPORT_WIDTH, Const.VIEWPORT_HEIGHT)));
 
+
+        Tween.registerAccessor(ShapeRenderer.class, new ShapeRendererAccessor());
+        Tween.registerAccessor(PercentageManager.class, new PercentageManagerAccessor());
+        Tween.registerAccessor(Vector2.class, new Vector2Accessor());
+
         this.game = game;
         this.shapeRenderer = shapeRenderer;
+        this.forceActorShapeRenderer = new ShapeRenderer();
         this.world = new World(new Vector2(0f, 0f), true);
         this.world.setContactListener(this);
         accumulator = 0;
 
-        int offset = 10;
-        worldBounds = new Rectangle(offset, offset, VIEWPORT_WIDTH - offset, VIEWPORT_HEIGHT - offset);
+        int offset1 = 15;
+        int offset2 = 1;
+        worldBounds = new Rectangle(offset1, offset1, VIEWPORT_WIDTH - offset1 * 2, VIEWPORT_HEIGHT - offset1 * 2);
+        wanderingWorldBounds = new Rectangle(offset2, offset2, VIEWPORT_WIDTH - offset2 * 2, VIEWPORT_HEIGHT - offset2 * 2);
 
         createCamera();
 
         createForceFields();
-        cellRenderer = new FlatGeneratedGraphicCellRenderer(shapeRenderer, scaleManager);
+        cellRenderer = new FlatGeneratedGraphicCellRenderer(this.shapeRenderer, scaleManager);
         createOrganism();
         createWanderingCells();
 
@@ -77,12 +93,12 @@ public class OverviewStage extends Stage implements ContactListener{
 
     private void createForceFields() {
         forceField = new RadialForceField();
-        ForceActor forceActor = new ForceActor(forceField, new GeneratedGraphicForceRenderer(shapeRenderer, scaleManager));
+        ForceActor forceActor = new ForceActor(forceField, new GeneratedGraphicForceRenderer(forceActorShapeRenderer, scaleManager));
         addActor(forceActor);
     }
 
     private void createWanderingCells() {
-        RandomCellGenerator generator = new RandomCellGenerator(null, WanderingCell.MakePrototype(), worldBounds);
+        RandomCellGenerator generator = new RandomCellGenerator(null, WanderingCell.MakePrototype(), wanderingWorldBounds);
         addActor(new WanderingCellActor(world, generator, forceField, cellRenderer, getBatch()));
         addActor(new WanderingCellActor(world, generator, forceField, cellRenderer, getBatch()));
         addActor(new WanderingCellActor(world, generator, forceField, cellRenderer, getBatch()));
@@ -106,6 +122,7 @@ public class OverviewStage extends Stage implements ContactListener{
     @Override
     public void draw(){
         shapeRenderer.setProjectionMatrix(camera.combined);
+        forceActorShapeRenderer.setProjectionMatrix(camera.combined);
         super.draw();
         //renderer.render(world, camera.combined);
     }
@@ -120,15 +137,12 @@ public class OverviewStage extends Stage implements ContactListener{
             world.step(TIME_STEP, 6, 2);
             accumulator -= TIME_STEP;
         }
-
-        if(Gdx.input.isTouched()){
-            System.out.println(Gdx.input.getX() + " - " + Gdx.input.getY());
-        }
     }
 
     @Override
     public void dispose(){
         world.dispose();
+        forceActorShapeRenderer.dispose();
         super.dispose();
     }
 

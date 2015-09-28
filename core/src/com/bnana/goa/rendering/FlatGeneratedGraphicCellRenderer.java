@@ -31,7 +31,7 @@ public class FlatGeneratedGraphicCellRenderer implements CellRenderer {
     public void use(Cell cell, Vector2 position, float density) {
         cell.render(this);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.circle((float)position.x, (float)position.y, Math.abs(density), 15);
+        shapeRenderer.circle((float)position.x, (float)position.y, Math.abs(density), 50);
         shapeRenderer.end();
     }
 
