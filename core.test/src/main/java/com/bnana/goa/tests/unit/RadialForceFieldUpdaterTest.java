@@ -1,6 +1,7 @@
 package com.bnana.goa.tests.unit;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.bnana.goa.cell.Cell;
 import com.bnana.goa.cell.CellConsumer;
 import com.bnana.goa.force.ForceField;
@@ -51,9 +52,11 @@ public class RadialForceFieldUpdaterTest {
             forceFieldUpdater.use(cell, points[i], masses[i]);
         }
 
-        Vector2[] forceCenter = new Vector2[]{new Vector2(2f, 2f)};
+        Array<Vector2> forceCenter = new Array<Vector2>(new Vector2[]{new Vector2(2f, 2f)});
+        Array<Float> forceMagnitude = new Array<Float>(new Float[]{6f});
+
         verify(field, atLeastOnce()).update(
-                AdditionalMatchers.aryEq(forceCenter),
-                AdditionalMatchers.aryEq(new float[]{6}));
+                eq(forceCenter),
+                eq(forceMagnitude));
     }
 }

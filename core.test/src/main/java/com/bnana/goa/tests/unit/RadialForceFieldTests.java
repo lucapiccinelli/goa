@@ -2,6 +2,7 @@ package com.bnana.goa.tests.unit;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.utils.Array;
 import com.bnana.goa.exceptions.GoaArgumentException;
 import com.bnana.goa.force.ForceField;
 import com.bnana.goa.force.RadialForceField;
@@ -85,19 +86,19 @@ public class RadialForceFieldTests {
     @Test(expectedExceptions = GoaArgumentException.class)
     public void UpdatingARadialForceFieldWithAZeroLengthPositionArrayShouldThrow(){
         ForceField radialForceField = new RadialForceField();
-        radialForceField.update(new Vector2[0], new float[1]);
+        radialForceField.update(new Array<Vector2>(), new Array<Float>(1));
     }
 
     @Test(expectedExceptions = GoaArgumentException.class)
     public void UpdatingARadialForceFieldWithAZeroLengthMAgnitudeArrayShouldThrow(){
         ForceField radialForceField = new RadialForceField();
-        radialForceField.update(new Vector2[1], new float[0]);
+        radialForceField.update(new Array<Vector2>(1), new Array<Float>(0));
     }
 
     @Test
     public void YouCanMeasureTheForceAtACertainDistance(){
         ForceField radialForceField = new RadialForceField();
-        radialForceField.update(new Vector2[]{new Vector2()}, new float[]{3});
+        radialForceField.update(new Array<Vector2>(new Vector2[]{new Vector2()}), new Array<Float>(new Float[]{3f}));
 
         Assert.assertEquals(radialForceField.valueAtDistance(10f), 3f);
     }
@@ -105,7 +106,7 @@ public class RadialForceFieldTests {
     @Test
     public void YouCanMeasureTheForceAtACertainPoint(){
         ForceField radialForceField = new RadialForceField();
-        radialForceField.update(new Vector2[]{new Vector2()}, new float[]{3});
+        radialForceField.update(new Array<Vector2>(new Vector2[]{new Vector2()}), new Array<Float>(new Float[]{3f}));
 
         Assert.assertEquals(radialForceField.valueAtPoint(new Vector2(0, 10)), 3f);
     }
@@ -124,7 +125,7 @@ public class RadialForceFieldTests {
     @Test(dataProvider = "directions")
     public void YouCanAskToAForceWhereItPushesAtACertainPoint(Vector2 point, Vector2 expected){
         ForceField radialForceField = new RadialForceField();
-        radialForceField.update(new Vector2[]{new Vector2()}, new float[]{3});
+        radialForceField.update(new Array<Vector2>(new Vector2[]{new Vector2()}), new Array<Float>(new Float[]{3f}));
 
         Assert.assertEquals(radialForceField.direction(point), expected);
     }

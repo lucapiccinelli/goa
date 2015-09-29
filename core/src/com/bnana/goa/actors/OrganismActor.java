@@ -11,6 +11,8 @@ import com.bnana.goa.cell.CellConsumer;
 import com.bnana.goa.cell.CellController;
 import com.bnana.goa.force.ForceField;
 import com.bnana.goa.force.RadialForceFieldUpdater;
+import com.bnana.goa.force.RealisticForceField;
+import com.bnana.goa.force.RealisticForceFieldUpdater;
 import com.bnana.goa.organism.StartingOrganism;
 import com.bnana.goa.organism.listeners.OrganismGrowListener;
 import com.bnana.goa.physics.Box2dOrganismPhysics;
@@ -37,7 +39,7 @@ public class OrganismActor extends Group {
     private final float height;
     private ForceField forceField;
     private final ScaleManager sm;
-    private final RadialForceFieldUpdater fieldUpdater;
+    private final RealisticForceFieldUpdater fieldUpdater;
     private CellConsumer cellRenderer;
 
     public OrganismActor(World world, float x, float y, float width, float height, ForceField forceField, ScaleManager sm, CellRenderer cellRenderer){
@@ -58,7 +60,7 @@ public class OrganismActor extends Group {
         organism.use(organismPhysics);
         physicOrganism.addPositionListener(organism);
 
-        fieldUpdater = new RadialForceFieldUpdater(forceField);
+        fieldUpdater = new RealisticForceFieldUpdater(forceField);
     }
 
     public OrganismActor(World world, float x, float y, float width, float height, ForceField forceField, ScaleManager sm, ShapeRenderer shapeRenderer){

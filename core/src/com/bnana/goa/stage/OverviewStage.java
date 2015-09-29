@@ -24,12 +24,15 @@ import com.bnana.goa.actors.OrganismActor;
 import com.bnana.goa.actors.WanderingCellActor;
 import com.bnana.goa.cell.WanderingCell;
 import com.bnana.goa.cell.generator.RandomCellGenerator;
+import com.bnana.goa.force.ForceField;
 import com.bnana.goa.force.RadialForceField;
+import com.bnana.goa.force.RealisticForceField;
 import com.bnana.goa.organism.events.OrganismGrownEvent;
 import com.bnana.goa.organism.listeners.OrganismGrowListener;
 import com.bnana.goa.rendering.CellRenderer;
 import com.bnana.goa.rendering.FlatGeneratedGraphicCellRenderer;
 import com.bnana.goa.rendering.GeneratedGraphicForceRenderer;
+import com.bnana.goa.rendering.GeneratedGraphicMultiForceRenderer;
 import com.bnana.goa.tween.PercentageManager;
 import com.bnana.goa.tween.PercentageManagerAccessor;
 import com.bnana.goa.tween.ShapeRendererAccessor;
@@ -57,7 +60,7 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
     private Box2DDebugRenderer renderer;
     private float accumulator;
     private OrganismActor organism;
-    private RadialForceField forceField;
+    private ForceField forceField;
     private Box2dScaleManager scaleManager;
     private ShapeRenderer shapeRenderer;
     private CellRenderer cellRenderer;
@@ -94,8 +97,8 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
     }
 
     private void createForceFields() {
-        forceField = new RadialForceField();
-        ForceActor forceActor = new ForceActor(forceField, new GeneratedGraphicForceRenderer(forceActorShapeRenderer, scaleManager));
+        forceField = new RealisticForceField();
+        ForceActor forceActor = new ForceActor(forceField, new GeneratedGraphicMultiForceRenderer(scaleManager, camera.combined));
         addActor(forceActor);
     }
 
