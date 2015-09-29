@@ -10,6 +10,8 @@ import com.bnana.goa.cell.factories.CellControllerFactory;
 import com.bnana.goa.cell.generator.InverseProximityCellGenerator;
 import com.bnana.goa.cell.generator.RandomCellGenerator;
 import com.bnana.goa.events.PositionChangedEvent;
+import com.bnana.goa.organism.events.OrganismGrownEvent;
+import com.bnana.goa.organism.listeners.OrganismGrowListener;
 
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -24,6 +26,7 @@ public class StartingOrganism implements Organism {
     List<CellController> cells;
     List<CellController> attractors;
     List<CellController> repulsors;
+    private List<OrganismGrowListener> growingListeners;
 
     public StartingOrganism(Rectangle viewBounds, CellControllerFactory cellControllerFactory) {
         this.viewBounds = viewBounds;
@@ -45,6 +48,8 @@ public class StartingOrganism implements Organism {
 
         cells.add(repulsorController);
         repulsors.add(repulsorController);
+
+        growingListeners = new ArrayList<OrganismGrowListener>();
     }
 
     @Override
@@ -54,6 +59,8 @@ public class StartingOrganism implements Organism {
         CellController controller = controllerFactory.make(aNewAttractor);
         attractors.add(controller);
         cells.add(controller);
+
+        notifyGrowingListeners(aNewAttractor);
     }
 
     @Override
@@ -63,6 +70,8 @@ public class StartingOrganism implements Organism {
         CellController controller = controllerFactory.make(aNewRepulsor);
         repulsors.add(controller);
         cells.add(controller);
+
+        notifyGrowingListeners(aNewRepulsor);
     }
 
     @Override
@@ -90,7 +99,20 @@ public class StartingOrganism implements Organism {
     }
 
     @Override
+    public void addGrowingListeners(OrganismGrowListener listener) {
+        growingListeners.add(listener);
+    }
+
+    @Override
     public void updatePosition(PositionChangedEvent position) {
 
+    }
+
+    private void notifyGrowingListeners(OffCell aNewCell) {
+        OrganismGrownEvent event = new OrganismGrownEvent(this, aNewCell);
+        for (OrganismGrowListener listener:
+             growingListeners) {
+            listener.grownBy(event);
+        }
     }
 }

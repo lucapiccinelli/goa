@@ -25,6 +25,8 @@ import com.bnana.goa.actors.WanderingCellActor;
 import com.bnana.goa.cell.WanderingCell;
 import com.bnana.goa.cell.generator.RandomCellGenerator;
 import com.bnana.goa.force.RadialForceField;
+import com.bnana.goa.organism.events.OrganismGrownEvent;
+import com.bnana.goa.organism.listeners.OrganismGrowListener;
 import com.bnana.goa.rendering.CellRenderer;
 import com.bnana.goa.rendering.FlatGeneratedGraphicCellRenderer;
 import com.bnana.goa.rendering.GeneratedGraphicForceRenderer;
@@ -42,7 +44,7 @@ import aurelienribon.tweenengine.Tween;
 /**
  * Created by Luca on 8/21/2015.
  */
-public class OverviewStage extends Stage implements ContactListener{
+public class OverviewStage extends Stage implements ContactListener, OrganismGrowListener{
     private static final float TIME_STEP = 1 /60f;
     private final int VIEWPORT_WIDTH = Const.VIEWPORT_WIDTH;
     private final int VIEWPORT_HEIGHT = Const.VIEWPORT_HEIGHT;
@@ -60,8 +62,9 @@ public class OverviewStage extends Stage implements ContactListener{
     private ShapeRenderer shapeRenderer;
     private CellRenderer cellRenderer;
     private ShapeRenderer forceActorShapeRenderer;
+    private boolean wanderingCellCreationIsScheduled;
 
-    public OverviewStage(GameOfAttraction game, ShapeRenderer shapeRenderer) {
+    public OverviewStage(GameOfAttraction game, ShapeRenderer shapeRenderer){
         super(new ScalingViewport(Scaling.stretch, Const.VIEWPORT_WIDTH, Const.VIEWPORT_HEIGHT, new OrthographicCamera(Const.VIEWPORT_WIDTH, Const.VIEWPORT_HEIGHT)));
 
 
@@ -85,7 +88,7 @@ public class OverviewStage extends Stage implements ContactListener{
 
         createForceFields();
         createOrganism();
-        createWanderingCells();
+        wanderingCellCreationIsScheduled = true;
 
         Gdx.input.setInputProcessor(this);
     }
@@ -99,12 +102,11 @@ public class OverviewStage extends Stage implements ContactListener{
     private void createWanderingCells() {
         RandomCellGenerator generator = new RandomCellGenerator(null, WanderingCell.MakePrototype(), wanderingWorldBounds);
         addActor(new WanderingCellActor(world, generator, forceField, getBatch(), shapeRenderer, scaleManager));
-        addActor(new WanderingCellActor(world, generator, forceField, getBatch(), shapeRenderer, scaleManager));
-        addActor(new WanderingCellActor(world, generator, forceField, getBatch(), shapeRenderer, scaleManager));
     }
 
     private void createOrganism() {
         organism = new OrganismActor(world, worldBounds.x, worldBounds.y, worldBounds.width, worldBounds.height, forceField, scaleManager, shapeRenderer);
+        organism.addGrowingListener(this);
         addActor(organism);
     }
 
@@ -129,6 +131,11 @@ public class OverviewStage extends Stage implements ContactListener{
     @Override
     public void act(float delta){
         super.act(delta);
+
+        if(wanderingCellCreationIsScheduled){
+            createWanderingCells();
+            wanderingCellCreationIsScheduled = false;
+        }
 
         accumulator += delta;
 
@@ -169,5 +176,10 @@ public class OverviewStage extends Stage implements ContactListener{
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse) {
 
+    }
+
+    @Override
+    public void grownBy(OrganismGrownEvent grownEvent) {
+        wanderingCellCreationIsScheduled = true;
     }
 }

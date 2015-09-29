@@ -6,6 +6,7 @@ import com.bnana.goa.cell.CellConsumer;
 import com.bnana.goa.cell.CellGroup;
 import com.bnana.goa.cell.OffCell;
 import com.bnana.goa.cell.RepulsorOffCell;
+import com.bnana.goa.organism.listeners.OrganismGrowListener;
 
 /**
  * Created by luca.piccinelli on 25/08/2015.
@@ -21,4 +22,6 @@ public interface Organism extends PositionListener{
     void useAttractors(CellConsumer cellConsumer);
 
     void useRepulsors(CellConsumer cellConsumer);
+
+    void addGrowingListeners(OrganismGrowListener listener);
 }

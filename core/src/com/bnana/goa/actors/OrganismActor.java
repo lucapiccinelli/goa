@@ -12,11 +12,13 @@ import com.bnana.goa.cell.CellController;
 import com.bnana.goa.force.ForceField;
 import com.bnana.goa.force.RadialForceFieldUpdater;
 import com.bnana.goa.organism.StartingOrganism;
+import com.bnana.goa.organism.listeners.OrganismGrowListener;
 import com.bnana.goa.physics.Box2dOrganismPhysics;
 import com.bnana.goa.physics.PhysicElement;
 import com.bnana.goa.physics.PhysicOrganism;
 import com.bnana.goa.rendering.CellRenderer;
 import com.bnana.goa.rendering.FlatGeneratedGraphicCellRenderer;
+import com.bnana.goa.stage.OverviewStage;
 import com.bnana.goa.utils.ScaleManager;
 
 import java.awt.geom.Rectangle2D;
@@ -78,5 +80,9 @@ public class OrganismActor extends Group {
 
         organism.use(cellRenderer);
         batch.begin();
+    }
+
+    public void addGrowingListener(OrganismGrowListener organismGrowListener) {
+        organism.addGrowingListeners(organismGrowListener);
     }
 }

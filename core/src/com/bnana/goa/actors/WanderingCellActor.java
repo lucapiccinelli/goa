@@ -51,8 +51,6 @@ public class WanderingCellActor extends Actor implements CellDestroyListener{
         cell.use(organismPhysics);
         cell.addDestroyListener(this);
 
-
-
         textureRegion = new TextureRegion(new Texture(Gdx.files.internal(Const.FORCE_ARROW_IMAGE_PATH)));
     }
 
