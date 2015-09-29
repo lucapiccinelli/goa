@@ -84,7 +84,6 @@ public class OverviewStage extends Stage implements ContactListener{
         createCamera();
 
         createForceFields();
-        cellRenderer = new FlatGeneratedGraphicCellRenderer(this.shapeRenderer, scaleManager);
         createOrganism();
         createWanderingCells();
 
@@ -99,13 +98,13 @@ public class OverviewStage extends Stage implements ContactListener{
 
     private void createWanderingCells() {
         RandomCellGenerator generator = new RandomCellGenerator(null, WanderingCell.MakePrototype(), wanderingWorldBounds);
-        addActor(new WanderingCellActor(world, generator, forceField, cellRenderer, getBatch()));
-        addActor(new WanderingCellActor(world, generator, forceField, cellRenderer, getBatch()));
-        addActor(new WanderingCellActor(world, generator, forceField, cellRenderer, getBatch()));
+        addActor(new WanderingCellActor(world, generator, forceField, getBatch(), shapeRenderer, scaleManager));
+        addActor(new WanderingCellActor(world, generator, forceField, getBatch(), shapeRenderer, scaleManager));
+        addActor(new WanderingCellActor(world, generator, forceField, getBatch(), shapeRenderer, scaleManager));
     }
 
     private void createOrganism() {
-        organism = new OrganismActor(world, worldBounds.x, worldBounds.y, worldBounds.width, worldBounds.height, forceField, scaleManager, cellRenderer);
+        organism = new OrganismActor(world, worldBounds.x, worldBounds.y, worldBounds.width, worldBounds.height, forceField, scaleManager, shapeRenderer);
         addActor(organism);
     }
 

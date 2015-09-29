@@ -9,7 +9,6 @@ import aurelienribon.tweenengine.TweenAccessor;
  */
 public class ShapeRendererAccessor implements TweenAccessor<ShapeRenderer> {
     public static final int COLOR_ALPHA = 0;
-    public static final int CIRCLE_RADIUS = 0;
 
     @Override
     public int getValues(ShapeRenderer target, int tweenType, float[] floats) {

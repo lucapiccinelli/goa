@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.bnana.goa.CellDestroyListener;
@@ -18,7 +19,9 @@ import com.bnana.goa.physics.Box2dOrganismPhysics;
 import com.bnana.goa.physics.PhysicCell;
 import com.bnana.goa.rendering.CellForceFieldRenderer;
 import com.bnana.goa.rendering.CellRenderer;
+import com.bnana.goa.rendering.FlatGeneratedGraphicCellRenderer;
 import com.bnana.goa.utils.Const;
+import com.bnana.goa.utils.ScaleManager;
 
 /**
  * Created by Luca on 9/2/2015.
@@ -51,6 +54,10 @@ public class WanderingCellActor extends Actor implements CellDestroyListener{
 
 
         textureRegion = new TextureRegion(new Texture(Gdx.files.internal(Const.FORCE_ARROW_IMAGE_PATH)));
+    }
+
+    public WanderingCellActor(World world, RandomCellGenerator cellGenerator, ForceField forceField, Batch batch, ShapeRenderer shapeRenderer, ScaleManager scaleManager){
+        this(world, cellGenerator, forceField, new FlatGeneratedGraphicCellRenderer(shapeRenderer, scaleManager), batch);
     }
 
     @Override

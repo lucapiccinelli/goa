@@ -59,6 +59,10 @@ public class OrganismActor extends Group {
         fieldUpdater = new RadialForceFieldUpdater(forceField);
     }
 
+    public OrganismActor(World world, float x, float y, float width, float height, ForceField forceField, ScaleManager sm, ShapeRenderer shapeRenderer){
+        this(world, x, y, width, height, forceField, sm, new FlatGeneratedGraphicCellRenderer(shapeRenderer, sm));
+    }
+
     @Override
     public void act(float delta){
         fieldUpdater.reset();
