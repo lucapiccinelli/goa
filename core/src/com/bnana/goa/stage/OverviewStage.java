@@ -3,6 +3,7 @@ package com.bnana.goa.stage;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
@@ -14,7 +15,13 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.bnana.goa.GameOfAttraction;
@@ -66,6 +73,7 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
     private CellRenderer cellRenderer;
     private ShapeRenderer forceActorShapeRenderer;
     private boolean wanderingCellCreationIsScheduled;
+    private Skin internalForcesButtonSkin;
 
     public OverviewStage(GameOfAttraction game, ShapeRenderer shapeRenderer){
         super(new ScalingViewport(Scaling.stretch, Const.VIEWPORT_WIDTH, Const.VIEWPORT_HEIGHT, new OrthographicCamera(Const.VIEWPORT_WIDTH, Const.VIEWPORT_HEIGHT)));
@@ -91,9 +99,27 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
 
         createForceFields();
         createOrganism();
+
+        createUi();
+
         wanderingCellCreationIsScheduled = true;
 
         Gdx.input.setInputProcessor(this);
+    }
+
+    private void createUi() {
+        TextureAtlas internalForcesButtonAtlas = new TextureAtlas(Gdx.files.internal("forces_buttons\\uiskin.atlas"));
+        internalForcesButtonSkin = new Skin(Gdx.files.internal("forces_buttons\\uiskin.json"), internalForcesButtonAtlas);
+        Button button = new ImageButton(internalForcesButtonSkin, "toggle_in");
+        button.setPosition(5, 5);
+        addActor(button);
+
+        button.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.log("Clicked button", "Yep, you did");
+            }
+        });
     }
 
     private void createForceFields() {
@@ -152,6 +178,7 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
     public void dispose(){
         world.dispose();
         forceActorShapeRenderer.dispose();
+        internalForcesButtonSkin.dispose();
         super.dispose();
     }
 

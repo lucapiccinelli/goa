@@ -4,8 +4,8 @@ com.badlogic.gdx.graphics.Color: {
 	light_grey: { r: 0.8, g: 0.8, b: 0.8, a: 1 },
 	white: { r: 1, g: 1, b: 1, a: 1 },
 	red: { r: 1, a: 1 },
-	black: { a: 1 },
-	grey: { r: 0.7, g: 0.7, b: 0.7, a: 1 }
+	grey: { r: 0.7, g: 0.7, b: 0.7, a: 1 },
+	black: { a: 1 }
 },
 com.badlogic.gdx.graphics.g2d.BitmapFont: {
 	default-font: { file: default.fnt }
@@ -37,7 +37,8 @@ com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
 	}
 },
 com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle: {
-	toggle: { imageUp: force_in_button, imageDown: force_in_button_down, imageChecked: force_in_button_down }
+	toggle_out: { imageUp: force_out_button, imageDown: force_out_button_down, imageChecked: force_out_button_down },
+	toggle_in: { imageUp: force_in_button, imageDown: force_in_button_down, imageChecked: force_in_button_down }
 },
 com.badlogic.gdx.scenes.scene2d.ui.SplitPane$SplitPaneStyle: {
 	default-vertical: { handle: default-splitpane-vertical },
