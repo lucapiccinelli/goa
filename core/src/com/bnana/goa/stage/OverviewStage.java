@@ -2,9 +2,7 @@ package com.bnana.goa.stage;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -15,12 +13,12 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
@@ -32,13 +30,10 @@ import com.bnana.goa.actors.WanderingCellActor;
 import com.bnana.goa.cell.WanderingCell;
 import com.bnana.goa.cell.generator.RandomCellGenerator;
 import com.bnana.goa.force.ForceField;
-import com.bnana.goa.force.RadialForceField;
 import com.bnana.goa.force.RealisticForceField;
 import com.bnana.goa.organism.events.OrganismGrownEvent;
 import com.bnana.goa.organism.listeners.OrganismGrowListener;
 import com.bnana.goa.rendering.CellRenderer;
-import com.bnana.goa.rendering.FlatGeneratedGraphicCellRenderer;
-import com.bnana.goa.rendering.GeneratedGraphicForceRenderer;
 import com.bnana.goa.rendering.GeneratedGraphicMultiForceRenderer;
 import com.bnana.goa.tween.PercentageManager;
 import com.bnana.goa.tween.PercentageManagerAccessor;
@@ -47,7 +42,7 @@ import com.bnana.goa.tween.Vector2Accessor;
 import com.bnana.goa.utils.Box2dScaleManager;
 import com.bnana.goa.utils.Const;
 
-import java.awt.geom.Rectangle2D;
+import java.util.Comparator;
 
 import aurelienribon.tweenengine.Tween;
 
@@ -73,7 +68,7 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
     private CellRenderer cellRenderer;
     private ShapeRenderer forceActorShapeRenderer;
     private boolean wanderingCellCreationIsScheduled;
-    private Skin internalForcesButtonSkin;
+    private Skin forcesButtonSkin;
 
     public OverviewStage(GameOfAttraction game, ShapeRenderer shapeRenderer){
         super(new ScalingViewport(Scaling.stretch, Const.VIEWPORT_WIDTH, Const.VIEWPORT_HEIGHT, new OrthographicCamera(Const.VIEWPORT_WIDTH, Const.VIEWPORT_HEIGHT)));
@@ -108,13 +103,28 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
     }
 
     private void createUi() {
-        TextureAtlas internalForcesButtonAtlas = new TextureAtlas(Gdx.files.internal("forces_buttons\\uiskin.atlas"));
-        internalForcesButtonSkin = new Skin(Gdx.files.internal("forces_buttons\\uiskin.json"), internalForcesButtonAtlas);
-        Button button = new ImageButton(internalForcesButtonSkin, "toggle_in");
-        button.setPosition(5, 5);
-        addActor(button);
+        TextureAtlas forcesButtonAtlas = new TextureAtlas(Gdx.files.internal("forces_buttons\\uiskin.atlas"));
+        forcesButtonSkin = new Skin(Gdx.files.internal("forces_buttons\\uiskin.json"), forcesButtonAtlas);
+        Button internalForcesButton = new ImageButton(forcesButtonSkin, "toggle_in");
+        internalForcesButton.setPosition(19, 1);
 
-        button.addListener(new ClickListener(){
+        float szX = 4.5f;
+        float szY = 4.5f;
+        int zIndex = 1;
+
+        internalForcesButton.setSize(szX, szY);
+        addActor(internalForcesButton);
+        internalForcesButton.setZIndex(100);
+
+        Button externalForcesButton = new ImageButton(forcesButtonSkin, "toggle_out");
+        externalForcesButton.setPosition(24.5f, 1);
+        externalForcesButton.setSize(szX, szY);
+        addActor(externalForcesButton);
+        externalForcesButton.setZIndex(100);
+
+        externalForcesButton.setChecked(true);
+
+        externalForcesButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("Clicked button", "Yep, you did");
@@ -126,16 +136,27 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
         forceField = new RealisticForceField();
         ForceActor forceActor = new ForceActor(forceField, new GeneratedGraphicMultiForceRenderer(scaleManager, camera.combined));
         addActor(forceActor);
+        forceActor.setZIndex(0);
     }
 
     private void createWanderingCells() {
         RandomCellGenerator generator = new RandomCellGenerator(null, WanderingCell.MakePrototype(), wanderingWorldBounds);
-        addActor(new WanderingCellActor(world, generator, forceField, getBatch(), shapeRenderer, scaleManager));
+        WanderingCellActor wanderingCellActor = new WanderingCellActor(world, generator, forceField, getBatch(), shapeRenderer, scaleManager);
+        addActor(wanderingCellActor);
+        wanderingCellActor.setZIndex(1);
+
+        getActors().sort(new Comparator<Actor>() {
+            @Override
+            public int compare(Actor o1, Actor o2) {
+                return o1.getZIndex() > o2.getZIndex() ? 1 : o1.getZIndex() < o2.getZIndex() ? -1 : 0;
+            }
+        });
     }
 
     private void createOrganism() {
         organism = new OrganismActor(world, worldBounds.x, worldBounds.y, worldBounds.width, worldBounds.height, forceField, scaleManager, shapeRenderer);
         organism.addGrowingListener(this);
+        organism.setZIndex(1);
         addActor(organism);
     }
 
@@ -178,7 +199,7 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
     public void dispose(){
         world.dispose();
         forceActorShapeRenderer.dispose();
-        internalForcesButtonSkin.dispose();
+        forcesButtonSkin.dispose();
         super.dispose();
     }
 
