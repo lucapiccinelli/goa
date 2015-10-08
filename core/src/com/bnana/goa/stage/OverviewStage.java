@@ -143,7 +143,7 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
         RandomCellGenerator generator = new RandomCellGenerator(null, WanderingCell.MakePrototype(), wanderingWorldBounds);
         WanderingCellActor wanderingCellActor = new WanderingCellActor(world, generator, forceField, getBatch(), shapeRenderer, scaleManager);
         addActor(wanderingCellActor);
-        wanderingCellActor.setZIndex(1);
+        wanderingCellActor.setZIndex(2);
 
         getActors().sort(new Comparator<Actor>() {
             @Override
