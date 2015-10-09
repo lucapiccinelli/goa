@@ -39,6 +39,7 @@ import com.bnana.goa.tween.PercentageManager;
 import com.bnana.goa.tween.PercentageManagerAccessor;
 import com.bnana.goa.tween.ShapeRendererAccessor;
 import com.bnana.goa.tween.Vector2Accessor;
+import com.bnana.goa.ui.ForceTypeSwitch;
 import com.bnana.goa.utils.Box2dScaleManager;
 import com.bnana.goa.utils.Const;
 
@@ -68,7 +69,7 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
     private CellRenderer cellRenderer;
     private ShapeRenderer forceActorShapeRenderer;
     private boolean wanderingCellCreationIsScheduled;
-    private Skin forcesButtonSkin;
+    private ForceTypeSwitch forceTypeSwitch;
 
     public OverviewStage(GameOfAttraction game, ShapeRenderer shapeRenderer){
         super(new ScalingViewport(Scaling.stretch, Const.VIEWPORT_WIDTH, Const.VIEWPORT_HEIGHT, new OrthographicCamera(Const.VIEWPORT_WIDTH, Const.VIEWPORT_HEIGHT)));
@@ -103,33 +104,9 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
     }
 
     private void createUi() {
-        TextureAtlas forcesButtonAtlas = new TextureAtlas(Gdx.files.internal("forces_buttons\\uiskin.atlas"));
-        forcesButtonSkin = new Skin(Gdx.files.internal("forces_buttons\\uiskin.json"), forcesButtonAtlas);
-        Button internalForcesButton = new ImageButton(forcesButtonSkin, "toggle_in");
-        internalForcesButton.setPosition(19, 1);
-
-        float szX = 4.5f;
-        float szY = 4.5f;
-        int zIndex = 1;
-
-        internalForcesButton.setSize(szX, szY);
-        addActor(internalForcesButton);
-        internalForcesButton.setZIndex(100);
-
-        Button externalForcesButton = new ImageButton(forcesButtonSkin, "toggle_out");
-        externalForcesButton.setPosition(24.5f, 1);
-        externalForcesButton.setSize(szX, szY);
-        addActor(externalForcesButton);
-        externalForcesButton.setZIndex(100);
-
-        externalForcesButton.setChecked(true);
-
-        externalForcesButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.log("Clicked button", "Yep, you did");
-            }
-        });
+        forceTypeSwitch = new ForceTypeSwitch(new Vector2(19, 1), new Vector2(4.5f, 4.5f), this);
+        addActor(forceTypeSwitch);
+        forceTypeSwitch.setZIndex(100);
     }
 
     private void createForceFields() {
@@ -199,7 +176,7 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
     public void dispose(){
         world.dispose();
         forceActorShapeRenderer.dispose();
-        forcesButtonSkin.dispose();
+        forceTypeSwitch.dispose();
         super.dispose();
     }
 
