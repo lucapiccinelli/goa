@@ -54,6 +54,8 @@ public class ForceTypeSwitch extends Group implements Disposable{
                     event.cancel();
                     return true;
                 }
+
+
                 toggleForce();
                 return true;
             }
