@@ -28,7 +28,7 @@ import java.awt.geom.Rectangle2D;
 /**
  * Created by luca.piccinelli on 31/08/2015.
  */
-public class OrganismActor extends Group {
+public class OrganismActor extends Group implements ForceSubject {
 
     private final StartingOrganism organism;
     private final PhysicElement physicOrganism;
@@ -86,5 +86,10 @@ public class OrganismActor extends Group {
 
     public void addGrowingListener(OrganismGrowListener organismGrowListener) {
         organism.addGrowingListeners(organismGrowListener);
+    }
+
+    @Override
+    public void setAsForceSubject(OverviewStage stage) {
+        stage.setPhysicForceSubject(physicOrganism);
     }
 }

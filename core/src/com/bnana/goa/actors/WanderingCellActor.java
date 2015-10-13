@@ -21,13 +21,14 @@ import com.bnana.goa.physics.PhysicCell;
 import com.bnana.goa.rendering.CellForceFieldRenderer;
 import com.bnana.goa.rendering.CellRenderer;
 import com.bnana.goa.rendering.FlatGeneratedGraphicCellRenderer;
+import com.bnana.goa.stage.OverviewStage;
 import com.bnana.goa.utils.Const;
 import com.bnana.goa.utils.ScaleManager;
 
 /**
  * Created by Luca on 9/2/2015.
  */
-public class WanderingCellActor extends Actor implements CellDestroyListener{
+public class WanderingCellActor extends Actor implements CellDestroyListener, ForceSubject{
 
     private final WanderingCell cell;
     private final TextureRegion textureRegion;
@@ -61,7 +62,6 @@ public class WanderingCellActor extends Actor implements CellDestroyListener{
 
     @Override
     public void act(float delta){
-        physicCell.apply(forceField);
         super.act(delta);
     }
 
@@ -78,5 +78,10 @@ public class WanderingCellActor extends Actor implements CellDestroyListener{
     @Override
     public void notifyDestroy(CellDestroyEvent cellDestroyEvent) {
         remove();
+    }
+
+    @Override
+    public void setAsForceSubject(OverviewStage stage) {
+        stage.setPhysicForceSubject(physicCell);
     }
 }

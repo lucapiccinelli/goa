@@ -33,6 +33,7 @@ import com.bnana.goa.force.ForceField;
 import com.bnana.goa.force.RealisticForceField;
 import com.bnana.goa.organism.events.OrganismGrownEvent;
 import com.bnana.goa.organism.listeners.OrganismGrowListener;
+import com.bnana.goa.physics.PhysicElement;
 import com.bnana.goa.rendering.CellRenderer;
 import com.bnana.goa.rendering.GeneratedGraphicMultiForceRenderer;
 import com.bnana.goa.tween.PercentageManager;
@@ -71,6 +72,8 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
     private boolean wanderingCellCreationIsScheduled;
     private ForceTypeSwitch forceTypeSwitch;
 
+    private PhysicElement physicForceSubject;
+
     public OverviewStage(GameOfAttraction game, ShapeRenderer shapeRenderer){
         super(new ScalingViewport(Scaling.stretch, Const.VIEWPORT_WIDTH, Const.VIEWPORT_HEIGHT, new OrthographicCamera(Const.VIEWPORT_WIDTH, Const.VIEWPORT_HEIGHT)));
 
@@ -104,7 +107,7 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
     }
 
     private void createUi() {
-        forceTypeSwitch = new ForceTypeSwitch(new Vector2(19, 1), new Vector2(4.5f, 4.5f), this);
+        forceTypeSwitch = new ForceTypeSwitch(new Vector2(19, 1), new Vector2(4.5f, 4.5f), this, organism);
         addActor(forceTypeSwitch);
         forceTypeSwitch.setZIndex(100);
     }
@@ -121,6 +124,9 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
         WanderingCellActor wanderingCellActor = new WanderingCellActor(world, generator, forceField, getBatch(), shapeRenderer, scaleManager);
         addActor(wanderingCellActor);
         wanderingCellActor.setZIndex(2);
+        forceTypeSwitch.setWanderingCellActor(wanderingCellActor);
+
+        forceTypeSwitch.giveTheForceSubject(this);
 
         getActors().sort(new Comparator<Actor>() {
             @Override
@@ -147,6 +153,10 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
         scaleManager = new Box2dScaleManager(camera, Const.APP_WIDTH, Const.APP_HEIGHT);
     }
 
+    public void setPhysicForceSubject(PhysicElement physicForceSubject) {
+        this.physicForceSubject = physicForceSubject;
+    }
+
     @Override
     public void draw(){
         shapeRenderer.setProjectionMatrix(camera.combined);
@@ -170,6 +180,8 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
             world.step(TIME_STEP, 6, 2);
             accumulator -= TIME_STEP;
         }
+
+        if(physicForceSubject != null)physicForceSubject.apply(forceField);
     }
 
     @Override

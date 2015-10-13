@@ -8,25 +8,35 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Widget;
+import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Disposable;
+import com.bnana.goa.actors.ForceSubject;
+import com.bnana.goa.actors.OrganismActor;
+import com.bnana.goa.actors.WanderingCellActor;
+import com.bnana.goa.force.ForceField;
 import com.bnana.goa.stage.OverviewStage;
 
 /**
  * Created by Luca on 10/9/2015.
  */
-public class ForceTypeSwitch extends Group implements Disposable{
+public class ForceTypeSwitch extends WidgetGroup implements Disposable{
 
     private final OverviewStage overviewStage;
+    private final OrganismActor organismActor;
+    private WanderingCellActor wanderingCellActor;
     private Skin forcesButtonSkin;
     private int selectedButton;
     private final Button[] buttons;
+    private final ForceSubject[] subjects;
     private final Button internalForcesButton;
     private final Button externalForcesButton;
 
-    public ForceTypeSwitch(Vector2 position, Vector2 size, OverviewStage overviewStage) {
+    public ForceTypeSwitch(Vector2 position, Vector2 size, OverviewStage overviewStage, OrganismActor organismActor) {
         super();
         this.overviewStage = overviewStage;
+        this.organismActor = organismActor;
 
         TextureAtlas forcesButtonAtlas = new TextureAtlas(Gdx.files.internal("forces_buttons\\uiskin.atlas"));
         forcesButtonSkin = new Skin(Gdx.files.internal("forces_buttons\\uiskin.json"), forcesButtonAtlas);
@@ -44,6 +54,7 @@ public class ForceTypeSwitch extends Group implements Disposable{
 
         externalForcesButton.setChecked(true);
 
+        subjects = new ForceSubject[]{this.organismActor, this.wanderingCellActor};
         buttons = new Button[]{internalForcesButton, externalForcesButton};
         selectedButton = 1;
 
@@ -77,11 +88,21 @@ public class ForceTypeSwitch extends Group implements Disposable{
     private void toggleForce() {
         buttons[selectedButton].setChecked(false);
         selectedButton = (selectedButton + 1) % buttons.length;
+        subjects[selectedButton].setAsForceSubject(overviewStage);
     }
 
+
+    public void setWanderingCellActor(WanderingCellActor wanderingCellActor) {
+        this.wanderingCellActor = wanderingCellActor;
+        subjects[1] = this.wanderingCellActor;
+    }
 
     @Override
     public void dispose() {
         forcesButtonSkin.dispose();
+    }
+
+    public void giveTheForceSubject(OverviewStage overviewStage) {
+
     }
 }
