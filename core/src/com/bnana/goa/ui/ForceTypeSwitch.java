@@ -95,6 +95,7 @@ public class ForceTypeSwitch extends WidgetGroup implements Disposable{
     public void setWanderingCellActor(WanderingCellActor wanderingCellActor) {
         this.wanderingCellActor = wanderingCellActor;
         subjects[1] = this.wanderingCellActor;
+        if(selectedButton == 1) this.wanderingCellActor.setAsForceSubject(overviewStage);
     }
 
     @Override
