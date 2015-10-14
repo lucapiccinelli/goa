@@ -51,6 +51,7 @@ public class RadialForceField implements ForceField {
 
     @Override
     public float valueAtDistance(float distance) {
+        if (distance == 0) return 0;
         return magnitude / (float)Math.pow(distance, 2);
     }
 
