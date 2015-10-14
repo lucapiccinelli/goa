@@ -102,8 +102,4 @@ public class ForceTypeSwitch extends WidgetGroup implements Disposable{
     public void dispose() {
         forcesButtonSkin.dispose();
     }
-
-    public void giveTheForceSubject(OverviewStage overviewStage) {
-
-    }
 }

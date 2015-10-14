@@ -126,8 +126,6 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
         wanderingCellActor.setZIndex(2);
         forceTypeSwitch.setWanderingCellActor(wanderingCellActor);
 
-        forceTypeSwitch.giveTheForceSubject(this);
-
         getActors().sort(new Comparator<Actor>() {
             @Override
             public int compare(Actor o1, Actor o2) {
@@ -173,6 +171,7 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
             createWanderingCells();
             wanderingCellCreationIsScheduled = false;
         }
+        if(physicForceSubject != null)physicForceSubject.apply(forceField);
 
         accumulator += delta;
 
@@ -180,8 +179,6 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
             world.step(TIME_STEP, 6, 2);
             accumulator -= TIME_STEP;
         }
-
-        if(physicForceSubject != null)physicForceSubject.apply(forceField);
     }
 
     @Override
