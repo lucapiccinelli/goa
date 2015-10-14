@@ -5,4 +5,5 @@ package com.bnana.goa.utils;
  */
 public interface ScaleManager {
     float s(float n);
+    float us(float n);
 }
