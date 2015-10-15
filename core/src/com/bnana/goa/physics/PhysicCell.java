@@ -91,4 +91,15 @@ public class PhysicCell implements PhysicElement {
 
         if(element != null) element.notifyPositionChanged();
     }
+
+    @Override
+    public void use(Vector2 position) {
+        if(body != null){
+            Vector2 direction = position.sub(body.getPosition()).nor();
+            body.setTransform(position.sub(direction), body.getAngle());
+            notifyPositionChanged();
+        }else {
+            element.use(position);
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package com.bnana.goa.physics;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 import com.bnana.goa.PositionListener;
@@ -61,5 +62,10 @@ public class PhysicOrganism implements PhysicElement {
         for (PhysicElement element : elements) {
             element.notifyPositionChanged();
         }
+    }
+
+    @Override
+    public void use(Vector2 position) {
+
     }
 }

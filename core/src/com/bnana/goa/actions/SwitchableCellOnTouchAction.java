@@ -40,12 +40,13 @@ public class SwitchableCellOnTouchAction implements OnTouchAction {
 
         theOtherElement.setAction(evolvedCell.createOnTouchAction(theOtherElement));
         theOtherElement.addPositionListener(evolvedCell);
+        evolvedCell.usePosition(theOtherElement);
         switchableCell.integrate(evolvedCell);
     }
 
     @Override
-    public void actOn(SwitchableCell switchableCell, PhysicElement element) {
-
+    public void actOn(SwitchableCell switchableCell, PhysicElement theOtherElement) {
+        theOtherElement.stop();
     }
 
     @Override
