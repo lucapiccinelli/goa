@@ -20,6 +20,7 @@ public class PhysicCell implements PhysicElement {
     private List<PositionListener> positionListeners;
     private PositionChangedEvent positionChangedEvent;
     private PhysicElement element;
+    private Vector2 newPosition;
 
     public PhysicCell() {
         this(null);
@@ -31,6 +32,7 @@ public class PhysicCell implements PhysicElement {
         positionChangedEvent = new PositionChangedEvent(this, positionUsedToNotify);
 
         positionListeners = new ArrayList<PositionListener>();
+        this.newPosition = null;
     }
 
     @Override
@@ -44,6 +46,19 @@ public class PhysicCell implements PhysicElement {
             element.apply(forceField);
         }else if(body != null){
             forceField.apply(body);
+        }
+    }
+
+    @Override
+    public void adjustPosition(){
+        if(body != null){
+            if(newPosition != null){
+                body.setTransform(newPosition, body.getAngle());
+                newPosition = null;
+                notifyPositionChanged();
+            }
+        }else {
+            element.adjustPosition();
         }
     }
 
@@ -95,11 +110,16 @@ public class PhysicCell implements PhysicElement {
     @Override
     public void use(Vector2 position) {
         if(body != null){
-            Vector2 direction = position.sub(body.getPosition()).nor();
-            body.setTransform(position.sub(direction), body.getAngle());
-            notifyPositionChanged();
+            Vector2 bodyPosition = body.getPosition();
+            Vector2 direction = new Vector2(position.x - bodyPosition.x, position.y - bodyPosition.y);
+            direction.nor();
+            schedulePositionChange(new Vector2(position.x + direction.x, position.y + direction.y));
         }else {
             element.use(position);
         }
+    }
+
+    private void schedulePositionChange(Vector2 newPosition) {
+        this.newPosition = newPosition;
     }
 }
