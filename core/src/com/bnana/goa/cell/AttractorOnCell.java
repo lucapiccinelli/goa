@@ -2,6 +2,7 @@ package com.bnana.goa.cell;
 
 import com.badlogic.gdx.math.Vector2;
 import com.bnana.goa.CellDestroyListener;
+import com.bnana.goa.PositionListener;
 import com.bnana.goa.actions.SwitchableCellOnTouchAction;
 import com.bnana.goa.actions.OnTouchAction;
 import com.bnana.goa.events.PositionChangedEvent;
@@ -10,6 +11,8 @@ import com.bnana.goa.physics.PhysicElement;
 import com.bnana.goa.rendering.CellRenderer;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Luca on 8/21/2015.
@@ -17,9 +20,11 @@ import java.awt.geom.Point2D;
 public class AttractorOnCell implements OnCell {
     private final OnCellImpl onCellImpl;
     private float density;
+    private List<PositionListener> positionListeners;
 
     public AttractorOnCell(OffCell offCell, Vector2 position, float density, Organism belongingOrganism){
         this.onCellImpl = new OnCellImpl(offCell, position, density, belongingOrganism);
+        positionListeners = new ArrayList<PositionListener>();
     }
 
     @Override
@@ -88,8 +93,16 @@ public class AttractorOnCell implements OnCell {
     }
 
     @Override
+    public void addPositionListener(PositionListener positionListener) {
+        positionListeners.add(positionListener);
+    }
+
+    @Override
     public void updatePosition(PositionChangedEvent positionChangedEvent) {
         onCellImpl.updatePosition(positionChangedEvent);
+        for(PositionListener positionListener : positionListeners){
+            positionListener.updatePosition(positionChangedEvent);
+        }
     }
 
     @Override

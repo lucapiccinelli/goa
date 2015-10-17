@@ -2,6 +2,7 @@ package com.bnana.goa.cell;
 
 import com.badlogic.gdx.math.Vector2;
 import com.bnana.goa.CellDestroyListener;
+import com.bnana.goa.PositionListener;
 import com.bnana.goa.actions.OnTouchAction;
 import com.bnana.goa.actions.WanderingOnTouchAction;
 import com.bnana.goa.events.CellDestroyEvent;
@@ -26,6 +27,7 @@ public class WanderingCell implements EvolvableCell {
     private final EuclideanDistance distance;
     private OffCell evolved;
     private List<CellDestroyListener> destroyListeners;
+    private List<PositionListener> positionListeners;
 
     private WanderingCell(){
         this(new Vector2(0, 0), 1f);
@@ -39,6 +41,7 @@ public class WanderingCell implements EvolvableCell {
         distance = new EuclideanDistance(position);
 
         destroyListeners = new ArrayList<CellDestroyListener>();
+        positionListeners = new ArrayList<PositionListener>();
 
         evolved = null;
     }
@@ -106,8 +109,16 @@ public class WanderingCell implements EvolvableCell {
     }
 
     @Override
+    public void addPositionListener(PositionListener positionListener) {
+        positionListeners.add(positionListener);
+    }
+
+    @Override
     public void updatePosition(PositionChangedEvent positionChangedEvent) {
         position = positionChangedEvent.getPosition();
+        for(PositionListener positionListener : positionListeners){
+            positionListener.updatePosition(positionChangedEvent);
+        }
     }
 
     public static WanderingCell MakePrototype(){

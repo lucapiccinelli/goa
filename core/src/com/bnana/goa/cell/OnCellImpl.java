@@ -2,6 +2,7 @@ package com.bnana.goa.cell;
 
 import com.badlogic.gdx.math.Vector2;
 import com.bnana.goa.CellDestroyListener;
+import com.bnana.goa.PositionListener;
 import com.bnana.goa.actions.OnTouchAction;
 import com.bnana.goa.events.CellDestroyEvent;
 import com.bnana.goa.events.PositionChangedEvent;
@@ -122,6 +123,11 @@ class OnCellImpl implements OnCell {
 
     @Override
     public void render(CellRenderer cellRenderer) {
+
+    }
+
+    @Override
+    public void addPositionListener(PositionListener positionListener) {
 
     }
 }

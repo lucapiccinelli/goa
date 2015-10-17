@@ -7,12 +7,14 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.utils.Align;
 import com.bnana.goa.CellDestroyListener;
+import com.bnana.goa.PositionListener;
 import com.bnana.goa.cell.Cell;
 import com.bnana.goa.cell.CellConsumer;
 import com.bnana.goa.cell.CellController;
 import com.bnana.goa.cell.OffCell;
 import com.bnana.goa.cell.SwitchableCell;
 import com.bnana.goa.events.CellDestroyEvent;
+import com.bnana.goa.events.PositionChangedEvent;
 import com.bnana.goa.utils.Const;
 import com.bnana.goa.utils.ScaleManager;
 
@@ -77,5 +79,11 @@ public class CellActorController extends Actor implements CellController, CellCo
     @Override
     public void useCell(CellConsumer cellConsumer) {
         switchableCell.use(cellConsumer);
+    }
+
+    @Override
+    public void updatePosition(PositionChangedEvent positionEvent) {
+        Vector2 position = positionEvent.getPosition();
+        setPosition(position.x, position.y);
     }
 }

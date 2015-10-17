@@ -2,6 +2,7 @@ package com.bnana.goa.cell;
 
 import com.badlogic.gdx.math.Vector2;
 import com.bnana.goa.CellDestroyListener;
+import com.bnana.goa.PositionListener;
 import com.bnana.goa.actions.SwitchableCellOnTouchAction;
 import com.bnana.goa.actions.OnTouchAction;
 import com.bnana.goa.events.CellDestroyEvent;
@@ -15,6 +16,7 @@ import com.bnana.goa.utils.EuclideanDistance;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 
 /**
  * Created by Luca on 8/21/2015.
@@ -28,6 +30,7 @@ public class RepulsorOffCell implements OffCell {
     private float density;
     private Organism belongingOrganism;
     private List<CellDestroyListener> destroyListeners;
+    private List<PositionListener> positionListeners;
 
     public RepulsorOffCell (Organism belongingOrganism, Vector2 position, float density) {
         this.position = position;
@@ -37,6 +40,7 @@ public class RepulsorOffCell implements OffCell {
         distanceCalculator = new EuclideanDistance(position);
 
         destroyListeners = new ArrayList<CellDestroyListener>();
+        positionListeners = new ArrayList<PositionListener>();
     }
 
     public void setBelongingOrganism(Organism belongingOrganism) {
@@ -123,6 +127,9 @@ public class RepulsorOffCell implements OffCell {
     public void updatePosition(PositionChangedEvent positionChangedEvent) {
         this.position = positionChangedEvent.getPosition();
         if(onCell != null) onCell.setPosition(position);
+        for(PositionListener positionListener : positionListeners){
+            positionListener.updatePosition(positionChangedEvent);
+        }
     }
 
     @Override
@@ -151,5 +158,10 @@ public class RepulsorOffCell implements OffCell {
     @Override
     public void render(CellRenderer cellRenderer) {
         cellRenderer.renderRepulsorOffCell(this, position, density);
+    }
+
+    @Override
+    public void addPositionListener(PositionListener positionListener) {
+        positionListeners.add(positionListener);
     }
 }

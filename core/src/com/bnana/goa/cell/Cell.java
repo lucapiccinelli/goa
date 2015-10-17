@@ -33,4 +33,6 @@ public interface Cell extends PositionListener {
     void setPosition(Vector2 position);
 
     void render(CellRenderer cellRenderer);
+
+    void addPositionListener(PositionListener positionListener);
 }

@@ -2,6 +2,7 @@ package com.bnana.goa.cell;
 
 import com.badlogic.gdx.math.Vector2;
 import com.bnana.goa.CellDestroyListener;
+import com.bnana.goa.PositionListener;
 import com.bnana.goa.actions.SwitchableCellOnTouchAction;
 import com.bnana.goa.actions.OnTouchAction;
 import com.bnana.goa.events.CellDestroyEvent;
@@ -29,6 +30,7 @@ public class AttractorOffCell implements OffCell{
     private float density;
     private Organism belongingOrganism;
     private List<CellDestroyListener> destroyListeners;
+    private List<PositionListener> positionListeners;
 
     public AttractorOffCell(Organism belongingOrganism, Vector2 position, float density) {
         this.position = position;
@@ -38,6 +40,7 @@ public class AttractorOffCell implements OffCell{
         distanceCalculator = new EuclideanDistance(position);
 
         destroyListeners = new ArrayList<CellDestroyListener>();
+        positionListeners = new ArrayList<PositionListener>();
     }
 
     public void setBelongingOrganism(Organism belongingOrganism) {
@@ -124,6 +127,9 @@ public class AttractorOffCell implements OffCell{
     public void updatePosition(PositionChangedEvent positionChangedEvent) {
         this.position = positionChangedEvent.getPosition();
         if(onCell != null) onCell.setPosition(position);
+        for (PositionListener positionListener : positionListeners) {
+            positionListener.updatePosition(positionChangedEvent);
+        }
     }
 
     @Override
@@ -152,5 +158,10 @@ public class AttractorOffCell implements OffCell{
     @Override
     public void render(CellRenderer cellRenderer) {
         cellRenderer.renderAttractorOffCell(this, position, density);
+    }
+
+    @Override
+    public void addPositionListener(PositionListener positionListener) {
+        positionListeners.add(positionListener);
     }
 }

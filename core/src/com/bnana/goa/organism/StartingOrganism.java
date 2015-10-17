@@ -61,6 +61,7 @@ public class StartingOrganism implements Organism {
         cells.add(controller);
 
         notifyGrowingListeners(aNewAttractor);
+        aNewAttractor.addPositionListener(controller);
     }
 
     @Override
@@ -72,6 +73,7 @@ public class StartingOrganism implements Organism {
         cells.add(controller);
 
         notifyGrowingListeners(aNewRepulsor);
+        aNewRepulsor.addPositionListener(controller);
     }
 
     @Override
