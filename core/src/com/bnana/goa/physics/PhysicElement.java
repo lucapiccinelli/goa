@@ -18,4 +18,8 @@ public interface PhysicElement extends PositionChangesNotifier, PositionConsumer
     void stop();
 
     void setAction(OnTouchAction onTouchAction);
+
+    void integrate(PhysicElement physicElement);
+
+    void setParent(PhysicElement parent);
 }

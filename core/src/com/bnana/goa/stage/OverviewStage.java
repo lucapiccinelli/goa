@@ -191,6 +191,14 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
 
     @Override
     public void beginContact(Contact contact) {
+        Body bodyA = contact.getFixtureA().getBody();
+        Body bodyB = contact.getFixtureB().getBody();
+
+        OnTouchAction actionA = (OnTouchAction)bodyA.getUserData();
+        OnTouchAction actionB = (OnTouchAction)bodyB.getUserData();
+
+        actionA.act(actionB);
+        actionB.act(actionA);
     }
 
     @Override
@@ -200,14 +208,6 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
 
     @Override
     public void preSolve(Contact contact, Manifold oldManifold) {
-        Body bodyA = contact.getFixtureA().getBody();
-        Body bodyB = contact.getFixtureB().getBody();
-
-        OnTouchAction actionA = (OnTouchAction)bodyA.getUserData();
-        OnTouchAction actionB = (OnTouchAction)bodyB.getUserData();
-
-        actionA.act(actionB);
-        actionB.act(actionA);
     }
 
     @Override

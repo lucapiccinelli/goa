@@ -41,8 +41,10 @@ public class Box2dOrganismPhysics implements OrganismPhysics {
         shape.dispose();
 
         PhysicCell cellBody = new PhysicCell(body);
-        body.setUserData(cell.createOnTouchAction(physicElement));
+        cellBody.setParent(physicElement);
+        body.setUserData(cell.createOnTouchAction(cellBody));
         cellBody.addPositionListener(cell);
+
         physicElement.add(cellBody);
         physicElement.addPositionListener(cell);
     }

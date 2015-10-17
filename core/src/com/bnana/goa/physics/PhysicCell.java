@@ -5,9 +5,9 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.bnana.goa.PositionListener;
 import com.bnana.goa.actions.OnTouchAction;
 import com.bnana.goa.events.PositionChangedEvent;
+import com.bnana.goa.exceptions.InvalidIntegrateRequestException;
 import com.bnana.goa.force.ForceField;
 
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +21,7 @@ public class PhysicCell implements PhysicElement {
     private PositionChangedEvent positionChangedEvent;
     private PhysicElement element;
     private Vector2 newPosition;
+    private PhysicElement parent;
 
     public PhysicCell() {
         this(null);
@@ -81,6 +82,18 @@ public class PhysicCell implements PhysicElement {
         }else {
             element.setAction(onTouchAction);
         }
+    }
+
+    @Override
+    public void integrate(PhysicElement physicElement) {
+        if(parent == null) throw new InvalidIntegrateRequestException(String.format("No parent on this %s", this));
+        physicElement.setParent(parent);
+        parent.add(physicElement);
+    }
+
+    @Override
+    public void setParent(PhysicElement parent) {
+        this.parent = parent;
     }
 
     @Override

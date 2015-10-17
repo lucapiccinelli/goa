@@ -42,7 +42,7 @@ public class SwitchableCellOnTouchAction implements OnTouchAction {
         theOtherElement.addPositionListener(evolvedCell);
         evolvedCell.usePosition(theOtherElement);
         switchableCell.integrate(evolvedCell);
-        element.add(theOtherElement);
+        element.integrate(theOtherElement);
     }
 
     @Override

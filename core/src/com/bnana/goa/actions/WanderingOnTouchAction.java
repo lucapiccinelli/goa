@@ -48,7 +48,7 @@ public class WanderingOnTouchAction implements OnTouchAction {
         physicElement.addPositionListener(evolved);
 
         switchableCell.integrate(evolved);
-        theOtherElement.add(physicElement);
+        theOtherElement.integrate(physicElement);
     }
 
     @Override
