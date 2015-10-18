@@ -5,6 +5,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.bnana.goa.cell.Cell;
+import com.bnana.goa.cell.CellConsumer;
+import com.bnana.goa.cell.OffCell;
 import com.bnana.goa.force.ForceField;
 import com.bnana.goa.tween.PercentageManager;
 import com.bnana.goa.tween.ShapeRendererAccessor;
@@ -19,7 +22,7 @@ import aurelienribon.tweenengine.TweenManager;
 /**
  * Created by Luca on 9/21/2015.
  */
-public class GeneratedGraphicForceRenderer implements ForceRenderer{
+public class GeneratedGraphicForceRenderer implements CellConsumer{
     private final ShapeRenderer shapeRenderer;
     private final ScaleManager sm;
     private PercentageManager percentageManager;
@@ -60,7 +63,7 @@ public class GeneratedGraphicForceRenderer implements ForceRenderer{
     };
 
     @Override
-    public void renderForce(ForceField forceField, Vector2 position, float magnitude){
+    public void use(Cell cell, Vector2 position, float magnitude) {
         if (magnitude == 0) {
             if(shapeRenderer.getColor().a > 0f) {
                 if(!setOffAnimation) {
@@ -98,15 +101,18 @@ public class GeneratedGraphicForceRenderer implements ForceRenderer{
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
-        float unscaledRadius = MathUtils.log(5, 1 + Math.abs(magnitude));
-
         tweenManager.update(Gdx.graphics.getDeltaTime());
         positionTweenManager.update(Gdx.graphics.getDeltaTime());
 
-        float radius = percentageManager.scale(unscaledRadius);
+        float radius = percentageManager.scale(magnitude * 2.5f);
         shapeRenderer.circle(position.x, position.y, radius, 50);
 
         shapeRenderer.end();
         Gdx.gl.glDisable(GL20.GL_BLEND);
+    }
+
+    @Override
+    public void useItOff(OffCell cell, Vector2 position, float density) {
+        use(cell, position, density);
     }
 }

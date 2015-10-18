@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.bnana.goa.cell.AttractorOffCell;
@@ -40,8 +41,11 @@ public class FlatGeneratedGraphicCellRenderer implements CellRenderer {
     private PercentageManager heightPercentageManager;
     private final Dictionary<Cell, PercentageManager[]> percentageManagers;
     private float alpha;
+    private final GeneratedGraphicMultiForceRenderer forceRenderer;
 
     public FlatGeneratedGraphicCellRenderer(ShapeRenderer shapeRenderer, ScaleManager sm) {
+        forceRenderer = new GeneratedGraphicMultiForceRenderer(sm, shapeRenderer.getProjectionMatrix());
+
         widthPercentageManager = new PercentageManager(1);
         heightPercentageManager = new PercentageManager(1);
         animationManager = new TweenManager();
@@ -107,7 +111,7 @@ public class FlatGeneratedGraphicCellRenderer implements CellRenderer {
 
     private void setPercentageManagers(Cell cell) {
         PercentageManager[] managers = percentageManagers.get(cell);
-        if(managers == null){
+        if (managers == null) {
             widthPercentageManager = new PercentageManager(1);
             heightPercentageManager = new PercentageManager(1);
             managers = new PercentageManager[]{widthPercentageManager, heightPercentageManager};
@@ -136,11 +140,13 @@ public class FlatGeneratedGraphicCellRenderer implements CellRenderer {
 
     @Override
     public void renderAttractorOnCell(AttractorOnCell attractorOnCell, Vector2 position, float density) {
+        forceRenderer.use(attractorOnCell, position, density);
         shapeRenderer.setColor(1, 0, 0, alpha);
     }
 
     @Override
     public void renderRepulsorOnCell(RepulsorOnCell repulsorOnCell, Vector2 position, float density) {
+        forceRenderer.use(repulsorOnCell, position, density);
         shapeRenderer.setColor(0, 0, 1, alpha);
     }
 

@@ -114,9 +114,9 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
 
     private void createForceFields() {
         forceField = new RealisticForceField();
-        ForceActor forceActor = new ForceActor(forceField, new GeneratedGraphicMultiForceRenderer(scaleManager, camera.combined));
-        addActor(forceActor);
-        forceActor.setZIndex(0);
+//        ForceActor forceActor = new ForceActor(forceField, new GeneratedGraphicMultiForceRenderer(scaleManager, camera.combined));
+//        addActor(forceActor);
+//        forceActor.setZIndex(0);
     }
 
     private void createWanderingCells() {
