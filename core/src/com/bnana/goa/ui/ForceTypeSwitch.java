@@ -93,6 +93,8 @@ public class ForceTypeSwitch extends WidgetGroup implements Disposable{
         buttons[selectedButton].setChecked(false);
         selectedButton = (selectedButton + 1) % buttons.length;
         subjects[selectedButton].setAsForceSubject(overviewStage);
+        subjects[0].setForceField(forceField);
+        subjects[1].setForceField(forceField);
         overviewStage.setForceField(forceField);
     }
 

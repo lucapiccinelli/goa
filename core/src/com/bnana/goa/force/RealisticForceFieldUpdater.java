@@ -42,4 +42,8 @@ public class RealisticForceFieldUpdater implements CellConsumer {
 
         field.update(positions, densities);
     }
+
+    public void setField(ForceField field) {
+        this.field = field;
+    }
 }

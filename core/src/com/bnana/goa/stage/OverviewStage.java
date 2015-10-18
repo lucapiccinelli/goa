@@ -23,8 +23,9 @@ import com.bnana.goa.actors.WanderingCellActor;
 import com.bnana.goa.cell.WanderingCell;
 import com.bnana.goa.cell.generator.RandomCellGenerator;
 import com.bnana.goa.force.ForceField;
-import com.bnana.goa.force.InternalForceField;
 import com.bnana.goa.force.RealisticForceField;
+import com.bnana.goa.force.functions.ExponentialValueAtDistanceFunction;
+import com.bnana.goa.force.functions.LinearValueAtDistanceFunction;
 import com.bnana.goa.organism.events.OrganismGrownEvent;
 import com.bnana.goa.organism.listeners.OrganismGrowListener;
 import com.bnana.goa.physics.PhysicElement;
@@ -109,8 +110,8 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
     }
 
     private void createForceFields() {
-        outForceField = new RealisticForceField();
-        inForceField = new InternalForceField();
+        outForceField = new RealisticForceField(new ExponentialValueAtDistanceFunction());
+        inForceField = new RealisticForceField(new LinearValueAtDistanceFunction());
 //        ForceActor forceActor = new ForceActor(forceField, new GeneratedGraphicMultiForceRenderer(scaleManager, camera.combined));
 //        addActor(forceActor);
 //        forceActor.setZIndex(0);
@@ -217,6 +218,5 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
 
     public void setForceField(ForceField forceField) {
         this.forceField = forceField;
-        if(wanderingCellActor != null)wanderingCellActor.setForceField(forceField);
     }
 }

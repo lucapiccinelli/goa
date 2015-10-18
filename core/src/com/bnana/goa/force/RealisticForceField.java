@@ -13,13 +13,13 @@ import com.bnana.goa.rendering.ForceRenderer;
 public class RealisticForceField implements ForceField {
     private final Vector2 resultingForce;
     private Array<ForceField> forceFields;
-    private final ValueAtDistanceFunction valueAtDistanceFunction;
+    private ValueAtDistanceFunction valueAtDistanceFunction;
 
-    public RealisticForceField() {
+    public RealisticForceField(ValueAtDistanceFunction valueAtDistanceFunction) {
         this.forceFields = new Array<ForceField>();
         resultingForce = new Vector2();
 
-        valueAtDistanceFunction = new ExponentialValueAtDistanceFunction();
+        this.valueAtDistanceFunction = valueAtDistanceFunction;
     }
 
     @Override

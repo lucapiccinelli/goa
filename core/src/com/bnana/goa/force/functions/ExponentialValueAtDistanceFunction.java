@@ -6,7 +6,7 @@ package com.bnana.goa.force.functions;
 public class ExponentialValueAtDistanceFunction implements ValueAtDistanceFunction {
     @Override
     public float calculate(float distance, float magnitude) {
-        if (distance == 0 || (distance <= 2 && magnitude < 0)) return 0;
+        if (distance == 0) return 0;
         return magnitude / (float)Math.pow(distance, 2);
     }
 }

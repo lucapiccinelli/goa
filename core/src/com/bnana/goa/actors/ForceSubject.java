@@ -1,5 +1,6 @@
 package com.bnana.goa.actors;
 
+import com.bnana.goa.force.ForceField;
 import com.bnana.goa.stage.OverviewStage;
 
 /**
@@ -7,4 +8,5 @@ import com.bnana.goa.stage.OverviewStage;
  */
 public interface ForceSubject {
     void setAsForceSubject(OverviewStage stage);
+    void setForceField(ForceField forceField);
 }

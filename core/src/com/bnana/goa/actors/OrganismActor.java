@@ -96,4 +96,10 @@ public class OrganismActor extends Group implements ForceSubject {
     public void setAsForceSubject(OverviewStage stage) {
         stage.setPhysicForceSubject(physicOrganism);
     }
+
+    @Override
+    public void setForceField(ForceField forceField) {
+        this.forceField = forceField;
+        fieldUpdater.setField(forceField);
+    }
 }
