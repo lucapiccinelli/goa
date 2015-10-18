@@ -157,7 +157,7 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
         shapeRenderer.setProjectionMatrix(camera.combined);
         forceActorShapeRenderer.setProjectionMatrix(camera.combined);
         super.draw();
-        renderer.render(world, camera.combined);
+        //renderer.render(world, camera.combined);
     }
 
     @Override

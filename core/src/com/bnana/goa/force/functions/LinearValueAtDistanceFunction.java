@@ -6,7 +6,7 @@ package com.bnana.goa.force.functions;
 public class LinearValueAtDistanceFunction implements ValueAtDistanceFunction {
     @Override
     public float calculate(float distance, float magnitude) {
-        if(distance <= 2 && magnitude < 0) return 0;
-        return magnitude / 100f;
+        if(distance == 0 || (distance <= 2 && magnitude < 0)) return 0;
+        return (1f / distance) * (magnitude * 0.01f);
     }
 }
