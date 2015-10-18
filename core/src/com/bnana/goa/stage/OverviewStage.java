@@ -144,7 +144,6 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
     private void createCamera() {
         this.renderer = new Box2DDebugRenderer();
         this.camera = (OrthographicCamera) getCamera();
-        //camera.setToOrtho(false, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0f);
         camera.update();
 
