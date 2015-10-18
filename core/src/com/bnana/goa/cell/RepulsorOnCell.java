@@ -21,11 +21,9 @@ import java.util.Queue;
 public class RepulsorOnCell implements OnCell {
     private final OnCellImpl onCellImpl;
     private float density;
-    private List<PositionListener> positionListeners;
 
     public RepulsorOnCell(OffCell offCell, Vector2 position, float density, Organism belongingOrganism){
         this.onCellImpl = new OnCellImpl(offCell, position, density, belongingOrganism);
-        positionListeners = new ArrayList<PositionListener>();
     }
 
     @Override
@@ -95,15 +93,12 @@ public class RepulsorOnCell implements OnCell {
 
     @Override
     public void addPositionListener(PositionListener positionListener) {
-        positionListeners.add(positionListener);
+        onCellImpl.addPositionListener(positionListener);
     }
 
     @Override
     public void updatePosition(PositionChangedEvent positionChangedEvent) {
         onCellImpl.updatePosition(positionChangedEvent);
-        for(PositionListener positionListener : positionListeners){
-            positionListener.updatePosition(positionChangedEvent);
-        }
     }
 
     @Override

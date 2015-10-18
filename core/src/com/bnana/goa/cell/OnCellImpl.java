@@ -26,6 +26,7 @@ class OnCellImpl implements OnCell {
     private Vector2 position;
     private final float density;
     private List<CellDestroyListener> destroyListeners;
+    private List<PositionListener> positionListeners;
 
     OnCellImpl(OffCell offCell, Vector2 position, float density, Organism belongingOrganism){
         this.belongingOrganism = belongingOrganism;
@@ -34,6 +35,7 @@ class OnCellImpl implements OnCell {
         this.density = density;
 
         destroyListeners = new ArrayList<CellDestroyListener>();
+        positionListeners = new ArrayList<PositionListener>();
     }
 
     @Override
@@ -101,6 +103,9 @@ class OnCellImpl implements OnCell {
     public void updatePosition(PositionChangedEvent positionChangedEvent) {
         this.position = positionChangedEvent.getPosition();
         offCell.setPosition(position);
+        for(PositionListener positionListener : positionListeners){
+            positionListener.updatePosition(positionChangedEvent);
+        }
     }
 
     Vector2 getPosition() {
@@ -128,6 +133,6 @@ class OnCellImpl implements OnCell {
 
     @Override
     public void addPositionListener(PositionListener positionListener) {
-
+        positionListeners.add(positionListener);
     }
 }
