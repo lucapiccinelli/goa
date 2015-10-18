@@ -82,4 +82,8 @@ public class CellForceFieldRenderer implements CellRenderer {
     public void useItOff(OffCell cell, Vector2 position, float density) {
         use(cell, position, density);
     }
+
+    public void setForceField(ForceField forceField) {
+        this.forceField = forceField;
+    }
 }

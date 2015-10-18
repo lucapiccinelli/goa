@@ -3,6 +3,7 @@ package com.bnana.goa.tests.unit;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.bnana.goa.CellDestroyListener;
+import com.bnana.goa.PositionListener;
 import com.bnana.goa.actions.OnTouchAction;
 import com.bnana.goa.actors.CellActorController;
 import com.bnana.goa.actors.factories.CellActorControllerGroupFactory;
@@ -108,6 +109,11 @@ public class CellActorControllerGroupFactoryTests {
 
             @Override
             public void render(CellRenderer cellRenderer) {
+
+            }
+
+            @Override
+            public void addPositionListener(PositionListener positionListener) {
 
             }
 

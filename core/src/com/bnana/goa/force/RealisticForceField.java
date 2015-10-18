@@ -3,6 +3,8 @@ package com.bnana.goa.force;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
+import com.bnana.goa.force.functions.ExponentialValueAtDistanceFunction;
+import com.bnana.goa.force.functions.ValueAtDistanceFunction;
 import com.bnana.goa.rendering.ForceRenderer;
 
 /**
@@ -10,19 +12,22 @@ import com.bnana.goa.rendering.ForceRenderer;
  */
 public class RealisticForceField implements ForceField {
     private final Vector2 resultingForce;
-    private Array<ForceField> radialForces;
+    private Array<ForceField> forceFields;
+    private final ValueAtDistanceFunction valueAtDistanceFunction;
 
     public RealisticForceField() {
-        this.radialForces = new Array<ForceField>();
+        this.forceFields = new Array<ForceField>();
         resultingForce = new Vector2();
+
+        valueAtDistanceFunction = new ExponentialValueAtDistanceFunction();
     }
 
     @Override
     public void update(Array<Vector2> positions, Array<Float> magnitudes) {
-        radialForces.clear();
+        forceFields.clear();
         int i = 0;
         for (Vector2 position : positions){
-            radialForces.add(new RadialForceField(position, magnitudes.get(i++)));
+            forceFields.add(new RadialForceField(position, magnitudes.get(i++), valueAtDistanceFunction));
         }
     }
 
@@ -38,7 +43,7 @@ public class RealisticForceField implements ForceField {
 
     @Override
     public void render(ForceRenderer forceRenderer) {
-        for (ForceField f : radialForces){
+        for (ForceField f : forceFields){
             f.render(forceRenderer);
         }
     }
@@ -46,7 +51,7 @@ public class RealisticForceField implements ForceField {
     @Override
     public float valueAtDistance(float distance) {
         float value = 0;
-        for (ForceField f : radialForces){
+        for (ForceField f : forceFields){
             value += f.valueAtDistance(distance);
         }
         return value;
@@ -65,7 +70,7 @@ public class RealisticForceField implements ForceField {
     @Override
     public Vector2 forceAtPoint(Vector2 bodyPosition) {
         resultingForce.set(0, 0);
-        for (ForceField f : radialForces){
+        for (ForceField f : forceFields){
             Vector2 force = f.forceAtPoint(bodyPosition.cpy());
             resultingForce.add(force);
         }

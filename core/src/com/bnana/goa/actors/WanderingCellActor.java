@@ -36,7 +36,7 @@ public class WanderingCellActor extends Actor implements CellDestroyListener, Fo
     private final RandomCellGenerator cellGenerator;
     private final ForceField forceField;
     private final CellRenderer cellRenderer;
-    private final CellRenderer forceFieldRenderer;
+    private final CellForceFieldRenderer forceFieldRenderer;
     private final PhysicCell physicCell;
 
     public WanderingCellActor(World world, RandomCellGenerator cellGenerator, ForceField forceField, CellRenderer cellRenderer, Batch batch){
@@ -83,5 +83,9 @@ public class WanderingCellActor extends Actor implements CellDestroyListener, Fo
     @Override
     public void setAsForceSubject(OverviewStage stage) {
         stage.setPhysicForceSubject(physicCell);
+    }
+
+    public void setForceField(ForceField forceField) {
+        forceFieldRenderer.setForceField(forceField);
     }
 }

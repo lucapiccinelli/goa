@@ -2,7 +2,6 @@ package com.bnana.goa.stage;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -14,28 +13,22 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.bnana.goa.GameOfAttraction;
 import com.bnana.goa.actions.OnTouchAction;
-import com.bnana.goa.actors.ForceActor;
 import com.bnana.goa.actors.OrganismActor;
 import com.bnana.goa.actors.WanderingCellActor;
 import com.bnana.goa.cell.WanderingCell;
 import com.bnana.goa.cell.generator.RandomCellGenerator;
 import com.bnana.goa.force.ForceField;
+import com.bnana.goa.force.InternalForceField;
 import com.bnana.goa.force.RealisticForceField;
 import com.bnana.goa.organism.events.OrganismGrownEvent;
 import com.bnana.goa.organism.listeners.OrganismGrowListener;
 import com.bnana.goa.physics.PhysicElement;
 import com.bnana.goa.rendering.CellRenderer;
-import com.bnana.goa.rendering.GeneratedGraphicMultiForceRenderer;
 import com.bnana.goa.tween.PercentageManager;
 import com.bnana.goa.tween.PercentageManagerAccessor;
 import com.bnana.goa.tween.ShapeRendererAccessor;
@@ -64,7 +57,8 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
     private Box2DDebugRenderer renderer;
     private float accumulator;
     private OrganismActor organism;
-    private ForceField forceField;
+    private ForceField outForceField;
+    private ForceField inForceField;
     private Box2dScaleManager scaleManager;
     private ShapeRenderer shapeRenderer;
     private CellRenderer cellRenderer;
@@ -73,6 +67,8 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
     private ForceTypeSwitch forceTypeSwitch;
 
     private PhysicElement physicForceSubject;
+    private ForceField forceField;
+    private WanderingCellActor wanderingCellActor;
 
     public OverviewStage(GameOfAttraction game, ShapeRenderer shapeRenderer){
         super(new ScalingViewport(Scaling.stretch, Const.VIEWPORT_WIDTH, Const.VIEWPORT_HEIGHT, new OrthographicCamera(Const.VIEWPORT_WIDTH, Const.VIEWPORT_HEIGHT)));
@@ -107,13 +103,14 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
     }
 
     private void createUi() {
-        forceTypeSwitch = new ForceTypeSwitch(new Vector2(19, 1), new Vector2(4.5f, 4.5f), this, organism);
+        forceTypeSwitch = new ForceTypeSwitch(new Vector2(19, 1), new Vector2(4.5f, 4.5f), this, organism, outForceField, inForceField);
         addActor(forceTypeSwitch);
         forceTypeSwitch.setZIndex(100);
     }
 
     private void createForceFields() {
-        forceField = new RealisticForceField();
+        outForceField = new RealisticForceField();
+        inForceField = new InternalForceField();
 //        ForceActor forceActor = new ForceActor(forceField, new GeneratedGraphicMultiForceRenderer(scaleManager, camera.combined));
 //        addActor(forceActor);
 //        forceActor.setZIndex(0);
@@ -121,7 +118,7 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
 
     private void createWanderingCells() {
         RandomCellGenerator generator = new RandomCellGenerator(null, WanderingCell.MakePrototype(), wanderingWorldBounds);
-        WanderingCellActor wanderingCellActor = new WanderingCellActor(world, generator, forceField, getBatch(), shapeRenderer, scaleManager);
+        wanderingCellActor = new WanderingCellActor(world, generator, forceField, getBatch(), shapeRenderer, scaleManager);
         addActor(wanderingCellActor);
         wanderingCellActor.setZIndex(2);
         forceTypeSwitch.setWanderingCellActor(wanderingCellActor);
@@ -135,7 +132,7 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
     }
 
     private void createOrganism() {
-        organism = new OrganismActor(world, worldBounds.x, worldBounds.y, worldBounds.width, worldBounds.height, forceField, scaleManager, shapeRenderer);
+        organism = new OrganismActor(world, worldBounds.x, worldBounds.y, worldBounds.width, worldBounds.height, outForceField, scaleManager, shapeRenderer);
         organism.addGrowingListener(this);
         organism.setZIndex(1);
         addActor(organism);
@@ -216,5 +213,10 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
     @Override
     public void grownBy(OrganismGrownEvent grownEvent) {
         wanderingCellCreationIsScheduled = true;
+    }
+
+    public void setForceField(ForceField forceField) {
+        this.forceField = forceField;
+        if(wanderingCellActor != null)wanderingCellActor.setForceField(forceField);
     }
 }

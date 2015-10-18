@@ -69,7 +69,7 @@ public class Box2dOrganismPhysicsTests {
         PhysicElement physicElement = mock(PhysicElement.class);
         Cell cell = mock(Cell.class);
         OnTouchAction action = mock(OnTouchAction.class);
-        when(cell.createOnTouchAction(physicElement)).thenReturn(action);
+        when(cell.createOnTouchAction(any(PhysicElement.class))).thenReturn(action);
 
         OrganismPhysics physics = new Box2dOrganismPhysics(world, physicElement);
         physics.use(cell, new Vector2(), 1);

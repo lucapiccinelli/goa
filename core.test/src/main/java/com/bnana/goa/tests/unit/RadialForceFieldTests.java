@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Array;
 import com.bnana.goa.exceptions.GoaArgumentException;
 import com.bnana.goa.force.ForceField;
 import com.bnana.goa.force.RadialForceField;
+import com.bnana.goa.force.functions.ExponentialValueAtDistanceFunction;
 import com.bnana.goa.utils.BodyWrapper;
 import com.bnana.goa.utils.EuclideanDistance;
 import com.bnana.goa.utils.wrappers.WorldWrapper;
@@ -29,7 +30,7 @@ import static org.hamcrest.Matchers.lessThan;
 public class RadialForceFieldTests {
     @Test
     public void ApplyingARadialForceFieldToABodyItsPositionShouldChange(){
-        ForceField radialForceField = new RadialForceField(new Vector2(3, 3), 3f);
+        ForceField radialForceField = new RadialForceField(new Vector2(3, 3), 3f, new ExponentialValueAtDistanceFunction());
 
         Vector2 startingPosition = new Vector2(2, 2);
         Body body = BodyWrapper.getNewCircleBody(startingPosition, 1);
@@ -43,7 +44,7 @@ public class RadialForceFieldTests {
 
     @Test
     public void ApplyingANegativeRadialForceFieldToABodyItsFinalPositionDistanceShouldBeFartherFrom0(){
-        ForceField radialForceField = new RadialForceField(new Vector2(3, 3), -3f);
+        ForceField radialForceField = new RadialForceField(new Vector2(5, 5), -3f, new ExponentialValueAtDistanceFunction());
 
         Vector2 startingPosition = new Vector2(2, 2);
         Body body = BodyWrapper.getNewCircleBody(startingPosition, 1);
@@ -64,7 +65,7 @@ public class RadialForceFieldTests {
 
     @Test
     public void ApplyingAPositiveRadialForceFieldToABodyItsFinalPositionDistanceShouldBeCloserTo0(){
-        ForceField radialForceField = new RadialForceField(new Vector2(3, 3), 3f);
+        ForceField radialForceField = new RadialForceField(new Vector2(3, 3), 3f, new ExponentialValueAtDistanceFunction());
 
         Vector2 startingPosition = new Vector2(2, 2);
         Body body = BodyWrapper.getNewCircleBody(startingPosition, 1);

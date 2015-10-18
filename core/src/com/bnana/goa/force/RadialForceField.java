@@ -4,6 +4,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 import com.bnana.goa.exceptions.GoaArgumentException;
+import com.bnana.goa.force.functions.ExponentialValueAtDistanceFunction;
+import com.bnana.goa.force.functions.ValueAtDistanceFunction;
 import com.bnana.goa.rendering.ForceRenderer;
 
 /**
@@ -14,15 +16,17 @@ public class RadialForceField implements ForceField {
 
 
     private final Vector2 centerOfMass;
+    private final ValueAtDistanceFunction valueAtDistanceFunction;
     private float magnitude;
 
-    public RadialForceField(Vector2 centerOfMass, float magnitude) {
+    public RadialForceField(Vector2 centerOfMass, float magnitude, ValueAtDistanceFunction valueAtDistanceFunction) {
+        this.valueAtDistanceFunction = valueAtDistanceFunction;
         this.centerOfMass = new Vector2(centerOfMass.x, centerOfMass.y);
         this.magnitude = magnitude * MAGNITUDE_SCALE;
     }
 
     public RadialForceField() {
-        this(new Vector2(0, 0), 0);
+        this(new Vector2(0, 0), 0, new ExponentialValueAtDistanceFunction());
     }
 
     @Override
@@ -51,8 +55,7 @@ public class RadialForceField implements ForceField {
 
     @Override
     public float valueAtDistance(float distance) {
-        if (distance == 0 || (distance <= 2 && magnitude < 0)) return 0;
-        return magnitude / (float)Math.pow(distance, 2);
+        return valueAtDistanceFunction.calculate(distance, magnitude);
     }
 
     @Override

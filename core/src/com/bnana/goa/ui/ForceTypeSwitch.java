@@ -25,6 +25,8 @@ public class ForceTypeSwitch extends WidgetGroup implements Disposable{
 
     private final OverviewStage overviewStage;
     private final OrganismActor organismActor;
+    private final ForceField outForceField;
+    private final ForceField inForceField;
     private WanderingCellActor wanderingCellActor;
     private Skin forcesButtonSkin;
     private int selectedButton;
@@ -33,10 +35,12 @@ public class ForceTypeSwitch extends WidgetGroup implements Disposable{
     private final Button internalForcesButton;
     private final Button externalForcesButton;
 
-    public ForceTypeSwitch(Vector2 position, Vector2 size, OverviewStage overviewStage, OrganismActor organismActor) {
+    public ForceTypeSwitch(Vector2 position, Vector2 size, OverviewStage overviewStage, OrganismActor organismActor, final ForceField outForceField, final ForceField inForceField) {
         super();
         this.overviewStage = overviewStage;
         this.organismActor = organismActor;
+        this.outForceField = outForceField;
+        this.inForceField = inForceField;
 
         TextureAtlas forcesButtonAtlas = new TextureAtlas(Gdx.files.internal("forces_buttons\\uiskin.atlas"));
         forcesButtonSkin = new Skin(Gdx.files.internal("forces_buttons\\uiskin.json"), forcesButtonAtlas);
@@ -58,6 +62,8 @@ public class ForceTypeSwitch extends WidgetGroup implements Disposable{
         buttons = new Button[]{internalForcesButton, externalForcesButton};
         selectedButton = 1;
 
+        overviewStage.setForceField(outForceField);
+
         internalForcesButton.addCaptureListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -65,9 +71,7 @@ public class ForceTypeSwitch extends WidgetGroup implements Disposable{
                     event.cancel();
                     return true;
                 }
-
-
-                toggleForce();
+                toggleForce(inForceField);
                 return true;
             }
         });
@@ -79,16 +83,17 @@ public class ForceTypeSwitch extends WidgetGroup implements Disposable{
                     event.cancel();
                     return true;
                 }
-                toggleForce();
+                toggleForce(outForceField);
                 return true;
             }
         });
     }
 
-    private void toggleForce() {
+    private void toggleForce(ForceField forceField) {
         buttons[selectedButton].setChecked(false);
         selectedButton = (selectedButton + 1) % buttons.length;
         subjects[selectedButton].setAsForceSubject(overviewStage);
+        overviewStage.setForceField(forceField);
     }
 
 
