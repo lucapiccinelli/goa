@@ -23,6 +23,7 @@ import com.bnana.goa.physics.PhysicElement;
 import com.bnana.goa.physics.PhysicOrganism;
 import com.bnana.goa.rendering.CellRenderer;
 import com.bnana.goa.rendering.FlatGeneratedGraphicCellRenderer;
+import com.bnana.goa.rendering.GeneratedGraphicMultiForceRenderer;
 import com.bnana.goa.stage.OverviewStage;
 import com.bnana.goa.utils.ScaleManager;
 
@@ -40,12 +41,13 @@ public class OrganismActor extends Group implements ForceSubject {
     private final float y;
     private final float width;
     private final float height;
+    private final GeneratedGraphicMultiForceRenderer forceFieldRender;
     private ForceField forceField;
     private final ScaleManager sm;
     private final RealisticForceFieldUpdater fieldUpdater;
     private CellConsumer cellRenderer;
 
-    public OrganismActor(World world, float x, float y, float width, float height, ForceField forceField, ScaleManager sm, CellRenderer cellRenderer){
+    public OrganismActor(World world, float x, float y, float width, float height, ForceField forceField, ScaleManager sm, ShapeRenderer shapeRenderer){
         super();
         this.world = world;
         this.x = x;
@@ -54,7 +56,9 @@ public class OrganismActor extends Group implements ForceSubject {
         this.height = height;
         this.forceField = forceField;
         this.sm = sm;
-        this.cellRenderer = cellRenderer;
+        this.cellRenderer = new FlatGeneratedGraphicCellRenderer(shapeRenderer, sm);
+        this.forceFieldRender = new GeneratedGraphicMultiForceRenderer(sm, shapeRenderer.getProjectionMatrix());
+
 
         organism = new StartingOrganism(new Rectangle(x, y, width, height), new CellActorControllerGroupFactory(this, sm));
         physicOrganism = new PhysicOrganism();
@@ -64,10 +68,6 @@ public class OrganismActor extends Group implements ForceSubject {
         physicOrganism.addPositionListener(organism);
 
         fieldUpdater = new RealisticForceFieldUpdater(forceField);
-    }
-
-    public OrganismActor(World world, float x, float y, float width, float height, ForceField forceField, ScaleManager sm, ShapeRenderer shapeRenderer){
-        this(world, x, y, width, height, forceField, sm, new FlatGeneratedGraphicCellRenderer(shapeRenderer, sm));
     }
 
     @Override
@@ -83,6 +83,7 @@ public class OrganismActor extends Group implements ForceSubject {
         super.draw(batch, parentAlpha);
         batch.end();
 
+        organism.use(forceFieldRender);
         organism.use(cellRenderer);
         batch.begin();
     }

@@ -41,11 +41,8 @@ public class FlatGeneratedGraphicCellRenderer implements CellRenderer {
     private PercentageManager heightPercentageManager;
     private final Dictionary<Cell, PercentageManager[]> percentageManagers;
     private float alpha;
-    private final GeneratedGraphicMultiForceRenderer forceRenderer;
 
     public FlatGeneratedGraphicCellRenderer(ShapeRenderer shapeRenderer, ScaleManager sm) {
-        forceRenderer = new GeneratedGraphicMultiForceRenderer(sm, shapeRenderer.getProjectionMatrix());
-
         widthPercentageManager = new PercentageManager(1);
         heightPercentageManager = new PercentageManager(1);
         animationManager = new TweenManager();
@@ -140,13 +137,11 @@ public class FlatGeneratedGraphicCellRenderer implements CellRenderer {
 
     @Override
     public void renderAttractorOnCell(AttractorOnCell attractorOnCell, Vector2 position, float density) {
-        forceRenderer.use(attractorOnCell, position, density);
         shapeRenderer.setColor(1, 0, 0, alpha);
     }
 
     @Override
     public void renderRepulsorOnCell(RepulsorOnCell repulsorOnCell, Vector2 position, float density) {
-        forceRenderer.use(repulsorOnCell, position, density);
         shapeRenderer.setColor(0, 0, 1, alpha);
     }
 
