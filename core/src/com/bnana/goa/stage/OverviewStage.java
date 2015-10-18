@@ -211,7 +211,6 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
 
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse) {
-
     }
 
     @Override
