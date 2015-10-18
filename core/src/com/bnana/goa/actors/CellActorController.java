@@ -84,6 +84,6 @@ public class CellActorController extends Actor implements CellController, CellCo
     @Override
     public void updatePosition(PositionChangedEvent positionEvent) {
         Vector2 position = positionEvent.getPosition();
-        setPosition(position.x, position.y);
+        setPosition(position.x, position.y, Align.center);
     }
 }

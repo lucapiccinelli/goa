@@ -35,21 +35,15 @@ public class StartingOrganism implements Organism {
         attractors = new ArrayList<CellController>();
         repulsors = new ArrayList<CellController>();
 
+        growingListeners = new ArrayList<OrganismGrowListener>();
+
         RandomCellGenerator randomCellGenerator = new RandomCellGenerator(this, AttractorOffCell.MakeProtype(), viewBounds);
         OffCell attractor = randomCellGenerator.generate().getAnOffCell();
-        CellController attractorController = cellControllerFactory.make(attractor);
-
-        cells.add(attractorController);
-        attractors.add(attractorController);
+        growAttractors((AttractorOffCell) attractor);
 
         InverseProximityCellGenerator proximityCellGenerator = new InverseProximityCellGenerator(attractor);
         OffCell repulsor = proximityCellGenerator.generate().getAnOffCell();
-        CellController repulsorController = cellControllerFactory.make(repulsor);
-
-        cells.add(repulsorController);
-        repulsors.add(repulsorController);
-
-        growingListeners = new ArrayList<OrganismGrowListener>();
+        growRepulsor((RepulsorOffCell) repulsor);
     }
 
     @Override
