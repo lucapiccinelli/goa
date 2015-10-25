@@ -97,9 +97,6 @@ public class FlatGeneratedGraphicCellRenderer implements CellRenderer {
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.getColor().a = 1;
-        float addValue = sm.us(1);
-        width += addValue;
-        height += addValue;
         shapeRenderer.ellipse(position.x - width * 0.5f, position.y - height * 0.5f, width, height, 30);
         shapeRenderer.end();
 
