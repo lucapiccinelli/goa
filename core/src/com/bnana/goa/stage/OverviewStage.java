@@ -22,7 +22,9 @@ import com.bnana.goa.actors.OrganismActor;
 import com.bnana.goa.actors.WanderingCellActor;
 import com.bnana.goa.cell.WanderingCell;
 import com.bnana.goa.cell.generator.RandomCellGenerator;
+import com.bnana.goa.force.CombinedForces;
 import com.bnana.goa.force.ForceField;
+import com.bnana.goa.force.Friction;
 import com.bnana.goa.force.RealisticForceField;
 import com.bnana.goa.force.functions.ExponentialValueAtDistanceFunction;
 import com.bnana.goa.force.functions.LinearValueAtDistanceFunction;
@@ -111,7 +113,10 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
 
     private void createForceFields() {
         outForceField = new RealisticForceField(new ExponentialValueAtDistanceFunction());
-        inForceField = new RealisticForceField(new LinearValueAtDistanceFunction());
+        inForceField = new CombinedForces(new ForceField[]{
+                new RealisticForceField(new LinearValueAtDistanceFunction()),
+                new Friction(1)
+        });
 //        ForceActor forceActor = new ForceActor(forceField, new GeneratedGraphicMultiForceRenderer(scaleManager, camera.combined));
 //        addActor(forceActor);
 //        forceActor.setZIndex(0);

@@ -47,8 +47,6 @@ public class SwitchableCellOnTouchAction implements OnTouchAction {
 
     @Override
     public void actOn(SwitchableCell switchableCell, PhysicElement theOtherElement) {
-        theOtherElement.stop();
-        element.stop();
     }
 
     @Override
