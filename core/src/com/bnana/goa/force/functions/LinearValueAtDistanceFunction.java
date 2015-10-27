@@ -7,6 +7,6 @@ public class LinearValueAtDistanceFunction implements ValueAtDistanceFunction {
     @Override
     public float calculate(float distance, float magnitude) {
         if(distance == 0 || (distance <= 2 && magnitude < 0)) return 0;
-        return (1f / distance) * (magnitude * 0.1f);
+        return (float)(0.03f / (1 + Math.log(Math.abs(distance)))) * magnitude;
     }
 }
