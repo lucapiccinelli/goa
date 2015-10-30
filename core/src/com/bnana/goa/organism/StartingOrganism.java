@@ -8,6 +8,7 @@ import com.bnana.goa.cell.OffCell;
 import com.bnana.goa.cell.RepulsorOffCell;
 import com.bnana.goa.cell.factories.CellControllerFactory;
 import com.bnana.goa.cell.generator.InverseProximityCellGenerator;
+import com.bnana.goa.cell.generator.RadialProximityCellGenerator;
 import com.bnana.goa.cell.generator.RandomCellGenerator;
 import com.bnana.goa.events.PositionChangedEvent;
 import com.bnana.goa.organism.events.OrganismGrownEvent;
@@ -41,8 +42,12 @@ public class StartingOrganism implements Organism {
         OffCell attractor = randomCellGenerator.generate().getAnOffCell();
         growAttractors((AttractorOffCell) attractor);
 
-        InverseProximityCellGenerator proximityCellGenerator = new InverseProximityCellGenerator(attractor);
+        RadialProximityCellGenerator proximityCellGenerator = new RadialProximityCellGenerator(attractor, RepulsorOffCell.MakeProtype(), 3);
         OffCell repulsor = proximityCellGenerator.generate().getAnOffCell();
+        growRepulsor((RepulsorOffCell) repulsor);
+        repulsor = proximityCellGenerator.generate().getAnOffCell();
+        growRepulsor((RepulsorOffCell) repulsor);
+        repulsor = proximityCellGenerator.generate().getAnOffCell();
         growRepulsor((RepulsorOffCell) repulsor);
     }
 
