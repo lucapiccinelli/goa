@@ -87,6 +87,5 @@ public class WanderingCellActor extends Actor implements CellDestroyListener, Fo
 
     @Override
     public void setForceField(ForceField forceField) {
-        forceFieldRenderer.setForceField(forceField);
     }
 }

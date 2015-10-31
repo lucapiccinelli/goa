@@ -38,26 +38,30 @@ public class CellForceFieldRenderer implements CellRenderer {
 
     @Override
     public void renderAttractorOffCell(AttractorOffCell attractorOffCell, Vector2 position, float density) {
-
+        drawForce(position);
     }
 
     @Override
     public void renderRepulsorOffCell(RepulsorOffCell repulsorOffCell, Vector2 position, float density) {
-
+        drawForce(position);
     }
 
     @Override
     public void renderAttractorOnCell(AttractorOnCell attractorOnCell, Vector2 position, float density) {
-
+        drawForce(position);
     }
 
     @Override
     public void renderRepulsorOnCell(RepulsorOnCell repulsorOnCell, Vector2 position, float density) {
-
+        drawForce(position);
     }
 
     @Override
     public void renderWanderingCell(WanderingCell wanderingCell, Vector2 position, float density) {
+        drawForce(position);
+    }
+
+    private void drawForce(Vector2 position){
         float magnitude = forceField.valueAtPoint(position);
         if(magnitude == 0) return;
 

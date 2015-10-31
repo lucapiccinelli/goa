@@ -31,6 +31,7 @@ import com.bnana.goa.force.functions.LinearValueAtDistanceFunction;
 import com.bnana.goa.organism.events.OrganismGrownEvent;
 import com.bnana.goa.organism.listeners.OrganismGrowListener;
 import com.bnana.goa.physics.PhysicElement;
+import com.bnana.goa.rendering.CellForceFieldRenderer;
 import com.bnana.goa.rendering.CellRenderer;
 import com.bnana.goa.tween.PercentageManager;
 import com.bnana.goa.tween.PercentageManagerAccessor;
@@ -138,7 +139,7 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
     }
 
     private void createOrganism() {
-        organism = new OrganismActor(world, worldBounds.x, worldBounds.y, worldBounds.width, worldBounds.height, outForceField, scaleManager, shapeRenderer);
+        organism = new OrganismActor(world, worldBounds.x, worldBounds.y, worldBounds.width, worldBounds.height, outForceField, scaleManager, shapeRenderer, new CellForceFieldRenderer(inForceField, getBatch()));
         organism.addGrowingListener(this);
         organism.setZIndex(1);
         addActor(organism);
