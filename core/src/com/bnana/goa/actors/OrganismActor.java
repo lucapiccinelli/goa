@@ -74,12 +74,12 @@ public class OrganismActor extends Group implements ForceSubject {
     public void  draw(Batch batch, float parentAlpha){
         physicOrganism.notifyPositionChanged();
         super.draw(batch, parentAlpha);
-        organism.use(forceFieldArrowRenderer);
         batch.end();
 
         organism.use(forceFieldRenderer);
         organism.use(cellRenderer);
         batch.begin();
+        organism.use(forceFieldArrowRenderer);
     }
 
     public void addGrowingListener(OrganismGrowListener organismGrowListener) {
