@@ -77,11 +77,11 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
     public OverviewStage(GameOfAttraction game, ShapeRenderer shapeRenderer){
         super(new ScalingViewport(Scaling.stretch, Const.VIEWPORT_WIDTH, Const.VIEWPORT_HEIGHT, new OrthographicCamera(Const.VIEWPORT_WIDTH, Const.VIEWPORT_HEIGHT)));
 
-
         Tween.registerAccessor(ShapeRenderer.class, new ShapeRendererAccessor());
         Tween.registerAccessor(PercentageManager.class, new PercentageManagerAccessor());
         Tween.registerAccessor(Vector2.class, new Vector2Accessor());
 
+        wanderingCellCreationIsScheduled = true;
         this.game = game;
         this.shapeRenderer = shapeRenderer;
         this.forceActorShapeRenderer = new ShapeRenderer();
@@ -95,13 +95,9 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
         wanderingWorldBounds = new Rectangle(offset2, offset2, VIEWPORT_WIDTH - offset2 * 2, VIEWPORT_HEIGHT - offset2 * 2);
 
         createCamera();
-
         createForceFields();
         createOrganism();
-
         createUi();
-
-        wanderingCellCreationIsScheduled = true;
 
         Gdx.input.setInputProcessor(this);
     }
@@ -118,9 +114,6 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
                 new RealisticForceField(new LinearValueAtDistanceFunction()),
                 new Friction(1)
         });
-//        ForceActor forceActor = new ForceActor(forceField, new GeneratedGraphicMultiForceRenderer(scaleManager, camera.combined));
-//        addActor(forceActor);
-//        forceActor.setZIndex(0);
     }
 
     private void createWanderingCells() {
