@@ -1,7 +1,10 @@
 package com.bnana.goa.ui;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -27,6 +30,7 @@ public class ForceTypeSwitch extends WidgetGroup implements Disposable{
     private final OrganismActor organismActor;
     private final ForceField outForceField;
     private final ForceField inForceField;
+    private final Matrix4 projectionMatrix;
     private WanderingCellActor wanderingCellActor;
     private Skin forcesButtonSkin;
     private int selectedButton;
@@ -37,6 +41,9 @@ public class ForceTypeSwitch extends WidgetGroup implements Disposable{
 
     public ForceTypeSwitch(Vector2 position, Vector2 size, OverviewStage overviewStage, OrganismActor organismActor, final ForceField outForceField, final ForceField inForceField) {
         super();
+
+        projectionMatrix = overviewStage.getCamera().combined.cpy();
+
         this.overviewStage = overviewStage;
         this.organismActor = organismActor;
         this.outForceField = outForceField;
@@ -103,6 +110,13 @@ public class ForceTypeSwitch extends WidgetGroup implements Disposable{
         this.wanderingCellActor = wanderingCellActor;
         subjects[1] = this.wanderingCellActor;
         if(selectedButton == 1) this.wanderingCellActor.setAsForceSubject(overviewStage);
+    }
+
+    @Override
+    public void draw (Batch batch, float parentAlpha) {
+        batch.setProjectionMatrix(projectionMatrix);
+        super.draw(batch, parentAlpha);
+        batch.setProjectionMatrix(overviewStage.getCamera().combined);
     }
 
     @Override
