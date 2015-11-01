@@ -30,7 +30,6 @@ public class ForceTypeSwitch extends WidgetGroup implements Disposable{
     private final OrganismActor organismActor;
     private final ForceField outForceField;
     private final ForceField inForceField;
-    private final Matrix4 projectionMatrix;
     private WanderingCellActor wanderingCellActor;
     private Skin forcesButtonSkin;
     private int selectedButton;
@@ -41,8 +40,6 @@ public class ForceTypeSwitch extends WidgetGroup implements Disposable{
 
     public ForceTypeSwitch(Vector2 position, Vector2 size, OverviewStage overviewStage, OrganismActor organismActor, final ForceField outForceField, final ForceField inForceField) {
         super();
-
-        projectionMatrix = overviewStage.getCamera().combined.cpy();
 
         this.overviewStage = overviewStage;
         this.organismActor = organismActor;
@@ -114,9 +111,7 @@ public class ForceTypeSwitch extends WidgetGroup implements Disposable{
 
     @Override
     public void draw (Batch batch, float parentAlpha) {
-        batch.setProjectionMatrix(projectionMatrix);
         super.draw(batch, parentAlpha);
-        batch.setProjectionMatrix(overviewStage.getCamera().combined);
     }
 
     @Override

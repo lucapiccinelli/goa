@@ -23,6 +23,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragScrollListener;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.bnana.goa.GameOfAttraction;
 import com.bnana.goa.actions.OnTouchAction;
@@ -87,8 +88,12 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
     private ForceField forceField;
     private WanderingCellActor wanderingCellActor;
 
+    private Stage uiStage;
+
     public OverviewStage(GameOfAttraction game, ShapeRenderer shapeRenderer){
         super(new ScalingViewport(Scaling.stretch, Const.VIEWPORT_WIDTH, Const.VIEWPORT_HEIGHT, new OrthographicCamera(Const.VIEWPORT_WIDTH, Const.VIEWPORT_HEIGHT)));
+        uiStage = new Stage(new ScalingViewport(Scaling.stretch, Const.VIEWPORT_WIDTH, Const.VIEWPORT_HEIGHT, new OrthographicCamera(Const.VIEWPORT_WIDTH, Const.VIEWPORT_HEIGHT)), getBatch());
+
         aspectRatio = getHeight() / getWidth();
 
         Tween.registerAccessor(ShapeRenderer.class, new ShapeRendererAccessor());
@@ -118,12 +123,13 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
     }
 
     private void setInputProcessing() {
-        Gdx.input.setInputProcessor(this);
+        InputMultiplexer im = new InputMultiplexer(uiStage, this);
+        Gdx.input.setInputProcessor(im);
     }
 
     private void createUi() {
         forceTypeSwitch = new ForceTypeSwitch(new Vector2(19, 1), new Vector2(4.5f, 4.5f), this, organism, outForceField, inForceField);
-        addActor(forceTypeSwitch);
+        uiStage.addActor(forceTypeSwitch);
         forceTypeSwitch.setZIndex(100);
 
         addListener(new InputListener() {
@@ -137,7 +143,6 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
         addListener(new ActorGestureListener() {
             @Override
             public void zoom(InputEvent event, float initialDistance, float distance) {
-                System.out.println("zoom: " + event);
                 zoomBy((initialDistance - distance) * 0.1f);
                 dragCounter += 2;
                 event.cancel();
@@ -157,8 +162,7 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
 
             @Override
             public void touchDragged(InputEvent event, float x, float y, int pointer) {
-                if(!event.isCancelled() && dragCounter < 0){
-                    System.out.println("drag: " + event);
+                if (!event.isCancelled() && dragCounter < 0) {
                     camera.translate(this.x - x, this.y - y);
                 }
                 dragCounter -= 1;
@@ -222,12 +226,14 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
         shapeRenderer.setProjectionMatrix(camera.combined);
         forceActorShapeRenderer.setProjectionMatrix(camera.combined);
         super.draw();
+        uiStage.draw();
         //renderer.render(world, camera.combined);
     }
 
     @Override
     public void act(float delta){
         super.act(delta);
+        uiStage.act(delta);
 
         if(wanderingCellCreationIsScheduled){
             createWanderingCells();
