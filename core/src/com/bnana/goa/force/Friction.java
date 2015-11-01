@@ -53,4 +53,9 @@ public class Friction implements ForceField {
     public Vector2 forceAtPoint(Vector2 bodyPosition) {
         return Vector2.Zero;
     }
+
+    @Override
+    public void reset() {
+
+    }
 }

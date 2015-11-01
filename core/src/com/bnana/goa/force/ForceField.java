@@ -24,4 +24,6 @@ public interface ForceField {
     Vector2 direction(Vector2 position);
 
     Vector2 forceAtPoint(Vector2 bodyPosition);
+
+    void reset();
 }

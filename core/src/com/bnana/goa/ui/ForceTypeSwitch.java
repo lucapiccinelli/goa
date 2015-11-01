@@ -75,6 +75,8 @@ public class ForceTypeSwitch extends WidgetGroup implements Disposable{
                     event.cancel();
                     return true;
                 }
+
+                outForceField.reset();
                 toggleForce(inForceField);
                 return true;
             }
@@ -87,6 +89,8 @@ public class ForceTypeSwitch extends WidgetGroup implements Disposable{
                     event.cancel();
                     return true;
                 }
+
+                inForceField.reset();
                 toggleForce(outForceField);
                 return true;
             }

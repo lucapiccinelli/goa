@@ -77,4 +77,11 @@ public class RealisticForceField implements ForceField {
 
         return resultingForce;
     }
+
+    @Override
+    public void reset() {
+        for (ForceField f : forceFields){
+            f.reset();
+        }
+    }
 }

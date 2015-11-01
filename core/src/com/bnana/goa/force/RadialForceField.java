@@ -79,4 +79,9 @@ public class RadialForceField implements ForceField {
         Vector2 force = position.sub(centerOfMass).nor().scl(finalMagnitude);
         return force;
     }
+
+    @Override
+    public void reset() {
+        magnitude = 0;
+    }
 }

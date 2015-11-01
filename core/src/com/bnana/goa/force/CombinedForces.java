@@ -71,4 +71,11 @@ public class CombinedForces implements ForceField{
         }
         return force;
     }
+
+    @Override
+    public void reset() {
+        for (ForceField f : forces){
+            f.reset();
+        }
+    }
 }
