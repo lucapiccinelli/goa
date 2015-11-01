@@ -88,12 +88,12 @@ public class GeneratedGraphicMultiForceRenderer implements CellRenderer{
 
         public ForceFieldInfo() {
             shapeRenderer = new ShapeRenderer();
-            shapeRenderer.setProjectionMatrix(worldTransform);
             renderer = new GeneratedGraphicForceRenderer(shapeRenderer, scaleManager);
             renderer.use(null, new Vector2(), 0);
         }
 
         public void render(Cell cell, Vector2 position, float magnitude){
+            shapeRenderer.setProjectionMatrix(worldTransform);
             renderer.use(cell, position, magnitude);
         }
 

@@ -10,8 +10,8 @@ public class Box2dScaleManager implements ScaleManager {
     private final Camera camera;
     private final int width;
     private final int height;
-    private final float scale;
-    private final float unscale;
+    private float scale;
+    private float unscale;
 
     public Box2dScaleManager(Camera camera, int width, int height) {
         this.camera = camera;
@@ -28,5 +28,11 @@ public class Box2dScaleManager implements ScaleManager {
     }
     public float us(float n) {
         return unscale * n;
+    }
+
+    @Override
+    public void update() {
+        this.scale = width / camera.viewportWidth;
+        this.unscale = 1.0f / scale;
     }
 }
