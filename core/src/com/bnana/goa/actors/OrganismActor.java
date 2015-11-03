@@ -56,7 +56,7 @@ public class OrganismActor extends Group implements ForceSubject {
         organism = new StartingOrganism(new Rectangle(x, y, width, height), new CellActorControllerGroupFactory(this, sm));
         physicOrganism = new PhysicOrganism();
 
-        Box2dOrganismPhysics organismPhysics = new Box2dOrganismPhysics(world, physicOrganism);
+        Box2dOrganismPhysics organismPhysics = new Box2dOrganismPhysics(world, physicOrganism, 0.7f);
         organism.use(organismPhysics);
         physicOrganism.addPositionListener(organism);
 

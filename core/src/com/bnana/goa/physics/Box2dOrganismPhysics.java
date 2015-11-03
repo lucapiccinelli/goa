@@ -16,11 +16,16 @@ import java.awt.geom.Point2D;
 public class Box2dOrganismPhysics implements OrganismPhysics {
     private World world;
     private PhysicElement physicElement;
+    private float damping;
 
     public Box2dOrganismPhysics(World world, PhysicElement physicElement) {
+        this(world, physicElement, 0);
+    }
 
+    public Box2dOrganismPhysics(World world, PhysicElement physicElement, float damping){
         this.world = world;
         this.physicElement = physicElement;
+        this.damping = damping;
     }
 
     @Override
@@ -37,6 +42,7 @@ public class Box2dOrganismPhysics implements OrganismPhysics {
         shape.setRadius(absDensity);
         body.createFixture(shape, absDensity);
         body.resetMassData();
+        body.setLinearDamping(damping);
 
         shape.dispose();
 

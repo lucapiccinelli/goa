@@ -67,7 +67,6 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
     private final World world;
     private final Rectangle worldBounds;
     private final Rectangle wanderingWorldBounds;
-    private final float aspectRatio;
     private int dragCounter;
 
     private GameOfAttraction game;
@@ -79,7 +78,6 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
     private ForceField inForceField;
     private Box2dScaleManager scaleManager;
     private ShapeRenderer shapeRenderer;
-    private CellRenderer cellRenderer;
     private ShapeRenderer forceActorShapeRenderer;
     private boolean wanderingCellCreationIsScheduled;
     private ForceTypeSwitch forceTypeSwitch;
@@ -93,8 +91,6 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
     public OverviewStage(GameOfAttraction game, ShapeRenderer shapeRenderer){
         super(new ScalingViewport(Scaling.stretch, Const.VIEWPORT_WIDTH, Const.VIEWPORT_HEIGHT, new OrthographicCamera(Const.VIEWPORT_WIDTH, Const.VIEWPORT_HEIGHT)));
         uiStage = new Stage(new ScalingViewport(Scaling.stretch, Const.VIEWPORT_WIDTH, Const.VIEWPORT_HEIGHT, new OrthographicCamera(Const.VIEWPORT_WIDTH, Const.VIEWPORT_HEIGHT)), getBatch());
-
-        aspectRatio = getHeight() / getWidth();
 
         Tween.registerAccessor(ShapeRenderer.class, new ShapeRendererAccessor());
         Tween.registerAccessor(PercentageManager.class, new PercentageManagerAccessor());
@@ -180,10 +176,7 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
 
     private void createForceFields() {
         outForceField = new RealisticForceField(new ExponentialValueAtDistanceFunction());
-        inForceField = new CombinedForces(new ForceField[]{
-                new RealisticForceField(new LinearValueAtDistanceFunction()),
-                new Friction(1)
-        });
+        inForceField = new RealisticForceField(new LinearValueAtDistanceFunction());
     }
 
     private void createWanderingCells() {
