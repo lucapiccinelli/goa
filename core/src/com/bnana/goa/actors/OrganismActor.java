@@ -16,8 +16,10 @@ import com.bnana.goa.physics.PhysicElement;
 import com.bnana.goa.physics.PhysicOrganism;
 import com.bnana.goa.rendering.CellForceFieldRenderer;
 import com.bnana.goa.rendering.FlatGeneratedGraphicCellRenderer;
+import com.bnana.goa.rendering.FlatGeneratedGraphicOrganismRenderer;
 import com.bnana.goa.rendering.ForceRenderer;
 import com.bnana.goa.rendering.GeneratedGraphicMultiForceRenderer;
+import com.bnana.goa.rendering.OrganismRenderer;
 import com.bnana.goa.stage.OverviewStage;
 import com.bnana.goa.utils.ScaleManager;
 
@@ -35,6 +37,7 @@ public class OrganismActor extends Group implements ForceSubject {
     private final float height;
     private final GeneratedGraphicMultiForceRenderer forceFieldRenderer;
     private final CellConsumer forceFieldArrowRenderer;
+    private final OrganismRenderer organismRenderer;
     private ForceField forceField;
     private final ScaleManager sm;
     private final RealisticForceFieldUpdater fieldUpdater;
@@ -51,6 +54,8 @@ public class OrganismActor extends Group implements ForceSubject {
         this.sm = sm;
         this.cellRenderer = new FlatGeneratedGraphicCellRenderer(shapeRenderer, sm);
         this.forceFieldRenderer = new GeneratedGraphicMultiForceRenderer(sm, shapeRenderer.getProjectionMatrix());
+        this.organismRenderer = new FlatGeneratedGraphicOrganismRenderer(shapeRenderer, sm);
+
         this.forceFieldArrowRenderer = forceFieldArrowRenderer;
 
         organism = new StartingOrganism(new Rectangle(x, y, width, height), new CellActorControllerGroupFactory(this, sm));
@@ -78,6 +83,7 @@ public class OrganismActor extends Group implements ForceSubject {
 
         organism.use(forceFieldRenderer);
         organism.use(cellRenderer);
+        organismRenderer.render(organism);
         batch.begin();
         organism.use(forceFieldArrowRenderer);
     }
