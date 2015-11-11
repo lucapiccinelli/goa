@@ -1,5 +1,6 @@
 package com.bnana.goa.rendering;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.ConvexHull;
 import com.badlogic.gdx.math.MathUtils;
@@ -42,52 +43,65 @@ public class FlatGeneratedGraphicOrganismRenderer implements OrganismRenderer {
         positions.clear();
         organism.use(this);
 
-        /*Vector2 avg = new Vector2(0, 0);
-        for (Vector2 position : positions) {
-            avg.add(position);
+        Vector2 avg = new Vector2(0, 0);
+        for (int i = 0; i < positions.size; i += 2) {
+            avg.add(positions.get(i), positions.get(i + 1));
         }
-        avg.scl(1f / positions.size);
-
-        PositionInfo currentInfo;
-        for (Vector2 position : positions) {
-            float distance = position.dst(avg);
-            if(distance > 0){
-                float alpha = (MathUtils.radiansToDegrees * MathUtils.atan2(position.y - avg.y, position.x - avg.x) + 180) % 360;
-                int alphaToInt = (int)alpha / borderQuantizationFactor;
-
-                currentInfo = borderPoints[alphaToInt];
-                if (currentInfo == null){
-                    borderPoints[alphaToInt] = new PositionInfo(position, alpha, distance);
-                }else {
-                    if(distance > currentInfo.getDistance()){
-                        currentInfo.setAlpha(alpha);
-                        currentInfo.setDistance(distance);
-                        currentInfo.setPosition(position);
-                    }
-                }
-            }
-        }*/
+        avg.scl(2f / positions.size);
 
         FloatArray polygon = convexHull.computePolygon(positions, false);
+        float[] newPolygon = new float[polygon.size];
+
+        float x = 0;
+        float y = 0;
+        for (int i = 0; i < polygon.size; i += 2) {
+            x = polygon.get(i);
+            y = polygon.get(i + 1);
+            Vector2 direction = new Vector2(x - avg.x, y - avg.y).nor();
+            newPolygon[i] = x + direction.x;
+            newPolygon[i + 1] = y + direction.y;
+        }
 
         shapeRenderer.setColor(0, 0, 0, 0);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 
-        shapeRenderer.polygon(polygon.items);
-
-        /*for (int i = 0; i < borderQuantizedDimension; i++){
-            currentInfo = borderPoints[i];
-
-            if(currentInfo != null) {
-                Vector2 position = currentInfo.getPosition();
-                shapeRenderer.circle(position.x, position.y, 0.5f);
-            }
+        Vector2 p1 = new Vector2();
+        Vector2 p2 = new Vector2();
+        for (int i = 0; i < polygon.size; i += 2) {
+            p1.set(newPolygon[i], newPolygon[i + 1]);
+            p2.set(newPolygon[(i + 2) % polygon.size], newPolygon[(i + 3) % polygon.size]);
+            drawBeziers(p1, p2);
         }
 
-        shapeRenderer.setColor(1, 1, 0, 0);
-        shapeRenderer.circle(avg.x, avg.y, 0.5f);*/
+        shapeRenderer.circle(avg.x, avg.y, 0.5f);
 
         shapeRenderer.end();
+    }
+
+    private void drawBeziers(Vector2 p1, Vector2 p2){
+        Vector2 direction = p2.cpy().sub(p1);
+        float length = direction.len();
+        direction.nor();
+
+        Vector2 c1 = p1.cpy().add(direction.cpy().scl(length * 0.25f));
+        Vector2 c2 = p1.cpy().add(direction.cpy().scl(length * 0.75f));
+
+        Vector2 perpendicular = direction.set(-direction.y, direction.x).scl(-0.5f);
+
+        c1.add(perpendicular);
+        c2.add(perpendicular);
+
+        /*shapeRenderer.setColor(Color.BLUE);
+        shapeRenderer.circle(p1.x, p1.y, 0.2f);
+        shapeRenderer.setColor(Color.BLACK);
+        shapeRenderer.circle(c1.x, c1.y, 0.2f);
+        shapeRenderer.setColor(Color.GREEN);
+        shapeRenderer.circle(c2.x, c2.y, 0.2f);
+        shapeRenderer.setColor(Color.RED);
+        shapeRenderer.circle(p2.x, p2.y, 0.2f);*/
+
+        shapeRenderer.setColor(Color.BLACK);
+        shapeRenderer.curve(p1.x, p1.y, c1.x, c1.y, c2.x, c2.y, p2.x, p2.y, 5);
     }
 
     @Override
