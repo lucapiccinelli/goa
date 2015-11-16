@@ -38,7 +38,7 @@ public class RadialProximityCellGenerator implements CellGenerator, PositionCons
     }
 
     @Override
-    public void use(Vector2 position) {
+    public void use(Vector2 position, float radius) {
         if(lastGeneratedAngle < 0) {
             lastGeneratedAngle = random.nextFloat() * 360;
         }else {

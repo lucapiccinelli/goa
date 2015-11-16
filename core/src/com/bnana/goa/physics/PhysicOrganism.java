@@ -88,7 +88,7 @@ public class PhysicOrganism implements PhysicElement {
     }
 
     @Override
-    public void use(Vector2 position) {
+    public void use(Vector2 position, float radius) {
 
     }
 }

@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyFloat;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.same;
 import static org.mockito.Mockito.mock;
@@ -128,7 +129,7 @@ public class WanderingCellTests {
         PositionConsumer positionConsumer = mock(PositionConsumer.class);
         cell.usePosition(positionConsumer);
 
-        verify(positionConsumer).use(eq(position));
+        verify(positionConsumer).use(eq(position), anyFloat());
     }
 
     @Test

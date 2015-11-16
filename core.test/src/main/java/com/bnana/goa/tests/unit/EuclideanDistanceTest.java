@@ -28,7 +28,7 @@ public class EuclideanDistanceTest {
         Vector2 x1 = new Vector2(0, 0);
         EuclideanDistance distance = new EuclideanDistance(x1);
 
-        distance.use(x2);
+        distance.use(x2, 0);
         Assert.assertEquals(distance.getDistance(), result);
     }
 }

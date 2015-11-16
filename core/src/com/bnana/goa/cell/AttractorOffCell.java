@@ -115,7 +115,7 @@ public class AttractorOffCell implements OffCell{
 
     @Override
     public void usePosition(PositionConsumer positionConsumer) {
-        positionConsumer.use(this.position);
+        positionConsumer.use(this.position, density);
     }
 
     @Override

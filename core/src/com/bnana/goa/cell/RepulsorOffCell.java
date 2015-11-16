@@ -115,7 +115,7 @@ public class RepulsorOffCell implements OffCell {
 
     @Override
     public void usePosition(PositionConsumer positionConsumer) {
-        positionConsumer.use(position);
+        positionConsumer.use(position, density);
     }
 
     @Override

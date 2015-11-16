@@ -121,14 +121,14 @@ public class PhysicCell implements PhysicElement {
     }
 
     @Override
-    public void use(Vector2 position) {
+    public void use(Vector2 position, float radius) {
         if(body != null){
             Vector2 bodyPosition = body.getPosition();
             Vector2 direction = new Vector2(position.x - bodyPosition.x, position.y - bodyPosition.y);
             direction.nor();
             schedulePositionChange(new Vector2(position.x + direction.x, position.y + direction.y));
         }else {
-            element.use(position);
+            element.use(position, radius);
         }
     }
 

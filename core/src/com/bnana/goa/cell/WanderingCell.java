@@ -57,7 +57,7 @@ public class WanderingCell implements EvolvableCell {
 
     @Override
     public void usePosition(PositionConsumer positionConsumer) {
-        positionConsumer.use(position);
+        positionConsumer.use(position, density);
     }
 
     @Override

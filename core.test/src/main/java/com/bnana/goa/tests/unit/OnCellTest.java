@@ -121,7 +121,7 @@ public class OnCellTest {
         PositionConsumer positionConsumer = mock(PositionConsumer.class);
         cell.usePosition(positionConsumer);
 
-        verify(positionConsumer).use(eq(position));
+        verify(positionConsumer).use(eq(position), anyFloat());
     }
 
     @Test(dataProvider = "onCellsWithRealOffCells")
@@ -135,7 +135,7 @@ public class OnCellTest {
         PositionConsumer positionConsumer = mock(PositionConsumer.class);
         offCell.usePosition(positionConsumer);
 
-        verify(positionConsumer).use(eq(position));
+        verify(positionConsumer).use(eq(position), anyFloat());
     }
 
     @Test

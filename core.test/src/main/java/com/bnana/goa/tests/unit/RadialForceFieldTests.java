@@ -55,10 +55,10 @@ public class RadialForceFieldTests {
         Vector2 finalPosition = BodyWrapper.getBodyPosition(body);
 
         EuclideanDistance startDistance = new EuclideanDistance(new Vector2(0, 0));
-        startDistance.use(startingPosition);
+        startDistance.use(startingPosition, 0);
 
         EuclideanDistance finalDistance = new EuclideanDistance(new Vector2(0, 0));
-        finalDistance.use(finalPosition);
+        finalDistance.use(finalPosition, 0);
 
         assertThat(finalDistance.getDistance(), greaterThan(startDistance.getDistance()));
     }
@@ -76,10 +76,10 @@ public class RadialForceFieldTests {
         Vector2 finalPosition = BodyWrapper.getBodyPosition(body);
 
         EuclideanDistance startDistance = new EuclideanDistance(new Vector2(0, 0));
-        startDistance.use(startingPosition);
+        startDistance.use(startingPosition, 0);
 
         EuclideanDistance finalDistance = new EuclideanDistance(new Vector2(0, 0));
-        finalDistance.use(finalPosition);
+        finalDistance.use(finalPosition, 0);
 
         assertThat(finalDistance.getDistance(), lessThan(startDistance.getDistance()));
     }

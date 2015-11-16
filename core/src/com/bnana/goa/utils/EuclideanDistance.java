@@ -21,7 +21,7 @@ public class EuclideanDistance implements CellDistance {
     }
 
     @Override
-    public void use(Vector2 position) {
+    public void use(Vector2 position, float radius) {
         distance = cachedVector.set(source.x - position.x, source.y - position.y).len();
     }
 

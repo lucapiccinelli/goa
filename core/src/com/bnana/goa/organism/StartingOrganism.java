@@ -45,12 +45,12 @@ public class StartingOrganism implements Organism {
         RadialProximityCellGenerator proximityCellGenerator = new RadialProximityCellGenerator(attractor, RepulsorOffCell.MakeProtype(), 4);
         OffCell repulsor = proximityCellGenerator.generate().getAnOffCell();
         growRepulsor((RepulsorOffCell) repulsor);
-        repulsor = proximityCellGenerator.generate().getAnOffCell();
-        growRepulsor((RepulsorOffCell) repulsor);
-        repulsor = proximityCellGenerator.generate().getAnOffCell();
-        growRepulsor((RepulsorOffCell) repulsor);
-        repulsor = proximityCellGenerator.generate().getAnOffCell();
-        growRepulsor((RepulsorOffCell) repulsor);
+//        repulsor = proximityCellGenerator.generate().getAnOffCell();
+//        growRepulsor((RepulsorOffCell) repulsor);
+//        repulsor = proximityCellGenerator.generate().getAnOffCell();
+//        growRepulsor((RepulsorOffCell) repulsor);
+//        repulsor = proximityCellGenerator.generate().getAnOffCell();
+//        growRepulsor((RepulsorOffCell) repulsor);
     }
 
     @Override

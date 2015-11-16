@@ -32,7 +32,7 @@ public class InverseProximityCellGenerator implements CellGenerator, PositionCon
     }
 
     @Override
-    public void use(Vector2 position) {
+    public void use(Vector2 position, float radius) {
         float randomAngle = random.nextFloat() * 360;
 
         float x = MathUtils.cosDeg(randomAngle) * 2f;

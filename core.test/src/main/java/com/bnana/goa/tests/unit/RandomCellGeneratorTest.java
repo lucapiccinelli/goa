@@ -45,7 +45,7 @@ public class RandomCellGeneratorTest {
         final float[] y = {-1};
         PositionConsumer consumer = new PositionConsumer () {
             @Override
-            public void use(Vector2 position) {
+            public void use(Vector2 position, float radius) {
                 x[0] = (float) position.x;
                 y[0] = (float) position.y;
             }
