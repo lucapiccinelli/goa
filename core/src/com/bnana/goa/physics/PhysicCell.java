@@ -51,19 +51,6 @@ public class PhysicCell implements PhysicElement {
     }
 
     @Override
-    public void adjustPosition(){
-        if(body != null){
-            if(newPosition != null){
-                body.setTransform(newPosition, body.getAngle());
-                newPosition = null;
-                notifyPositionChanged();
-            }
-        }else {
-            element.adjustPosition();
-        }
-    }
-
-    @Override
     public void stop() {
         if(body != null){
             body.setAngularVelocity(0);

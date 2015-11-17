@@ -13,8 +13,6 @@ public interface PhysicElement extends PositionChangesNotifier, PositionConsumer
 
     void apply(ForceField forceField);
 
-    void adjustPosition();
-
     void stop();
 
     void setAction(OnTouchAction onTouchAction);

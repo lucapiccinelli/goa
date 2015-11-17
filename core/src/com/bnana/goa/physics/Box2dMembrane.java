@@ -27,11 +27,6 @@ public class Box2dMembrane implements PhysicElement {
     }
 
     @Override
-    public void adjustPosition() {
-
-    }
-
-    @Override
     public void stop() {
 
     }

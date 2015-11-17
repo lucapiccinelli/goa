@@ -40,13 +40,6 @@ public class PhysicOrganism implements PhysicElement {
     }
 
     @Override
-    public void adjustPosition() {
-        for (PhysicElement element : elements){
-            element.adjustPosition();
-        }
-    }
-
-    @Override
     public void stop() {
         for (PhysicElement element : elements){
             element.stop();
