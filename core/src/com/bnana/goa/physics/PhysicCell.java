@@ -84,6 +84,15 @@ public class PhysicCell implements PhysicElement {
     }
 
     @Override
+    public void integrateIntoMebrane(Box2dMembrane membrane) {
+        if(body != null){
+            membrane.use(body.getWorldCenter(), body.getFixtureList().get(0).getShape().getRadius());
+        }else {
+            element.integrateIntoMebrane(membrane);
+        }
+    }
+
+    @Override
     public void addPositionListener(PositionListener positionListener) {
         positionListeners.add(positionListener);
     }

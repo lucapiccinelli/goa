@@ -64,6 +64,11 @@ public class PhysicOrganism implements PhysicElement {
     }
 
     @Override
+    public void integrateIntoMebrane(Box2dMembrane membrane) {
+
+    }
+
+    @Override
     public void addPositionListener(PositionListener positionListener) {
         positionListeners.add(positionListener);
     }

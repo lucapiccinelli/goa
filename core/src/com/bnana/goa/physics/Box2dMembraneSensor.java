@@ -2,27 +2,36 @@ package com.bnana.goa.physics;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Joint;
+import com.badlogic.gdx.physics.box2d.JointEdge;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.physics.box2d.joints.DistanceJointDef;
-import com.badlogic.gdx.physics.box2d.joints.RopeJointDef;
-import com.badlogic.gdx.utils.Array;
 import com.bnana.goa.PositionListener;
 import com.bnana.goa.actions.OnTouchAction;
 import com.bnana.goa.force.ForceField;
-import com.bnana.goa.physics.factories.BodyFactory;
 import com.bnana.goa.physics.factories.CircleBodyFactory;
+import com.bnana.goa.physics.factories.ElasticJointFactory;
+import com.sun.xml.internal.ws.client.sei.ResponseBuilder;
 
 /**
- * Created by luca.piccinelli on 16/11/2015.
+ * Created by Luca on 11/19/2015.
  */
-public class Box2dMembrane implements Membrane {
-    private float radius;
-    private Body start;
-    private Body end;
-    private CircleBodyFactory circleBodyFactory;
+public class Box2dMembraneSensor implements PhysicElement {
+    private final Box2dMembrane membrane;
+    private final Body start;
+    private final Body center;
+    private final Body end;
+    private final ElasticJointFactory jointFactory;
 
-    public Box2dMembrane(CircleBodyFactory circleBodyFactory) {
-        this.circleBodyFactory = circleBodyFactory;
+
+    public Box2dMembraneSensor(Box2dMembrane membrane, Body start, Body center, Body end){
+        this.membrane = membrane;
+        this.start = start;
+        this.center = center;
+        this.end = end;
+
+        jointFactory = new ElasticJointFactory();
+        jointFactory.make(start, center);
+        jointFactory.make(center, end);
     }
 
     @Override
@@ -46,7 +55,13 @@ public class Box2dMembrane implements Membrane {
 
     @Override
     public void integrate(PhysicElement physicElement) {
-        physicElement.integrateIntoMebrane(this);
+        World world = center.getWorld();
+        for(JointEdge je : center.getJointList()){
+            world.destroyJoint(je.joint);
+        }
+
+        world.destroyBody(center);
+        membrane.integrate(start, end, physicElement);
     }
 
     @Override
@@ -56,7 +71,6 @@ public class Box2dMembrane implements Membrane {
 
     @Override
     public void integrateIntoMebrane(Box2dMembrane membrane) {
-
     }
 
     @Override
@@ -76,16 +90,6 @@ public class Box2dMembrane implements Membrane {
 
     @Override
     public void use(Vector2 position, float radius) {
-        if(start == null && end == null){
-            start = circleBodyFactory.create(position, radius);
-            end = start;
-        }
-    }
 
-    @Override
-    public void integrate(Body start, Body end, PhysicElement physicElement) {
-        this.start = start;
-        this.end = end;
-        integrate(physicElement);
     }
 }

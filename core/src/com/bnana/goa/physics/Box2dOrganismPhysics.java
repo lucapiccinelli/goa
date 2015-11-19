@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.bnana.goa.cell.Cell;
 import com.bnana.goa.cell.OffCell;
+import com.bnana.goa.physics.factories.CircleBodyFactory;
 
 import java.awt.geom.Point2D;
 
@@ -14,6 +15,7 @@ import java.awt.geom.Point2D;
  * Created by Luca on 8/26/2015.
  */
 public class Box2dOrganismPhysics implements OrganismPhysics {
+    private final CircleBodyFactory bodyFactory;
     private World world;
     private PhysicElement physicElement;
     private float damping;
@@ -26,25 +28,15 @@ public class Box2dOrganismPhysics implements OrganismPhysics {
         this.world = world;
         this.physicElement = physicElement;
         this.damping = damping;
+
+        bodyFactory = new CircleBodyFactory(world);
     }
 
     @Override
     public void use(Cell cell, Vector2 position, float density) {
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(position.x, position.y);
-
-        Body body = world.createBody(bodyDef);
-
         float absDensity = Math.abs(density);
-        CircleShape shape = new CircleShape();
-
-        shape.setRadius(absDensity);
-        body.createFixture(shape, absDensity);
-        body.resetMassData();
+        Body body = bodyFactory.create(position, absDensity);
         body.setLinearDamping(damping);
-
-        shape.dispose();
 
         PhysicCell cellBody = new PhysicCell(body);
         cellBody.setParent(physicElement);

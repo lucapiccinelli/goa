@@ -20,4 +20,6 @@ public interface PhysicElement extends PositionChangesNotifier, PositionConsumer
     void integrate(PhysicElement physicElement);
 
     void setParent(PhysicElement parent);
+
+    void integrateIntoMebrane(Box2dMembrane membrane);
 }
