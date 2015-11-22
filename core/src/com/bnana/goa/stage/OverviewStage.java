@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -20,20 +19,16 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
-import com.badlogic.gdx.scenes.scene2d.utils.DragScrollListener;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.bnana.goa.GameOfAttraction;
 import com.bnana.goa.actions.OnTouchAction;
 import com.bnana.goa.actors.OrganismActor;
 import com.bnana.goa.actors.WanderingCellActor;
 import com.bnana.goa.cell.WanderingCell;
 import com.bnana.goa.cell.generator.RandomCellGenerator;
-import com.bnana.goa.force.CombinedForces;
+import com.bnana.goa.creationDestruction.ScheduledCreationDestruction;
 import com.bnana.goa.force.ForceField;
-import com.bnana.goa.force.Friction;
 import com.bnana.goa.force.RealisticForceField;
 import com.bnana.goa.force.functions.ExponentialValueAtDistanceFunction;
 import com.bnana.goa.force.functions.LinearValueAtDistanceFunction;
@@ -41,7 +36,6 @@ import com.bnana.goa.organism.events.OrganismGrownEvent;
 import com.bnana.goa.organism.listeners.OrganismGrowListener;
 import com.bnana.goa.physics.PhysicElement;
 import com.bnana.goa.rendering.CellForceFieldRenderer;
-import com.bnana.goa.rendering.CellRenderer;
 import com.bnana.goa.tween.PercentageManager;
 import com.bnana.goa.tween.PercentageManagerAccessor;
 import com.bnana.goa.tween.ShapeRendererAccessor;
@@ -50,9 +44,6 @@ import com.bnana.goa.ui.ForceTypeSwitch;
 import com.bnana.goa.utils.Box2dScaleManager;
 import com.bnana.goa.utils.Const;
 
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
-import java.io.Console;
 import java.util.Comparator;
 
 import aurelienribon.tweenengine.Tween;
@@ -85,6 +76,7 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
     private PhysicElement physicForceSubject;
     private ForceField forceField;
     private WanderingCellActor wanderingCellActor;
+    private ScheduledCreationDestruction scheduledDestruction;
 
     private Stage uiStage;
 
@@ -109,6 +101,7 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
         int offset2 = 1;
         worldBounds = new Rectangle(offset1, offset1, VIEWPORT_WIDTH - offset1 * 2, VIEWPORT_HEIGHT - offset1 * 2);
         wanderingWorldBounds = new Rectangle(offset2, offset2, VIEWPORT_WIDTH - offset2 * 2, VIEWPORT_HEIGHT - offset2 * 2);
+        scheduledDestruction = new ScheduledCreationDestruction(world);
 
         createCamera();
         createForceFields();
@@ -195,7 +188,17 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
     }
 
     private void createOrganism() {
-        organism = new OrganismActor(world, worldBounds.x, worldBounds.y, worldBounds.width, worldBounds.height, outForceField, scaleManager, shapeRenderer, new CellForceFieldRenderer(inForceField, getBatch()));
+        organism = new OrganismActor(
+                world,
+                worldBounds.x,
+                worldBounds.y,
+                worldBounds.width,
+                worldBounds.height,
+                outForceField,
+                scaleManager,
+                shapeRenderer,
+                new CellForceFieldRenderer(inForceField, getBatch()),
+                scheduledDestruction);
         organism.addGrowingListener(this);
         organism.setZIndex(1);
         addActor(organism);
@@ -220,7 +223,7 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
         forceActorShapeRenderer.setProjectionMatrix(camera.combined);
         super.draw();
         uiStage.draw();
-        //renderer.render(world, camera.combined);
+        renderer.render(world, camera.combined);
     }
 
     @Override
@@ -233,6 +236,7 @@ public class OverviewStage extends Stage implements ContactListener, OrganismGro
             wanderingCellCreationIsScheduled = false;
         }
         if(physicForceSubject != null)physicForceSubject.apply(forceField);
+        scheduledDestruction.startScheduled();
 
         accumulator += delta;
 

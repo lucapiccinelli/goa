@@ -21,8 +21,10 @@ public class PhysicOrganism implements PhysicElement {
     private Array<PhysicElement> elements;
     private List<PositionListener> positionListeners;
     private PhysicElement parent;
+    private Membrane membrane;
 
-    public PhysicOrganism() {
+    public PhysicOrganism(Membrane membrane) {
+        this.membrane = membrane;
         this.elements = new Array<PhysicElement>();
         this.positionListeners = new ArrayList<PositionListener>();
     }
@@ -30,6 +32,7 @@ public class PhysicOrganism implements PhysicElement {
     @Override
     public void add(PhysicElement body) {
         elements.add(body);
+        membrane.integrate(body);
     }
 
     @Override

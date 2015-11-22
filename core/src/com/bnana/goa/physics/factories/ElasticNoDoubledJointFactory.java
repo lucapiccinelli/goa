@@ -3,18 +3,20 @@ package com.bnana.goa.physics.factories;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Joint;
+import com.badlogic.gdx.physics.box2d.JointEdge;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.DistanceJointDef;
 import com.badlogic.gdx.physics.box2d.joints.RopeJointDef;
+import com.badlogic.gdx.utils.Array;
 
 /**
  * Created by Luca on 11/19/2015.
  */
-public class ElasticJointFactory implements JointFactory {
+public class ElasticNoDoubledJointFactory implements JointFactory {
     private final RopeJointDef ropeJointDef;
     private final DistanceJointDef distanceJointDef;
 
-    public ElasticJointFactory() {
+    public ElasticNoDoubledJointFactory() {
         distanceJointDef = new DistanceJointDef();
         distanceJointDef.collideConnected = true;
         distanceJointDef.dampingRatio = 0;
@@ -25,6 +27,11 @@ public class ElasticJointFactory implements JointFactory {
 
     @Override
     public void make(Body a, Body b) {
+        Array<JointEdge> aJoints = a.getJointList();
+        for(JointEdge e : aJoints){
+            if(e.other == b) return;
+        }
+
         World world = a.getWorld();
 
         Vector2 anchorA = a.getWorldCenter();
