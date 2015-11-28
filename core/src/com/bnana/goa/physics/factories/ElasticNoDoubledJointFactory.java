@@ -19,8 +19,8 @@ public class ElasticNoDoubledJointFactory implements JointFactory {
     public ElasticNoDoubledJointFactory() {
         distanceJointDef = new DistanceJointDef();
         distanceJointDef.collideConnected = true;
-        distanceJointDef.dampingRatio = 0;
-        distanceJointDef.frequencyHz = 0.5f;
+        distanceJointDef.dampingRatio = 1f;
+        distanceJointDef.frequencyHz = 1f;
 
         ropeJointDef = new RopeJointDef();
     }
@@ -39,7 +39,7 @@ public class ElasticNoDoubledJointFactory implements JointFactory {
         distanceJointDef.initialize(a, b, anchorA, anchorB);
         world.createJoint(distanceJointDef);
 
-        ropeJointDef.maxLength = a.getPosition().dst(b.getPosition()) * 1.5f;
+        ropeJointDef.maxLength = a.getPosition().dst(b.getPosition()) * 3f;
         ropeJointDef.localAnchorA.set(0, 0);
         ropeJointDef.localAnchorB.set(0, 0);
         ropeJointDef.bodyA = a;

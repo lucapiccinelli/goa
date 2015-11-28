@@ -10,17 +10,20 @@ import com.bnana.goa.creationDestruction.CreationDestructionHandler;
 import com.bnana.goa.force.ForceField;
 import com.bnana.goa.physics.factories.CircleBodyFactory;
 
+import java.awt.Component;
+
 /**
  * Created by luca.piccinelli on 16/11/2015.
  */
 public class Box2dMembrane implements Membrane {
     private final Vector2 tmpPosition;
     private final float membraneSensorsDensity;
-    private Array<Body> startList;
-    private Array<Body> endList;
+    private Array<Body> sensorBodyList;
     private CircleBodyFactory circleBodyFactory;
     private CreationDestructionHandler creationDestructionHandler;
     private Array<Box2dMembraneSensor> membraneSensors;
+
+    private IntegrateIntoMembraneAction integrateIntoMembraneAction;
 
     public Box2dMembrane(CircleBodyFactory circleBodyFactory, CreationDestructionHandler creationDestructionHandler) {
         this.circleBodyFactory = circleBodyFactory;
@@ -30,8 +33,10 @@ public class Box2dMembrane implements Membrane {
         membraneSensorsDensity = 35f;
         membraneSensors = new Array<Box2dMembraneSensor>();
 
-        startList = new Array<Body>();
-        endList = new Array<Body>();
+        sensorBodyList = new Array<Body>();
+
+        integrateIntoMembraneAction = new IntegrateIntoMembraneAction(this, circleBodyFactory, creationDestructionHandler);
+        creationDestructionHandler.register(integrateIntoMembraneAction);
     }
 
     @Override
@@ -55,13 +60,12 @@ public class Box2dMembrane implements Membrane {
 
     @Override
     public void integrate(PhysicElement physicElement) {
-        integrate(null, null, physicElement);
+        integrate(null, physicElement);
     }
 
     @Override
-    public void integrate(Body start, Body end, PhysicElement physicElement) {
-        this.startList.add(start);
-        this.endList.add(end);
+    public void integrate(Body sensorBody, PhysicElement physicElement) {
+        if(sensorBody != null)integrateIntoMembraneAction.add(sensorBody);
         physicElement.integrateIntoMebrane(this);
     }
 
@@ -92,13 +96,6 @@ public class Box2dMembrane implements Membrane {
 
     @Override
     public void use(Vector2 position, float radius) {
-        creationDestructionHandler.register(new IntegrateIntoMembraneAction(
-                circleBodyFactory,
-                this,
-                startList,
-                endList,
-                radius,
-                position,
-                creationDestructionHandler));
+        integrateIntoMembraneAction.add(position, radius);
     }
 }

@@ -43,7 +43,6 @@ public class ScheduledCreationDestruction implements CreationDestructionHandler 
         for (CreationDestructionSubscriber creationDestructionSubscriber : creationDestructionSubscribers){
             creationDestructionSubscriber.doActions();
         }
-        creationDestructionSubscribers.clear();
         jointsToDestroy.clear();
         bodiesToDestroy.clear();
     }

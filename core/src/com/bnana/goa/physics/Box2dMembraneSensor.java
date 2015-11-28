@@ -58,12 +58,7 @@ public class Box2dMembraneSensor implements PhysicElement {
 
     @Override
     public void integrate(PhysicElement physicElement) {
-        for(JointEdge je : center.getJointList()){
-            scheduledDestruction.destroyJoint(je.joint);
-        }
-
-        scheduledDestruction.destroyBody(center);
-        membrane.integrate(start, end, physicElement);
+        membrane.integrate(center, physicElement);
     }
 
     @Override
